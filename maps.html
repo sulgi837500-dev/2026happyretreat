@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>장소 안내도 | 2026 행복한교회 전교인 여름 수련회</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --mint: #7fc7be; --mint-deep: #5ba8a0; --mint-darker: #3d7e76;
+    --mint-soft: #d8ede9; --mint-cream: #ecf6f4;
+    --gold: #e8b766; --leaf: #8bc28a; --sky: #8ecae6;
+    --ink: #2c3e3a; --ink-soft: #5a6c68; --paper: #fbfaf6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.7; color: var(--ink); background: var(--paper);
+    background-image: radial-gradient(ellipse at top, rgba(127, 199, 190, 0.15), transparent 50%);
+    background-attachment: fixed;
+  }
+  nav.top {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(251, 250, 246, 0.92);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(91, 168, 160, 0.15);
+    padding: 14px 20px;
+  }
+  nav.top .nav-inner {
+    max-width: 960px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  nav.top .brand {
+    font-family: 'Gowun Batang', serif; font-weight: 700;
+    font-size: 1.05rem; color: var(--mint-deep); text-decoration: none;
+  }
+  nav.top .links { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  nav.top a.link {
+    color: var(--ink-soft); text-decoration: none;
+    padding: 6px 12px; border-radius: 999px;
+    font-size: 0.92rem; font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  nav.top a.link:hover, nav.top a.link.active {
+    background: var(--mint-cream); color: var(--mint-deep);
+  }
+
+  .page-header { text-align: center; padding: 50px 20px 30px; }
+  .page-header .eyebrow {
+    font-family: 'Gaegu', cursive; color: var(--mint-deep);
+    font-size: 1.3rem; margin-bottom: 8px;
+  }
+  .page-header h1 {
+    font-family: 'Gowun Batang', serif; font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 2.5rem); margin-bottom: 12px;
+  }
+  .page-header p { color: var(--ink-soft); font-size: 1rem; }
+
+  main {
+    max-width: 920px; margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* 장소 카드 */
+  .place-section {
+    margin-bottom: 40px;
+  }
+  .place-card {
+    background: white;
+    border-radius: 22px;
+    padding: 24px 28px;
+    box-shadow: 0 6px 22px rgba(44, 62, 58, 0.07);
+    border: 1px solid rgba(127, 199, 190, 0.25);
+    margin-bottom: 16px;
+  }
+  .place-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--mint-soft);
+  }
+  .place-icon {
+    width: 50px; height: 50px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    flex-shrink: 0;
+  }
+  .place-icon.main { background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%); }
+  .place-icon.facility { background: linear-gradient(135deg, var(--leaf) 0%, var(--mint) 100%); }
+  .place-icon.outside { background: linear-gradient(135deg, var(--gold) 0%, var(--mint) 100%); }
+  .place-info { flex: 1; }
+  .place-name {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 1.2rem;
+    margin-bottom: 2px;
+  }
+  .place-addr {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+  }
+
+  /* 지도 임베드 */
+  .map-frame {
+    position: relative;
+    width: 100%;
+    padding-bottom: 60%;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--mint-cream);
+    border: 1px solid var(--mint-soft);
+    margin-bottom: 14px;
+  }
+  .map-frame iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: 0;
+  }
+
+  /* 이미지 안내도 */
+  .map-image {
+    width: 100%;
+    border-radius: 14px;
+    margin-bottom: 14px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    border: 1px solid var(--mint-soft);
+  }
+  .map-image:hover { transform: scale(1.01); }
+
+  .map-placeholder {
+    background: linear-gradient(135deg, var(--mint-cream) 0%, var(--mint-soft) 100%);
+    border: 2px dashed var(--mint);
+    border-radius: 14px;
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--mint-deep);
+    margin-bottom: 14px;
+  }
+  .map-placeholder .ph-emoji {
+    font-size: 2.4rem;
+    margin-bottom: 8px;
+  }
+  .map-placeholder .ph-text {
+    font-family: 'Gaegu', cursive;
+    font-size: 1.1rem;
+  }
+
+  /* 액션 버튼 */
+  .place-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+  .map-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 18px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.88rem;
+    transition: transform 0.2s ease;
+  }
+  .map-btn.naver { background: #03c75a; color: white; }
+  .map-btn.kakao { background: #fee500; color: #2c3e3a; }
+  .map-btn.tmap { background: var(--sky); color: white; }
+  .map-btn.web { background: var(--mint-deep); color: white; }
+  .map-btn:hover { transform: translateY(-2px); }
+
+  /* 시설 그리드 */
+  .facility-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .facility-item {
+    background: var(--mint-cream);
+    padding: 14px 12px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid var(--mint-soft);
+  }
+  .facility-item .f-emoji { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+  .facility-item .f-name { font-size: 0.88rem; color: var(--ink); font-weight: 500; }
+
+  .section-title {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    margin: 30px 0 16px;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title .dot {
+    width: 8px; height: 8px;
+    background: var(--mint-deep);
+    border-radius: 50%;
+  }
+
+  /* 라이트박스 */
+  .lightbox {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 12px;
+  }
+  .lightbox .close {
+    position: absolute;
+    top: 20px; right: 20px;
+    width: 44px; height: 44px;
+    background: white;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  .edit-help {
+    background: linear-gradient(135deg, var(--mint-cream) 0%, white 100%);
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin-top: 24px;
+    border-left: 4px solid var(--mint);
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+  }
+  .edit-help strong { color: var(--mint-deep); }
+  .edit-help code {
+    background: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--mint-darker);
+    font-size: 0.85rem;
+  }
+
+  .back-row { text-align: center; margin-top: 30px; }
+  .back-btn {
+    display: inline-flex;
+    align-items: center; gap: 8px;
+    background: white;
+    color: var(--mint-deep);
+    border: 2px solid var(--mint);
+    padding: 12px 28px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+  }
+  .back-btn:hover { background: var(--mint-cream); transform: translateY(-2px); }
+
+  footer {
+    text-align: center;
+    padding: 30px 20px 40px;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    nav.top .brand { font-size: 0.95rem; }
+    nav.top a.link { padding: 6px 9px; font-size: 0.85rem; }
+    .place-card { padding: 20px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">💚 행복한교회 수련회</a>
+    <div class="links">
+      <a class="link" href="index.html#info">안내</a>
+      <a class="link" href="schedule.html">일정</a>
+      <a class="link active" href="info-hub.html">정보방</a>
+      <a class="link" href="location.html">오시는 길</a>
+      <a class="link" href="index.html#apply">참가신청</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="eyebrow">Maps & Guide</div>
+  <h1>🗺️ 장소 안내도</h1>
+  <p>수련회 장소들의 지도와 시설 안내</p>
+</header>
+
+<main>
+
+  <!-- 메인 수련회장: 국립횡성숲체원 -->
+  <h2 class="section-title"><span class="dot"></span> 메인 수련회장</h2>
+
+  <div class="place-card">
+    <div class="place-header">
+      <div class="place-icon main">🏞️</div>
+      <div class="place-info">
+        <div class="place-name">국립횡성숲체원</div>
+        <div class="place-addr">강원도 횡성군</div>
+      </div>
+    </div>
+
+    <div class="map-frame">
+      <iframe
+        src="https://www.google.com/maps?q=국립횡성숲체원&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <div class="map-placeholder">
+      <div class="ph-emoji">🗺️</div>
+      <div class="ph-text">숲체원 시설 안내도를<br>여기에 추가해주세요</div>
+    </div>
+
+    <div class="facility-grid">
+      <div class="facility-item"><span class="f-emoji">🏠</span><span class="f-name">생활관 (숙소)</span></div>
+      <div class="facility-item"><span class="f-emoji">🍽️</span><span class="f-name">식당</span></div>
+      <div class="facility-item"><span class="f-emoji">⛪</span><span class="f-name">대강당</span></div>
+      <div class="facility-item"><span class="f-emoji">🌲</span><span class="f-name">숲길/산책로</span></div>
+      <div class="facility-item"><span class="f-emoji">🎯</span><span class="f-name">야외 활동장</span></div>
+      <div class="facility-item"><span class="f-emoji">🅿️</span><span class="f-name">주차장</span></div>
+    </div>
+
+    <div class="place-actions">
+      <a class="map-btn naver" href="https://map.naver.com/v5/search/국립횡성숲체원" target="_blank" rel="noopener">🗺️ 네이버 지도</a>
+      <a class="map-btn kakao" href="https://map.kakao.com/?q=국립횡성숲체원" target="_blank" rel="noopener">🗺️ 카카오 지도</a>
+      <a class="map-btn web" href="https://www.fowi.or.kr/user/contents/contentsView.do?cntntsId=137" target="_blank" rel="noopener">🌐 공식 홈페이지</a>
+    </div>
+  </div>
+
+  <!-- 선택 코스 장소들 -->
+  <h2 class="section-title"><span class="dot"></span> 선택 코스 장소</h2>
+
+  <div class="place-card">
+    <div class="place-header">
+      <div class="place-icon outside">🌲</div>
+      <div class="place-info">
+        <div class="place-name">청태산 자연휴양림</div>
+        <div class="place-addr">강원도 횡성군 둔내면 청태산로 610</div>
+      </div>
+    </div>
+    <div class="map-frame">
+      <iframe
+        src="https://www.google.com/maps?q=청태산자연휴양림&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <div class="place-actions">
+      <a class="map-btn naver" href="https://map.naver.com/v5/search/청태산자연휴양림" target="_blank" rel="noopener">🗺️ 네이버</a>
+      <a class="map-btn web" href="course-cheongtae.html">📄 자세히 보기</a>
+    </div>
+  </div>
+
+  <div class="place-card">
+    <div class="place-header">
+      <div class="place-icon outside">♨️</div>
+      <div class="place-info">
+        <div class="place-name">수가솥방 찜질방</div>
+        <div class="place-addr">강원도 횡성군 일대</div>
+      </div>
+    </div>
+    <div class="map-frame">
+      <iframe
+        src="https://www.google.com/maps?q=수가솥방+찜질방+횡성&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <div class="place-actions">
+      <a class="map-btn naver" href="https://map.naver.com/v5/search/수가솥방+찜질방+횡성" target="_blank" rel="noopener">🗺️ 네이버</a>
+      <a class="map-btn web" href="course-jjimjilbang.html">📄 자세히 보기</a>
+    </div>
+  </div>
+
+  <div class="place-card">
+    <div class="place-header">
+      <div class="place-icon outside">🌿</div>
+      <div class="place-info">
+        <div class="place-name">허브나라 · 흥정계곡</div>
+        <div class="place-addr">강원도 평창군 봉평면</div>
+      </div>
+    </div>
+    <div class="map-frame">
+      <iframe
+        src="https://www.google.com/maps?q=허브나라+봉평&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <div class="place-actions">
+      <a class="map-btn naver" href="https://map.naver.com/v5/search/허브나라+봉평" target="_blank" rel="noopener">🗺️ 네이버</a>
+      <a class="map-btn web" href="course-herb.html">📄 자세히 보기</a>
+    </div>
+  </div>
+
+  <div class="edit-help">
+    💡 <strong>안내도 이미지를 추가하려면</strong> <code>images</code> 폴더에 안내도 사진을 업로드하고, 이 페이지에서 <code>map-placeholder</code> 부분을 <code>&lt;img class="map-image" src="images/map.jpg" onclick="openLightbox(this.src)"&gt;</code> 형태로 바꿔주세요.
+  </div>
+
+  <div class="back-row">
+    <a href="info-hub.html" class="back-btn">← 정보방으로 돌아가기</a>
+  </div>
+
+</main>
+
+<!-- 라이트박스 -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<footer>
+  <div>대한예수교장로회 행복한교회 · 2026 전교인 여름 수련회</div>
+</footer>
+
+<script>
+  function openLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightbox').classList.add('active');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+  }
+</script>
+
+</body>
+</html>

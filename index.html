@@ -336,6 +336,9 @@
     border: 1px solid var(--mint-soft);
     text-align: center;
     transition: all 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
   }
   .option:hover {
     border-color: var(--mint);
@@ -474,23 +477,26 @@
     border-color: var(--mint);
   }
 
-  /* ===== 비디오 섹션 ===== */
+  /* ===== 비디오 섹션 (슬라이더) ===== */
   .video-section {
     max-width: 920px;
     margin: 0 auto;
     padding: 30px 20px 50px;
   }
-  .video-wrap {
+
+  /* 메인 비디오 (자동재생) */
+  .video-main {
     position: relative;
     background: linear-gradient(135deg, var(--mint-deep) 0%, var(--mint) 50%, var(--gold) 100%);
     padding: 14px;
     border-radius: 24px;
     box-shadow: 0 15px 50px rgba(91, 168, 160, 0.25);
+    margin-bottom: 16px;
   }
   .video-frame {
     position: relative;
     width: 100%;
-    padding-bottom: 56.25%; /* 16:9 비율 */
+    padding-bottom: 56.25%;
     border-radius: 14px;
     overflow: hidden;
     background: #000;
@@ -503,10 +509,212 @@
   }
   .video-caption {
     text-align: center;
-    margin-top: 18px;
+    margin-top: 8px;
     color: var(--ink-soft);
     font-family: 'Gaegu', cursive;
     font-size: 1.1rem;
+  }
+
+  /* 이전 수련회 영상 슬라이더 */
+  .past-videos {
+    margin-top: 50px;
+  }
+  .past-videos h3 {
+    text-align: center;
+    font-family: 'Gowun Batang', serif;
+    font-size: 1.4rem;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .past-videos .sub {
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+  }
+
+  .slider-wrap {
+    position: relative;
+  }
+  .slider-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 16px;
+    padding: 4px 4px 16px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--mint) transparent;
+  }
+  .slider-track::-webkit-scrollbar {
+    height: 8px;
+  }
+  .slider-track::-webkit-scrollbar-track {
+    background: var(--mint-cream);
+    border-radius: 999px;
+  }
+  .slider-track::-webkit-scrollbar-thumb {
+    background: var(--mint);
+    border-radius: 999px;
+  }
+  .slider-track::-webkit-scrollbar-thumb:hover {
+    background: var(--mint-deep);
+  }
+
+  .past-video-card {
+    flex: 0 0 calc(50% - 8px);
+    scroll-snap-align: start;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(44, 62, 58, 0.08);
+    border: 1px solid rgba(127, 199, 190, 0.25);
+    transition: transform 0.2s ease;
+  }
+  .past-video-card:hover { transform: translateY(-3px); }
+  .past-video-card .pv-frame {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    background: #000;
+  }
+  .past-video-card .pv-frame iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: 0;
+  }
+  .past-video-card .pv-label {
+    padding: 12px 14px;
+    background: white;
+    text-align: center;
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    color: var(--mint-deep);
+    font-size: 0.95rem;
+  }
+
+  /* 슬라이더 화살표 */
+  .slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px; height: 44px;
+    background: white;
+    border: 2px solid var(--mint);
+    color: var(--mint-deep);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 700;
+    box-shadow: 0 4px 14px rgba(44, 62, 58, 0.12);
+    z-index: 10;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+  .slider-arrow:hover {
+    background: var(--mint-deep);
+    color: white;
+  }
+  .slider-arrow.prev { left: -22px; }
+  .slider-arrow.next { right: -22px; }
+
+  @media (min-width: 700px) {
+    .slider-arrow { display: flex; }
+  }
+
+  @media (max-width: 700px) {
+    .past-video-card { flex: 0 0 85%; }
+  }
+
+  /* ===== 답사 사진 갤러리 ===== */
+  .photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .photo-card {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--mint-cream);
+    border: 1px solid rgba(127, 199, 190, 0.25);
+    box-shadow: 0 4px 14px rgba(44, 62, 58, 0.06);
+    transition: transform 0.25s ease;
+    cursor: pointer;
+  }
+  .photo-card:hover { transform: translateY(-3px) scale(1.02); }
+  .photo-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .photo-card.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: var(--mint-deep);
+    background: linear-gradient(135deg, var(--mint-cream) 0%, var(--mint-soft) 100%);
+    border: 2px dashed var(--mint);
+  }
+  .photo-card.placeholder .ph-emoji {
+    font-size: 2rem; margin-bottom: 6px;
+  }
+  .photo-card.placeholder .ph-text {
+    font-family: 'Gaegu', cursive;
+    font-size: 1rem;
+    text-align: center;
+    padding: 0 10px;
+    line-height: 1.4;
+  }
+  .gallery-help {
+    text-align: center;
+    margin-top: 16px;
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+  }
+  .gallery-help code {
+    background: var(--mint-cream);
+    padding: 2px 8px;
+    border-radius: 6px;
+    color: var(--mint-deep);
+    font-size: 0.85rem;
+  }
+
+  /* 라이트박스 */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+  .lightbox .close {
+    position: absolute;
+    top: 20px; right: 20px;
+    width: 44px; height: 44px;
+    background: white;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--ink);
   }
 
   /* ===== 등장 애니메이션 ===== */
@@ -540,6 +748,7 @@
       <a class="link" href="#video">영상</a>
       <a class="link" href="#info">안내</a>
       <a class="link" href="schedule.html">일정</a>
+      <a class="link" href="info-hub.html">정보방</a>
       <a class="link" href="location.html">오시는 길</a>
       <a class="link" href="#apply">참가신청</a>
     </div>
@@ -575,10 +784,11 @@
 <section id="video" class="video-section fade-in">
   <p class="section-eyebrow">Trailer</p>
   <h2 class="section-title">수련회 홍보 영상</h2>
-  <div class="video-wrap">
+
+  <div class="video-main">
     <div class="video-frame">
       <iframe
-        src="https://www.youtube.com/embed/cBAnkNBrWUw?rel=0"
+        src="https://www.youtube.com/embed/cBAnkNBrWUw?autoplay=1&mute=1&loop=1&playlist=cBAnkNBrWUw&rel=0&playsinline=1"
         title="2026 행복한교회 전교인 여름 수련회 홍보 영상"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerpolicy="strict-origin-when-cross-origin"
@@ -587,6 +797,61 @@
     </div>
   </div>
   <p class="video-caption">✨ 영상으로 미리 만나보는 2026 수련회 ✨</p>
+
+  <!-- 이전 수련회 영상 슬라이더 -->
+  <div class="past-videos">
+    <h3>📼 지난 수련회 함께 보기</h3>
+    <p class="sub">행복한교회의 따뜻한 추억들을 다시 만나보세요</p>
+
+    <div class="slider-wrap">
+      <button class="slider-arrow prev" aria-label="이전 영상" onclick="slideVideos(-1)">‹</button>
+      <button class="slider-arrow next" aria-label="다음 영상" onclick="slideVideos(1)">›</button>
+
+      <div class="slider-track" id="sliderTrack">
+        <div class="past-video-card">
+          <div class="pv-frame">
+            <iframe
+              src="https://www.youtube.com/embed/mf4aa2jV0Ug?rel=0"
+              title="지난 수련회 영상 1"
+              loading="lazy"
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <div class="pv-label">지난 수련회 추억 ①</div>
+        </div>
+
+        <div class="past-video-card">
+          <div class="pv-frame">
+            <iframe
+              src="https://www.youtube.com/embed/hTnejSEkrlo?rel=0"
+              title="지난 수련회 영상 2"
+              loading="lazy"
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <div class="pv-label">지난 수련회 추억 ②</div>
+        </div>
+
+        <div class="past-video-card">
+          <div class="pv-frame">
+            <iframe
+              src="https://www.youtube.com/embed/tDDnUWsDOxE?rel=0"
+              title="지난 수련회 영상 3"
+              loading="lazy"
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <div class="pv-label">지난 수련회 추억 ③</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- 안내 -->
@@ -646,26 +911,26 @@
   </p>
 
   <div class="options-grid">
-    <div class="option">
+    <a href="course-cheongtae.html" class="option">
       <span class="emoji">🌲</span>
       <div class="name">청태산 휴양림</div>
-      <div class="sub">자연 속 힐링</div>
-    </div>
-    <div class="option">
+      <div class="sub">자연 속 힐링 →</div>
+    </a>
+    <a href="course-jjimjilbang.html" class="option">
       <span class="emoji">♨️</span>
       <div class="name">수가솥방 찜질방</div>
-      <div class="sub">따뜻한 휴식</div>
-    </div>
-    <div class="option">
+      <div class="sub">따뜻한 휴식 →</div>
+    </a>
+    <a href="course-herb.html" class="option">
       <span class="emoji">🌿</span>
       <div class="name">허브나라 · 흥정계곡</div>
-      <div class="sub">향기와 시원함</div>
-    </div>
-    <div class="option">
+      <div class="sub">향기와 시원함 →</div>
+    </a>
+    <a href="course-soop.html" class="option">
       <span class="emoji">✨</span>
       <div class="name">기타 (자유롭게)</div>
-      <div class="sub">자유 시간</div>
-    </div>
+      <div class="sub">숲체원 프로그램 →</div>
+    </a>
   </div>
 
   <h3 style="font-family: 'Gowun Batang', serif; font-size: 1.3rem; margin-top: 40px; margin-bottom: 12px; color: var(--ink);">🚌 이동 수단</h3>
@@ -681,6 +946,47 @@
   </div>
 </section>
 
+<!-- 답사 사진 -->
+<section id="gallery" class="fade-in">
+  <p class="section-eyebrow">Gallery</p>
+  <h2 class="section-title">📸 답사 사진</h2>
+  <p style="text-align: center; color: var(--ink-soft); margin-top: -20px; margin-bottom: 24px;">
+    수련회 장소를 미리 다녀온 답사 사진들입니다
+  </p>
+
+  <div class="photo-gallery" id="photoGallery">
+    <!-- 사진을 추가하려면 아래 형식으로 사진을 넣으세요. images/ 폴더에 사진을 업로드하고 파일명을 적어주세요.
+         예: <div class="photo-card" onclick="openLightbox('images/photo1.jpg')"><img src="images/photo1.jpg" alt="답사 사진" loading="lazy"></div>
+    -->
+    <div class="photo-card placeholder">
+      <div class="ph-emoji">📷</div>
+      <div class="ph-text">답사 사진을<br>여기에 넣어주세요</div>
+    </div>
+    <div class="photo-card placeholder">
+      <div class="ph-emoji">📷</div>
+      <div class="ph-text">답사 사진을<br>여기에 넣어주세요</div>
+    </div>
+    <div class="photo-card placeholder">
+      <div class="ph-emoji">📷</div>
+      <div class="ph-text">답사 사진을<br>여기에 넣어주세요</div>
+    </div>
+    <div class="photo-card placeholder">
+      <div class="ph-emoji">📷</div>
+      <div class="ph-text">답사 사진을<br>여기에 넣어주세요</div>
+    </div>
+  </div>
+
+  <p class="gallery-help">
+    💡 GitHub에 <code>images</code> 폴더를 만들고 답사 사진을 업로드한 뒤 코드를 수정하면 표시됩니다
+  </p>
+</section>
+
+<!-- 라이트박스 -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
 <!-- 참가 신청 -->
 <section id="apply" class="fade-in">
   <p class="section-eyebrow">Apply</p>
@@ -692,7 +998,7 @@
       온라인으로 간편하게 참가 신청을 하실 수 있습니다.<br>
       신청 후 참가비를 입금해 주시면 접수가 완료됩니다.
     </p>
-    <a href="https://forms.gle/zVQPuEALYzHYibUk8" class="btn-apply" target="_blank" id="applyBtn">
+    <a href="#" class="btn-apply" target="_blank" id="applyBtn">
       📝 온라인 참가 신청서 작성하기
     </a>
   </div>
@@ -766,6 +1072,27 @@
     }
   }
 
+  // 라이트박스 (사진 크게 보기)
+  function openLightbox(src) {
+    const lb = document.getElementById('lightbox');
+    const img = document.getElementById('lightboxImg');
+    img.src = src;
+    lb.classList.add('active');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+  }
+
+  // 영상 슬라이더
+  function slideVideos(direction) {
+    const track = document.getElementById('sliderTrack');
+    if (!track) return;
+    const card = track.querySelector('.past-video-card');
+    if (!card) return;
+    const cardWidth = card.offsetWidth + 16; // gap 포함
+    track.scrollBy({ left: cardWidth * direction, behavior: 'smooth' });
+  }
+
   // 스크롤 시 등장
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -780,4 +1107,3 @@
 
 </body>
 </html>
-

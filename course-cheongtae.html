@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>청태산 자연휴양림 | 2026 행복한교회 전교인 여름 수련회</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --mint: #7fc7be; --mint-deep: #5ba8a0; --mint-darker: #3d7e76;
+    --mint-soft: #d8ede9; --mint-cream: #ecf6f4;
+    --gold: #e8b766; --leaf: #8bc28a; --sky: #8ecae6;
+    --ink: #2c3e3a; --ink-soft: #5a6c68; --paper: #fbfaf6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.7; color: var(--ink); background: var(--paper);
+    background-image: radial-gradient(ellipse at top, rgba(139, 194, 138, 0.15), transparent 50%);
+    background-attachment: fixed;
+  }
+  nav.top {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(251, 250, 246, 0.92);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(91, 168, 160, 0.15);
+    padding: 14px 20px;
+  }
+  nav.top .nav-inner {
+    max-width: 960px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  nav.top .brand {
+    font-family: 'Gowun Batang', serif; font-weight: 700;
+    font-size: 1.05rem; color: var(--mint-deep); text-decoration: none;
+  }
+  nav.top .links { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  nav.top a.link {
+    color: var(--ink-soft); text-decoration: none;
+    padding: 6px 12px; border-radius: 999px;
+    font-size: 0.92rem; font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  nav.top a.link:hover { background: var(--mint-cream); color: var(--mint-deep); }
+
+  /* 히어로 */
+  .course-hero {
+    text-align: center;
+    padding: 60px 20px 40px;
+    background: linear-gradient(135deg, rgba(139, 194, 138, 0.15) 0%, rgba(127, 199, 190, 0.1) 100%);
+  }
+  .course-hero .emoji {
+    font-size: 4rem;
+    margin-bottom: 12px;
+  }
+  .course-hero .eyebrow {
+    font-family: 'Gaegu', cursive;
+    color: var(--mint-deep);
+    font-size: 1.2rem;
+    margin-bottom: 6px;
+  }
+  .course-hero h1 {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    margin-bottom: 12px;
+  }
+  .course-hero .tagline {
+    color: var(--ink-soft);
+    font-size: 1.1rem;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  main {
+    max-width: 820px; margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* 사진 갤러리 */
+  .photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 30px 0;
+  }
+  .photo-card {
+    aspect-ratio: 4/3;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--mint-cream);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    border: 1px solid var(--mint-soft);
+  }
+  .photo-card:hover { transform: translateY(-3px); }
+  .photo-card img { width: 100%; height: 100%; object-fit: cover; }
+  .photo-card.placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--mint-deep);
+    background: linear-gradient(135deg, var(--mint-cream) 0%, var(--mint-soft) 100%);
+    border: 2px dashed var(--mint);
+  }
+  .photo-card.placeholder .ph-emoji { font-size: 2rem; margin-bottom: 6px; }
+  .photo-card.placeholder .ph-text {
+    font-family: 'Gaegu', cursive;
+    text-align: center;
+    padding: 0 10px;
+  }
+
+  /* 정보 카드 */
+  .info-card {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 18px;
+    box-shadow: 0 6px 22px rgba(44, 62, 58, 0.07);
+    border: 1px solid rgba(127, 199, 190, 0.25);
+  }
+  .info-card h2 {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--ink);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .info-card h2 .dot {
+    width: 8px; height: 8px;
+    background: var(--mint-deep);
+    border-radius: 50%;
+  }
+  .info-card p {
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .info-card p:last-child { margin-bottom: 0; }
+
+  .feature-list {
+    list-style: none;
+    padding: 0;
+  }
+  .feature-list li {
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--mint-soft);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .feature-list li:last-child { border-bottom: none; }
+  .feature-list li .check {
+    color: var(--leaf);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .feature-list li strong { color: var(--mint-deep); }
+
+  .basic-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .basic-info .item {
+    background: var(--mint-cream);
+    padding: 14px 18px;
+    border-radius: 12px;
+    border-left: 3px solid var(--mint-deep);
+  }
+  .basic-info .label {
+    font-size: 0.83rem;
+    color: var(--mint-deep);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .basic-info .value {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* 외부 링크 버튼 */
+  .external-links {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+  }
+  .ext-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: transform 0.2s ease;
+  }
+  .ext-btn.primary {
+    background: linear-gradient(135deg, var(--leaf) 0%, var(--mint-deep) 100%);
+    color: white;
+    box-shadow: 0 6px 18px rgba(91, 168, 160, 0.3);
+  }
+  .ext-btn.naver { background: #03c75a; color: white; }
+  .ext-btn.kakao { background: #fee500; color: #2c3e3a; }
+  .ext-btn:hover { transform: translateY(-2px); }
+
+  /* 라이트박스 */
+  .lightbox {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 12px;
+  }
+  .lightbox .close {
+    position: absolute;
+    top: 20px; right: 20px;
+    width: 44px; height: 44px;
+    background: white;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  .back-row { text-align: center; margin-top: 30px; }
+  .back-btn {
+    display: inline-flex;
+    align-items: center; gap: 8px;
+    background: white;
+    color: var(--mint-deep);
+    border: 2px solid var(--mint);
+    padding: 12px 28px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+  }
+  .back-btn:hover { background: var(--mint-cream); transform: translateY(-2px); }
+
+  footer {
+    text-align: center;
+    padding: 30px 20px 40px;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    nav.top .brand { font-size: 0.95rem; }
+    nav.top a.link { padding: 6px 9px; font-size: 0.85rem; }
+    .info-card { padding: 22px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">💚 행복한교회 수련회</a>
+    <div class="links">
+      <a class="link" href="index.html#info">안내</a>
+      <a class="link" href="schedule.html">일정</a>
+      <a class="link" href="info-hub.html">정보방</a>
+      <a class="link" href="location.html">오시는 길</a>
+      <a class="link" href="index.html#apply">참가신청</a>
+    </div>
+  </div>
+</nav>
+
+<header class="course-hero">
+  <div class="emoji">🌲</div>
+  <div class="eyebrow">선택 코스 ①</div>
+  <h1>청태산 자연휴양림</h1>
+  <p class="tagline">해발 1,200m 잣나무 숲에서 누리는 자연 속 힐링</p>
+</header>
+
+<main>
+
+  <!-- 사진 갤러리 -->
+  <div class="photo-gallery">
+    <div class="photo-card placeholder">
+      <div class="ph-emoji">📷</div>
+      <div class="ph-text">잣나무 숲<br>사진</div>
+    </div>
+    <div class="photo-card placeholder">
+      <div class="ph-emoji">📷</div>
+      <div class="ph-text">데크로드<br>산책로</div>
+    </div>
+    <div class="photo-card placeholder">
+      <div class="ph-emoji">📷</div>
+      <div class="ph-text">황톳길<br>맨발 걷기</div>
+    </div>
+    <!-- 사진 추가 예시:
+    <div class="photo-card" onclick="openLightbox('images/cheongtae1.jpg')">
+      <img src="images/cheongtae1.jpg" alt="청태산 휴양림" loading="lazy">
+    </div>
+    -->
+  </div>
+
+  <!-- 소개 -->
+  <div class="info-card">
+    <h2><span class="dot"></span> 어떤 곳인가요?</h2>
+    <p>
+      해발 1,200m의 청태산을 주봉으로 인공림과 천연림이 잘 조화된 울창한 산림이 펼쳐진 국립자연휴양림입니다.
+    </p>
+    <p>
+      울창한 잣나무 숲 사이로 1km 남짓 이어지는 데크로드는 누구나 부담 없이 걸을 수 있는 산책로로,
+      어린아이부터 어르신까지 함께 자연을 즐기기에 더없이 좋은 곳입니다. 강원도 최초의 습식 황톳길에서 맨발 걷기 체험도 가능해요.
+    </p>
+  </div>
+
+  <!-- 추천 포인트 -->
+  <div class="info-card">
+    <h2><span class="dot"></span> 이런 점이 좋아요</h2>
+    <ul class="feature-list">
+      <li><span class="check">✓</span><span><strong>완만한 데크로드</strong> — 어린아이, 어르신도 편하게 걸을 수 있어요</span></li>
+      <li><span class="check">✓</span><span><strong>잣나무 숲의 피톤치드</strong> — 깊게 숨 쉬면 마음까지 시원해져요</span></li>
+      <li><span class="check">✓</span><span><strong>맨발 황톳길</strong> — 흙의 따스함을 발끝으로 느껴보세요</span></li>
+      <li><span class="check">✓</span><span><strong>곤줄박이 먹이주기</strong> — 손에 든 잣을 새가 가져가는 짜릿한 체험</span></li>
+      <li><span class="check">✓</span><span><strong>여름에도 시원한 산속</strong> — 도시보다 5도 이상 시원해요</span></li>
+    </ul>
+  </div>
+
+  <!-- 기본 정보 -->
+  <div class="info-card">
+    <h2><span class="dot"></span> 기본 정보</h2>
+    <div class="basic-info">
+      <div class="item">
+        <div class="label">📍 주소</div>
+        <div class="value">강원도 횡성군 둔내면<br>청태산로 610</div>
+      </div>
+      <div class="item">
+        <div class="label">📞 문의</div>
+        <div class="value">033-343-9707</div>
+      </div>
+      <div class="item">
+        <div class="label">🕐 일일 개장</div>
+        <div class="value">09:00 ~ 18:00</div>
+      </div>
+      <div class="item">
+        <div class="label">🚗 숲체원에서</div>
+        <div class="value">차량 약 15분</div>
+      </div>
+    </div>
+
+    <div class="external-links">
+      <a class="ext-btn primary" href="https://www.foresttrip.go.kr/0106/" target="_blank" rel="noopener">
+        🌐 공식 홈페이지
+      </a>
+      <a class="ext-btn naver" href="https://map.naver.com/v5/search/청태산자연휴양림" target="_blank" rel="noopener">
+        🗺️ 네이버 지도
+      </a>
+      <a class="ext-btn kakao" href="https://map.kakao.com/?q=청태산자연휴양림" target="_blank" rel="noopener">
+        🗺️ 카카오 지도
+      </a>
+    </div>
+  </div>
+
+  <div class="back-row">
+    <a href="index.html#apply" class="back-btn">← 메인으로 돌아가기</a>
+  </div>
+
+</main>
+
+<!-- 라이트박스 -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<footer>
+  <div>대한예수교장로회 행복한교회 · 2026 전교인 여름 수련회</div>
+</footer>
+
+<script>
+  function openLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightbox').classList.add('active');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+  }
+</script>
+
+</body>
+</html>

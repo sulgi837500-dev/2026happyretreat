@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>찬양 가사 | 2026 행복한교회 전교인 여름 수련회</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --mint: #7fc7be; --mint-deep: #5ba8a0; --mint-darker: #3d7e76;
+    --mint-soft: #d8ede9; --mint-cream: #ecf6f4;
+    --gold: #e8b766; --leaf: #8bc28a; --sky: #8ecae6;
+    --ink: #2c3e3a; --ink-soft: #5a6c68; --paper: #fbfaf6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.7; color: var(--ink); background: var(--paper);
+    background-image: radial-gradient(ellipse at top, rgba(127, 199, 190, 0.15), transparent 50%);
+    background-attachment: fixed;
+  }
+  nav.top {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(251, 250, 246, 0.92);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(91, 168, 160, 0.15);
+    padding: 14px 20px;
+  }
+  nav.top .nav-inner {
+    max-width: 960px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  nav.top .brand {
+    font-family: 'Gowun Batang', serif; font-weight: 700;
+    font-size: 1.05rem; color: var(--mint-deep); text-decoration: none;
+  }
+  nav.top .links { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  nav.top a.link {
+    color: var(--ink-soft); text-decoration: none;
+    padding: 6px 12px; border-radius: 999px;
+    font-size: 0.92rem; font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  nav.top a.link:hover, nav.top a.link.active {
+    background: var(--mint-cream); color: var(--mint-deep);
+  }
+
+  .page-header {
+    text-align: center; padding: 50px 20px 30px;
+  }
+  .page-header .eyebrow {
+    font-family: 'Gaegu', cursive; color: var(--mint-deep);
+    font-size: 1.3rem; margin-bottom: 8px;
+  }
+  .page-header h1 {
+    font-family: 'Gowun Batang', serif; font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 2.5rem); margin-bottom: 12px;
+  }
+  .page-header p {
+    color: var(--ink-soft); font-size: 1rem;
+  }
+
+  main {
+    max-width: 720px; margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* 검색 */
+  .search-box {
+    position: sticky; top: 64px;
+    background: rgba(251, 250, 246, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 14px 0 12px;
+    margin-bottom: 18px;
+    z-index: 50;
+  }
+  .search-input {
+    width: 100%;
+    padding: 12px 18px;
+    font-size: 1rem;
+    font-family: inherit;
+    border: 2px solid var(--mint-soft);
+    border-radius: 999px;
+    background: white;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  .search-input:focus { border-color: var(--mint); }
+
+  /* 찬양 카드 */
+  .song-card {
+    background: white;
+    border-radius: 18px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 18px rgba(44, 62, 58, 0.05);
+    border: 1px solid rgba(127, 199, 190, 0.25);
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+  }
+  .song-card.open { box-shadow: 0 10px 30px rgba(91, 168, 160, 0.15); }
+
+  .song-header {
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s ease;
+  }
+  .song-header:hover { background: var(--mint-cream); }
+  .song-card.open .song-header { background: var(--mint-cream); }
+
+  .song-num {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%);
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .song-info { flex: 1; min-width: 0; }
+  .song-title {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 1.05rem;
+    margin-bottom: 2px;
+  }
+  .song-meta {
+    font-size: 0.83rem;
+    color: var(--ink-soft);
+  }
+  .song-toggle {
+    color: var(--mint-deep);
+    font-size: 1.2rem;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+  .song-card.open .song-toggle { transform: rotate(180deg); }
+
+  .song-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .song-card.open .song-body { max-height: 2000px; }
+
+  .lyrics {
+    padding: 0 22px 22px;
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--ink);
+    white-space: pre-line;
+    border-top: 1px dashed var(--mint-soft);
+    padding-top: 16px;
+  }
+  .lyrics .verse-label {
+    color: var(--mint-deep);
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .lyrics .verse-label:first-child { margin-top: 0; }
+
+  /* 글자 크기 조절 */
+  .font-control {
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+    padding: 0 22px;
+    margin-bottom: 8px;
+  }
+  .font-btn {
+    background: var(--mint-cream);
+    color: var(--mint-deep);
+    border: none;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+  }
+  .font-btn:hover { background: var(--mint-soft); }
+
+  /* 추가 안내 */
+  .add-help {
+    background: linear-gradient(135deg, var(--mint-cream) 0%, white 100%);
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin-top: 24px;
+    border-left: 4px solid var(--mint);
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+  }
+  .add-help strong { color: var(--mint-deep); }
+  .add-help code {
+    background: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--mint-darker);
+    font-size: 0.85rem;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--ink-soft);
+    background: white;
+    border-radius: 16px;
+    border: 2px dashed var(--mint-soft);
+    margin-top: 16px;
+  }
+
+  .back-row { text-align: center; margin-top: 30px; }
+  .back-btn {
+    display: inline-flex;
+    align-items: center; gap: 8px;
+    background: white;
+    color: var(--mint-deep);
+    border: 2px solid var(--mint);
+    padding: 12px 28px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+  }
+  .back-btn:hover { background: var(--mint-cream); transform: translateY(-2px); }
+
+  footer {
+    text-align: center;
+    padding: 30px 20px 40px;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    nav.top .brand { font-size: 0.95rem; }
+    nav.top a.link { padding: 6px 9px; font-size: 0.85rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">💚 행복한교회 수련회</a>
+    <div class="links">
+      <a class="link" href="index.html#info">안내</a>
+      <a class="link" href="schedule.html">일정</a>
+      <a class="link active" href="info-hub.html">정보방</a>
+      <a class="link" href="location.html">오시는 길</a>
+      <a class="link" href="index.html#apply">참가신청</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="eyebrow">Worship</div>
+  <h1>🎵 찬양 가사 모음</h1>
+  <p>마음 다해 함께 부르는 찬양</p>
+</header>
+
+<main>
+
+  <div class="search-box">
+    <input type="text" class="search-input" id="searchInput" placeholder="🔍 찬양 제목으로 검색...">
+  </div>
+
+  <div id="songList">
+
+    <!-- 찬양 1 -->
+    <div class="song-card">
+      <div class="song-header" onclick="toggleSong(this)">
+        <div class="song-num">01</div>
+        <div class="song-info">
+          <div class="song-title">주 사랑이 나를 숨쉬게 해</div>
+          <div class="song-meta">CCM · 4분 30초</div>
+        </div>
+        <div class="song-toggle">▼</div>
+      </div>
+      <div class="song-body">
+        <div class="font-control">
+          <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
+          <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+        </div>
+        <div class="lyrics">
+<span class="verse-label">[Verse 1]</span>
+주 사랑이 나를 숨쉬게 해
+주 사랑이 나를 살게 해
+주 없이는 살 수 없는 나
+주 사랑 안에 거하리
+
+<span class="verse-label">[Chorus]</span>
+주 사랑은 나의 생명
+주 사랑은 나의 빛
+어둠에서 빛으로 인도하신
+주 사랑 영원하리
+        </div>
+      </div>
+    </div>
+
+    <!-- 찬양 2 -->
+    <div class="song-card">
+      <div class="song-header" onclick="toggleSong(this)">
+        <div class="song-num">02</div>
+        <div class="song-info">
+          <div class="song-title">놀라우신 주의 사랑</div>
+          <div class="song-meta">CCM · 5분</div>
+        </div>
+        <div class="song-toggle">▼</div>
+      </div>
+      <div class="song-body">
+        <div class="font-control">
+          <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
+          <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+        </div>
+        <div class="lyrics">
+<span class="verse-label">[Verse]</span>
+놀라우신 주의 사랑
+나를 향한 그 사랑
+무엇과도 비교할 수 없는
+귀한 주의 사랑
+
+<span class="verse-label">[Chorus]</span>
+나의 모든 것 되시는 주
+나의 길과 진리 되시는 주
+영원토록 찬양받기 합당하신
+나의 주 나의 하나님
+        </div>
+      </div>
+    </div>
+
+    <!-- 찬양 3 -->
+    <div class="song-card">
+      <div class="song-header" onclick="toggleSong(this)">
+        <div class="song-num">03</div>
+        <div class="song-info">
+          <div class="song-title">은혜</div>
+          <div class="song-meta">CCM · 4분</div>
+        </div>
+        <div class="song-toggle">▼</div>
+      </div>
+      <div class="song-body">
+        <div class="font-control">
+          <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
+          <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+        </div>
+        <div class="lyrics">
+<span class="verse-label">[Verse]</span>
+내가 누려왔던 모든 것들이
+내가 지나왔던 모든 시간이
+내가 걸어왔던 모든 길에서 주가
+함께 하셨는데
+
+<span class="verse-label">[Chorus]</span>
+은혜라 한 길 뿐이라
+나를 붙드시는 그 손길
+은혜라 그 사랑이라
+나를 일으키는 그 능력
+
+<span class="verse-label">[Verse 2]</span>
+모든 순간이 기적이었음을
+모든 순간이 선물이었음을
+주가 주신 은혜였소
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="empty-state" id="emptyState" style="display: none;">
+    🔍 검색 결과가 없습니다
+  </div>
+
+  <div class="add-help">
+    💡 <strong>찬양 가사를 추가하려면</strong> <code>lyrics.html</code> 파일에서 <code>&lt;!-- 찬양 1 --&gt;</code> 형식의 코드를 복사해서 새 곡을 추가하시면 됩니다. 곡목·시간·가사 부분을 바꿔주세요.
+  </div>
+
+  <div class="back-row">
+    <a href="info-hub.html" class="back-btn">← 정보방으로 돌아가기</a>
+  </div>
+
+</main>
+
+<footer>
+  <div>대한예수교장로회 행복한교회 · 2026 전교인 여름 수련회</div>
+</footer>
+
+<script>
+  function toggleSong(header) {
+    const card = header.parentElement;
+    card.classList.toggle('open');
+  }
+
+  function changeFontSize(btn, direction) {
+    const lyrics = btn.closest('.song-body').querySelector('.lyrics');
+    const current = parseFloat(window.getComputedStyle(lyrics).fontSize);
+    const newSize = Math.max(0.85, Math.min(1.6, current/16 + direction * 0.1));
+    lyrics.style.fontSize = newSize + 'rem';
+  }
+
+  // 검색
+  document.getElementById('searchInput').addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.song-card');
+    let visibleCount = 0;
+    cards.forEach(card => {
+      const title = card.querySelector('.song-title').textContent.toLowerCase();
+      if (title.includes(term)) {
+        card.style.display = '';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    document.getElementById('emptyState').style.display = (visibleCount === 0 && term !== '') ? 'block' : 'none';
+  });
+</script>
+
+</body>
+</html>

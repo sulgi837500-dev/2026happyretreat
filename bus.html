@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>버스 배차표 | 2026 행복한교회 전교인 여름 수련회</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --mint: #7fc7be; --mint-deep: #5ba8a0; --mint-darker: #3d7e76;
+    --mint-soft: #d8ede9; --mint-cream: #ecf6f4;
+    --gold: #e8b766; --leaf: #8bc28a; --sky: #8ecae6;
+    --ink: #2c3e3a; --ink-soft: #5a6c68; --paper: #fbfaf6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.7; color: var(--ink); background: var(--paper);
+    background-image: radial-gradient(ellipse at top, rgba(127, 199, 190, 0.15), transparent 50%);
+    background-attachment: fixed;
+  }
+  nav.top {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(251, 250, 246, 0.92);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(91, 168, 160, 0.15);
+    padding: 14px 20px;
+  }
+  nav.top .nav-inner {
+    max-width: 960px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  nav.top .brand {
+    font-family: 'Gowun Batang', serif; font-weight: 700;
+    font-size: 1.05rem; color: var(--mint-deep); text-decoration: none;
+  }
+  nav.top .links { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  nav.top a.link {
+    color: var(--ink-soft); text-decoration: none;
+    padding: 6px 12px; border-radius: 999px;
+    font-size: 0.92rem; font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  nav.top a.link:hover, nav.top a.link.active {
+    background: var(--mint-cream); color: var(--mint-deep);
+  }
+
+  .page-header { text-align: center; padding: 50px 20px 30px; }
+  .page-header .eyebrow {
+    font-family: 'Gaegu', cursive; color: var(--mint-deep);
+    font-size: 1.3rem; margin-bottom: 8px;
+  }
+  .page-header h1 {
+    font-family: 'Gowun Batang', serif; font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 2.5rem); margin-bottom: 12px;
+  }
+  .page-header p { color: var(--ink-soft); font-size: 1rem; }
+
+  main {
+    max-width: 920px; margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* 전체 통계 */
+  .stats-bar {
+    background: linear-gradient(135deg, var(--mint-deep) 0%, var(--mint) 100%);
+    color: white;
+    border-radius: 18px;
+    padding: 22px 26px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 14px;
+    box-shadow: 0 8px 24px rgba(91, 168, 160, 0.25);
+  }
+  .stat-item { text-align: center; }
+  .stat-value {
+    font-family: 'Gowun Batang', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+  .stat-label {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    margin-top: 2px;
+  }
+
+  /* 버스 카드 */
+  .bus-grid {
+    display: grid;
+    gap: 18px;
+  }
+  .bus-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 6px 22px rgba(44, 62, 58, 0.07);
+    border: 1px solid rgba(127, 199, 190, 0.25);
+    overflow: hidden;
+    transition: all 0.25s ease;
+  }
+  .bus-card.complete {
+    background: linear-gradient(135deg, white 0%, var(--mint-cream) 100%);
+    border-color: var(--mint);
+    box-shadow: 0 10px 30px rgba(91, 168, 160, 0.18);
+  }
+
+  .bus-header {
+    padding: 20px 24px;
+    background: linear-gradient(135deg, var(--mint-cream) 0%, white 100%);
+    border-bottom: 1px solid var(--mint-soft);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .bus-number {
+    width: 50px; height: 50px;
+    background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%);
+    color: white;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .bus-title {
+    flex: 1;
+    min-width: 180px;
+  }
+  .bus-name {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .bus-leader {
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+  }
+  .bus-leader strong { color: var(--mint-deep); }
+  .bus-progress {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .progress-text {
+    font-family: 'Gowun Batang', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--mint-deep);
+  }
+  .progress-text .total { color: var(--ink-soft); font-size: 1rem; }
+  .progress-bar {
+    width: 120px;
+    height: 6px;
+    background: var(--mint-cream);
+    border-radius: 3px;
+    margin-top: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--mint) 0%, var(--mint-deep) 100%);
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+  .complete-badge {
+    display: none;
+    background: var(--leaf);
+    color: white;
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .bus-card.complete .complete-badge { display: inline-block; }
+
+  /* 승객 리스트 */
+  .passenger-list {
+    padding: 14px 24px 20px;
+  }
+  .passenger-search {
+    width: 100%;
+    padding: 8px 14px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    border: 1px solid var(--mint-soft);
+    border-radius: 999px;
+    background: white;
+    color: var(--ink);
+    outline: none;
+    margin-bottom: 12px;
+    transition: border-color 0.2s ease;
+  }
+  .passenger-search:focus { border-color: var(--mint); }
+
+  .passenger {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    user-select: none;
+  }
+  .passenger:hover { background: var(--mint-cream); }
+  .passenger.checked {
+    background: var(--mint-cream);
+  }
+  .passenger.checked .p-name {
+    color: var(--mint-darker);
+    text-decoration: line-through;
+    text-decoration-color: var(--mint);
+  }
+
+  .check-circle {
+    width: 24px; height: 24px;
+    border: 2px solid var(--mint);
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+  }
+  .passenger.checked .check-circle {
+    background: var(--mint-deep);
+    border-color: var(--mint-deep);
+  }
+  .check-circle::after {
+    content: '✓';
+    color: white;
+    font-weight: 700;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+  .passenger.checked .check-circle::after { opacity: 1; }
+
+  .p-name {
+    flex: 1;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .p-meta {
+    font-size: 0.83rem;
+    color: var(--ink-soft);
+  }
+
+  /* 컨트롤 바 */
+  .control-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .ctrl-btn {
+    background: white;
+    color: var(--mint-deep);
+    border: 1.5px solid var(--mint-soft);
+    padding: 8px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: all 0.15s ease;
+  }
+  .ctrl-btn:hover { background: var(--mint-cream); border-color: var(--mint); }
+  .ctrl-btn.danger:hover { background: #ffe8e0; border-color: #ee6c4d; color: #ee6c4d; }
+
+  /* 안내 */
+  .help-box {
+    background: linear-gradient(135deg, #fff8e8 0%, #fce8b8 100%);
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    border: 1px dashed var(--gold);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.92rem;
+  }
+  .help-box .icon { font-size: 1.2rem; flex-shrink: 0; }
+  .help-box strong { color: var(--mint-darker); }
+
+  .edit-help {
+    background: linear-gradient(135deg, var(--mint-cream) 0%, white 100%);
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin-top: 24px;
+    border-left: 4px solid var(--mint);
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+  }
+  .edit-help strong { color: var(--mint-deep); }
+  .edit-help code {
+    background: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--mint-darker);
+    font-size: 0.85rem;
+  }
+
+  .back-row { text-align: center; margin-top: 30px; }
+  .back-btn {
+    display: inline-flex;
+    align-items: center; gap: 8px;
+    background: white;
+    color: var(--mint-deep);
+    border: 2px solid var(--mint);
+    padding: 12px 28px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+  }
+  .back-btn:hover { background: var(--mint-cream); transform: translateY(-2px); }
+
+  footer {
+    text-align: center;
+    padding: 30px 20px 40px;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    nav.top .brand { font-size: 0.95rem; }
+    nav.top a.link { padding: 6px 9px; font-size: 0.85rem; }
+    .bus-progress { width: 100%; text-align: left; }
+    .progress-bar { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">💚 행복한교회 수련회</a>
+    <div class="links">
+      <a class="link" href="index.html#info">안내</a>
+      <a class="link" href="schedule.html">일정</a>
+      <a class="link active" href="info-hub.html">정보방</a>
+      <a class="link" href="location.html">오시는 길</a>
+      <a class="link" href="index.html#apply">참가신청</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="eyebrow">Bus Manifest</div>
+  <h1>🚌 버스 배차표</h1>
+  <p>차량별 탑승 명단과 출발 전 탑승 체크</p>
+</header>
+
+<main>
+
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-value" id="totalBuses">0</div>
+      <div class="stat-label">총 차량</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value" id="totalPeople">0</div>
+      <div class="stat-label">총 인원</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value" id="checkedPeople">0</div>
+      <div class="stat-label">탑승 완료</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value" id="completePercent">0%</div>
+      <div class="stat-label">진행률</div>
+    </div>
+  </div>
+
+  <div class="help-box">
+    <span class="icon">💡</span>
+    <div>
+      <strong>사용 방법:</strong> 출발 전 각 차량의 선탑자가 이 페이지를 열어 승객 이름을 클릭(탭)하면 탑승 체크가 됩니다. 모든 인원이 탑승하면 카드가 강조 표시됩니다. 체크 상태는 같은 기기에 자동 저장됩니다.
+    </div>
+  </div>
+
+  <div class="control-bar">
+    <button class="ctrl-btn" onclick="expandAll(true)">📂 모두 펼치기</button>
+    <button class="ctrl-btn" onclick="expandAll(false)">📁 모두 접기</button>
+    <button class="ctrl-btn danger" onclick="resetAll()">🔄 체크 전체 초기화</button>
+  </div>
+
+  <div class="bus-grid" id="busGrid">
+    <!-- 버스 카드는 JavaScript로 동적 생성됩니다 -->
+  </div>
+
+  <div class="edit-help">
+    💡 <strong>버스 배차 정보를 수정하려면</strong> <code>bus.html</code> 파일 하단의 <code>const busData</code> 부분을 편집하세요. 차량 추가, 선탑자 변경, 승객 명단 수정이 가능합니다. (코드에 자세한 주석이 달려있어요)
+  </div>
+
+  <div class="back-row">
+    <a href="info-hub.html" class="back-btn">← 정보방으로 돌아가기</a>
+  </div>
+
+</main>
+
+<footer>
+  <div>대한예수교장로회 행복한교회 · 2026 전교인 여름 수련회</div>
+</footer>
+
+<script>
+/* ==========================================================================
+   📋 버스 배차 데이터 — 여기를 수정하세요!
+   ==========================================================================
+   각 버스 정보:
+   - id: 고유 번호 (1, 2, 3...)
+   - name: 버스 이름 (예: "1호차")
+   - leader: 선탑자 이름
+   - leaderRole: 선탑자 역할/직분 (예: "장로", "집사")
+   - phone: 연락처
+   - passengers: 승객 명단 배열
+       각 승객은 { name: "이름", meta: "직분/소속" } 형식
+   ========================================================================== */
+const busData = [
+  {
+    id: 1,
+    name: "1호차",
+    leader: "김동욱",
+    leaderRole: "차량부장",
+    phone: "010-0000-0000",
+    passengers: [
+      { name: "박노식", meta: "차량승탑팀장" },
+      { name: "박복동", meta: "성도" },
+      { name: "원희라", meta: "성도" },
+      { name: "제명숙", meta: "성도" },
+      { name: "권윤경", meta: "성도" },
+      { name: "유금선", meta: "성도" },
+      { name: "(승객 명단을 추가하세요)", meta: "" }
+    ]
+  },
+  {
+    id: 2,
+    name: "2호차",
+    leader: "유병열",
+    leaderRole: "차량섭외팀장",
+    phone: "010-0000-0000",
+    passengers: [
+      { name: "김은숙", meta: "성도" },
+      { name: "장연선", meta: "성도" },
+      { name: "임채윤", meta: "성도" },
+      { name: "강병욱", meta: "실외진행팀장" },
+      { name: "(승객 명단을 추가하세요)", meta: "" }
+    ]
+  },
+  {
+    id: 3,
+    name: "3호차",
+    leader: "선탑자 미정",
+    leaderRole: "",
+    phone: "010-0000-0000",
+    passengers: [
+      { name: "(승객 명단을 추가하세요)", meta: "" }
+    ]
+  }
+];
+/* ==========================================================================
+   ⬆️ 위 데이터를 수정한 뒤 저장하면 페이지가 자동으로 업데이트됩니다.
+   ========================================================================== */
+
+// ============== 이하는 동작 코드입니다 (수정 불필요) ==============
+
+const STORAGE_KEY = 'hbch-bus-checks-2026';
+
+function getChecks() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+  } catch { return {}; }
+}
+function setChecks(checks) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(checks));
+}
+
+function passengerKey(busId, idx) {
+  return `bus${busId}-p${idx}`;
+}
+
+function renderBuses() {
+  const grid = document.getElementById('busGrid');
+  const checks = getChecks();
+  let totalP = 0, checkedP = 0;
+
+  grid.innerHTML = busData.map(bus => {
+    const passengerHtml = bus.passengers.map((p, idx) => {
+      const key = passengerKey(bus.id, idx);
+      const isChecked = !!checks[key];
+      if (isChecked) checkedP++;
+      totalP++;
+      return `
+        <div class="passenger ${isChecked ? 'checked' : ''}" data-key="${key}" onclick="togglePassenger(this)">
+          <div class="check-circle"></div>
+          <div class="p-name">${p.name}</div>
+          <div class="p-meta">${p.meta || ''}</div>
+        </div>
+      `;
+    }).join('');
+
+    const checkedInBus = bus.passengers.filter((p, idx) => checks[passengerKey(bus.id, idx)]).length;
+    const isComplete = checkedInBus === bus.passengers.length && bus.passengers.length > 0;
+    const percent = bus.passengers.length > 0 ? (checkedInBus / bus.passengers.length * 100) : 0;
+
+    return `
+      <div class="bus-card ${isComplete ? 'complete' : ''}" data-bus-id="${bus.id}">
+        <div class="bus-header">
+          <div class="bus-number">${bus.id}</div>
+          <div class="bus-title">
+            <div class="bus-name">${bus.name}</div>
+            <div class="bus-leader">선탑자: <strong>${bus.leader}</strong>${bus.leaderRole ? ' (' + bus.leaderRole + ')' : ''} · ${bus.phone}</div>
+          </div>
+          <div class="bus-progress">
+            <div class="progress-text"><span class="checked-count">${checkedInBus}</span><span class="total"> / ${bus.passengers.length}명</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:${percent}%"></div></div>
+            <span class="complete-badge">✓ 탑승 완료</span>
+          </div>
+        </div>
+        <div class="passenger-list">
+          <input type="text" class="passenger-search" placeholder="🔍 이름 검색..." onkeyup="filterPassengers(this)" onclick="event.stopPropagation()">
+          ${passengerHtml}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('totalBuses').textContent = busData.length;
+  document.getElementById('totalPeople').textContent = totalP;
+  document.getElementById('checkedPeople').textContent = checkedP;
+  document.getElementById('completePercent').textContent = totalP > 0 ? Math.round(checkedP/totalP*100) + '%' : '0%';
+}
+
+function togglePassenger(el) {
+  const key = el.dataset.key;
+  const checks = getChecks();
+  checks[key] = !checks[key];
+  if (!checks[key]) delete checks[key];
+  setChecks(checks);
+  renderBuses();
+}
+
+function filterPassengers(input) {
+  const term = input.value.toLowerCase().trim();
+  const list = input.parentElement;
+  const passengers = list.querySelectorAll('.passenger');
+  passengers.forEach(p => {
+    const name = p.querySelector('.p-name').textContent.toLowerCase();
+    p.style.display = name.includes(term) ? '' : 'none';
+  });
+}
+
+function expandAll(expand) {
+  // 현재 디자인에서는 모두 펼쳐진 상태가 기본 — 추후 접기 기능 확장 가능
+}
+
+function resetAll() {
+  if (confirm('정말로 모든 탑승 체크를 초기화하시겠어요?')) {
+    localStorage.removeItem(STORAGE_KEY);
+    renderBuses();
+  }
+}
+
+renderBuses();
+</script>
+
+</body>
+</html>

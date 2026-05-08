@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>정보방 | 2026 행복한교회 전교인 여름 수련회</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --mint: #7fc7be; --mint-deep: #5ba8a0; --mint-darker: #3d7e76;
+    --mint-soft: #d8ede9; --mint-cream: #ecf6f4;
+    --gold: #e8b766; --gold-soft: #f4d9a8;
+    --leaf: #8bc28a; --sky: #8ecae6;
+    --ink: #2c3e3a; --ink-soft: #5a6c68;
+    --paper: #fbfaf6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.7; color: var(--ink); background: var(--paper);
+    background-image:
+      radial-gradient(ellipse at top left, rgba(127, 199, 190, 0.18), transparent 50%),
+      radial-gradient(ellipse at top right, rgba(232, 183, 102, 0.12), transparent 50%);
+    background-attachment: fixed;
+  }
+  nav.top {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(251, 250, 246, 0.92);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(91, 168, 160, 0.15);
+    padding: 14px 20px;
+  }
+  nav.top .nav-inner {
+    max-width: 960px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  nav.top .brand {
+    font-family: 'Gowun Batang', serif; font-weight: 700;
+    font-size: 1.05rem; color: var(--mint-deep); text-decoration: none;
+  }
+  nav.top .links { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  nav.top a.link {
+    color: var(--ink-soft); text-decoration: none;
+    padding: 6px 12px; border-radius: 999px;
+    font-size: 0.92rem; font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  nav.top a.link:hover, nav.top a.link.active {
+    background: var(--mint-cream); color: var(--mint-deep);
+  }
+
+  .page-header {
+    text-align: center; padding: 60px 20px 40px;
+  }
+  .page-header .eyebrow {
+    font-family: 'Gaegu', cursive; color: var(--mint-deep);
+    font-size: 1.3rem; margin-bottom: 8px;
+  }
+  .page-header h1 {
+    font-family: 'Gowun Batang', serif; font-weight: 700;
+    font-size: clamp(2rem, 5vw, 2.8rem); margin-bottom: 12px;
+  }
+  .page-header p {
+    color: var(--ink-soft); font-size: 1.05rem;
+  }
+
+  main {
+    max-width: 920px; margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* 카드 그리드 */
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+  }
+  .hub-card {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 22px;
+    padding: 32px 26px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 8px 28px rgba(44, 62, 58, 0.07);
+    border: 1px solid rgba(127, 199, 190, 0.25);
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .hub-card::before {
+    content: '';
+    position: absolute;
+    top: -40%; right: -30%;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(127, 199, 190, 0.12), transparent 70%);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+  .hub-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 40px rgba(91, 168, 160, 0.18);
+    border-color: var(--mint);
+  }
+  .hub-card:hover::before {
+    transform: scale(1.5);
+  }
+  .hub-card .icon-box {
+    width: 60px; height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .hub-card.lyrics .icon-box { background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%); }
+  .hub-card.bible .icon-box { background: linear-gradient(135deg, var(--gold) 0%, #d49a3f 100%); }
+  .hub-card.bus .icon-box { background: linear-gradient(135deg, var(--leaf) 0%, var(--mint-deep) 100%); }
+  .hub-card.maps .icon-box { background: linear-gradient(135deg, var(--sky) 0%, var(--mint) 100%); }
+
+  .hub-card .title {
+    font-family: 'Gowun Batang', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .hub-card .desc {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    flex: 1;
+    position: relative;
+  }
+  .hub-card .arrow {
+    margin-top: 16px;
+    color: var(--mint-deep);
+    font-weight: 700;
+    font-size: 0.95rem;
+    position: relative;
+  }
+  .hub-card .arrow::after {
+    content: ' →';
+    transition: margin-left 0.2s ease;
+    display: inline-block;
+  }
+  .hub-card:hover .arrow::after { margin-left: 4px; }
+
+  /* 돌아가기 */
+  .back-row {
+    text-align: center;
+    margin-top: 40px;
+  }
+  .back-btn {
+    display: inline-flex;
+    align-items: center; gap: 8px;
+    background: white;
+    color: var(--mint-deep);
+    border: 2px solid var(--mint);
+    padding: 12px 28px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+  }
+  .back-btn:hover {
+    background: var(--mint-cream);
+    transform: translateY(-2px);
+  }
+
+  footer {
+    text-align: center;
+    padding: 30px 20px 40px;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    nav.top .brand { font-size: 0.95rem; }
+    nav.top a.link { padding: 6px 9px; font-size: 0.85rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">💚 행복한교회 수련회</a>
+    <div class="links">
+      <a class="link" href="index.html#info">안내</a>
+      <a class="link" href="schedule.html">일정</a>
+      <a class="link active" href="info-hub.html">정보방</a>
+      <a class="link" href="location.html">오시는 길</a>
+      <a class="link" href="index.html#apply">참가신청</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="eyebrow">Info Hub</div>
+  <h1>📚 수련회 정보방</h1>
+  <p>수련회 기간 동안 필요한 모든 것을 한 곳에서</p>
+</header>
+
+<main>
+  <div class="hub-grid">
+
+    <a href="lyrics.html" class="hub-card lyrics">
+      <div class="icon-box">🎵</div>
+      <div class="title">찬양 가사 모음</div>
+      <div class="desc">예배 시간 함께 부를 찬양 가사를 한곳에서 보실 수 있어요</div>
+      <div class="arrow">가사 보러 가기</div>
+    </a>
+
+    <a href="https://www.bible.com/ko/bible/197/JHN.4.NKRV" target="_blank" rel="noopener" class="hub-card bible">
+      <div class="icon-box">📖</div>
+      <div class="title">성경 읽기</div>
+      <div class="desc">성경 한국어 NKRV 등 무료 성경 읽기 사이트로 바로 연결돼요</div>
+      <div class="arrow">성경 읽으러 가기</div>
+    </a>
+
+    <a href="bus.html" class="hub-card bus">
+      <div class="icon-box">🚌</div>
+      <div class="title">버스 배차표</div>
+      <div class="desc">차량 번호와 선탑자 안내, 출발 전 탑승 체크까지</div>
+      <div class="arrow">배차표 보기</div>
+    </a>
+
+    <a href="maps.html" class="hub-card maps">
+      <div class="icon-box">🗺️</div>
+      <div class="title">장소 안내도</div>
+      <div class="desc">숲체원과 수련회 장소들의 지도와 시설 안내</div>
+      <div class="arrow">안내도 보기</div>
+    </a>
+
+  </div>
+
+  <div class="back-row">
+    <a href="index.html" class="back-btn">← 메인으로 돌아가기</a>
+  </div>
+</main>
+
+<footer>
+  <div>대한예수교장로회 행복한교회 · 2026 전교인 여름 수련회</div>
+</footer>
+
+</body>
+</html>
