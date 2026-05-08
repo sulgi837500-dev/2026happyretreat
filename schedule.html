@@ -1,68 +1,531 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>수련회 시간표</title>
-    <style>
-        body { font-family: 'Malgun Gothic', sans-serif; line-height: 1.6; margin: 0; padding: 20px; background-color: #f4f7f6; color: #333; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        h2 { color: #2c3e50; border-bottom: 2px solid #1abc9c; padding-bottom: 5px; text-align: center; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.95em; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
-        th { background-color: #34495e; color: white; }
-        .time-col { font-weight: bold; background-color: #ecf0f1; color: #2c3e50; }
-        .btn-back { display: block; width: 120px; margin: 20px auto 0; text-align: center; background: #95a5a6; color: white; padding: 10px; text-decoration: none; border-radius: 5px; }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>수련회 일정표 | 2026 행복한교회 전교인 여름 수련회</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --mint: #7fc7be;
+    --mint-deep: #5ba8a0;
+    --mint-darker: #3d7e76;
+    --mint-soft: #d8ede9;
+    --mint-cream: #ecf6f4;
+    --gold: #e8b766;
+    --gold-soft: #f4d9a8;
+    --leaf: #8bc28a;
+    --sky: #8ecae6;
+    --ink: #2c3e3a;
+    --ink-soft: #5a6c68;
+    --paper: #fbfaf6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.7;
+    color: var(--ink);
+    background: var(--paper);
+    background-image:
+      radial-gradient(ellipse at top left, rgba(127, 199, 190, 0.18), transparent 50%),
+      radial-gradient(ellipse at top right, rgba(232, 183, 102, 0.12), transparent 50%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+  }
+
+  nav.top {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(251, 250, 246, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(91, 168, 160, 0.15);
+    padding: 14px 20px;
+  }
+  nav.top .nav-inner {
+    max-width: 960px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 12px;
+  }
+  nav.top .brand {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700; font-size: 1.05rem;
+    color: var(--mint-deep);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  nav.top .links { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  nav.top a.link {
+    color: var(--ink-soft); text-decoration: none;
+    padding: 6px 12px; border-radius: 999px;
+    font-size: 0.92rem; font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  nav.top a.link:hover, nav.top a.link.active {
+    background: var(--mint-cream); color: var(--mint-deep);
+  }
+
+  .page-header {
+    text-align: center;
+    padding: 60px 20px 40px;
+  }
+  .page-header .eyebrow {
+    font-family: 'Gaegu', cursive;
+    color: var(--mint-deep);
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+  }
+  .page-header h1 {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    margin-bottom: 12px;
+  }
+  .page-header p {
+    color: var(--ink-soft);
+    font-size: 1.05rem;
+  }
+
+  /* 일자 탭 */
+  .day-tabs {
+    max-width: 920px; margin: 0 auto 30px;
+    padding: 0 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .day-tab {
+    background: white;
+    border: 2px solid var(--mint-soft);
+    color: var(--ink-soft);
+    padding: 12px 26px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+  }
+  .day-tab:hover { border-color: var(--mint); }
+  .day-tab.active {
+    background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%);
+    color: white;
+    border-color: var(--mint-deep);
+    box-shadow: 0 6px 18px rgba(91, 168, 160, 0.35);
+  }
+  .day-tab .date {
+    display: block;
+    font-size: 0.78rem;
+    opacity: 0.85;
+    margin-top: 2px;
+    font-weight: 400;
+  }
+
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  .day-section { display: none; }
+  .day-section.active { display: block; animation: fadeIn 0.5s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .day-banner {
+    background: linear-gradient(135deg, var(--mint-deep) 0%, var(--mint) 100%);
+    color: white;
+    padding: 22px 26px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 10px 30px rgba(91, 168, 160, 0.25);
+    position: relative;
+    overflow: hidden;
+  }
+  .day-banner.day2 {
+    background: linear-gradient(135deg, var(--leaf) 0%, var(--mint) 100%);
+    box-shadow: 0 10px 30px rgba(139, 194, 138, 0.3);
+  }
+  .day-banner.day3 {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--mint) 100%);
+    box-shadow: 0 10px 30px rgba(232, 183, 102, 0.3);
+  }
+  .day-banner::before {
+    content: '';
+    position: absolute;
+    top: -30%; right: -10%;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 70%);
+    border-radius: 50%;
+  }
+  .day-banner .day-title {
+    font-family: 'Gowun Batang', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    position: relative;
+  }
+  .day-banner .day-date {
+    font-family: 'Gaegu', cursive;
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-top: 4px;
+    position: relative;
+  }
+
+  /* 타임라인 */
+  .timeline {
+    position: relative;
+    padding-left: 30px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px; top: 8px; bottom: 8px;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--mint) 0%, var(--mint-soft) 100%);
+    border-radius: 2px;
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 18px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -30px; top: 22px;
+    width: 18px; height: 18px;
+    background: white;
+    border: 3px solid var(--mint-deep);
+    border-radius: 50%;
+    z-index: 1;
+  }
+  .timeline-item.highlight::before {
+    background: var(--mint-deep);
+    box-shadow: 0 0 0 4px rgba(91, 168, 160, 0.2);
+  }
+
+  .event-card {
+    background: white;
+    border-radius: 16px;
+    padding: 18px 22px;
+    box-shadow: 0 4px 18px rgba(44, 62, 58, 0.05);
+    border: 1px solid rgba(127, 199, 190, 0.25);
+    transition: transform 0.2s ease;
+  }
+  .event-card:hover { transform: translateX(4px); }
+  .event-card .time {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    color: var(--mint-deep);
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .event-card .time .emoji { font-size: 1.1rem; }
+  .event-card .title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .event-card .desc {
+    font-size: 0.93rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .event-card.special {
+    background: linear-gradient(135deg, #fff 0%, var(--mint-cream) 100%);
+    border-color: var(--mint-soft);
+  }
+  .event-card.worship {
+    background: linear-gradient(135deg, #fff 0%, #fff8e8 100%);
+    border-left: 4px solid var(--gold);
+  }
+  .event-card.meal {
+    background: linear-gradient(135deg, #fff 0%, #f1f8ed 100%);
+    border-left: 4px solid var(--leaf);
+  }
+
+  .notice {
+    background: linear-gradient(135deg, #fff8e8 0%, #fce8b8 100%);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-top: 30px;
+    border: 1px dashed var(--gold);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .notice .icon { font-size: 1.3rem; flex-shrink: 0; }
+  .notice .text { font-size: 0.95rem; color: var(--ink); }
+  .notice .text strong { color: var(--mint-darker); }
+
+  .back-row {
+    text-align: center;
+    margin-top: 40px;
+  }
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    color: var(--mint-deep);
+    border: 2px solid var(--mint);
+    padding: 12px 28px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+  }
+  .back-btn:hover {
+    background: var(--mint-cream);
+    transform: translateY(-2px);
+  }
+
+  footer {
+    text-align: center;
+    padding: 30px 20px 40px;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    .day-tab { padding: 10px 18px; font-size: 0.9rem; }
+    .timeline { padding-left: 24px; }
+    .timeline::before { left: 6px; }
+    .timeline-item::before { left: -24px; width: 14px; height: 14px; }
+    nav.top .brand { font-size: 0.95rem; }
+    nav.top a.link { padding: 6px 9px; font-size: 0.85rem; }
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h2>전교인 수련회 시간표</h2>
-        <table>
-            <tr>
-                <th>시간</th>
-                <th>7/31 (금)</th>
-                <th>8/1 (토)</th>
-                <th>8/2 (주일)</th>
-            </tr>
-            <tr>
-                <td class="time-col">06:30 ~ 08:00</td>
-                <td>교회로 모임</td>
-                <td>기상, 큐티 / 아침식사</td>
-                <td>기상, 큐티 / 아침식사</td>
-            </tr>
-            <tr>
-                <td class="time-col">09:00 ~ 12:00</td>
-                <td>출발 및 도착</td>
-                <td>야외활동 [2]</td>
-                <td>주일예배 및 폐회예배</td>
-            </tr>
-            <tr>
-                <td class="time-col">12:00 ~ 13:00</td>
-                <td>점심식사</td>
-                <td>점심식사</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <td class="time-col">14:00 ~ 17:00</td>
-                <td>개회예배 / 한마음 게임</td>
-                <td>야외활동 [1]</td>
-                <td>귀가 (교회로)</td>
-            </tr>
-            <tr>
-                <td class="time-col">18:00 ~ 19:00</td>
-                <td>저녁식사 및 휴식</td>
-                <td>저녁식사 및 휴식</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <td class="time-col">19:00 ~ 22:00</td>
-                <td>은혜의 시간 [1] / 음악회</td>
-                <td>은혜의 시간 [2] / 선교회 친교</td>
-                <td>-</td>
-            </tr>
-        </table>
-        <a href="index.html" class="btn-back">메인으로 돌아가기</a>
+
+<nav class="top">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">💚 행복한교회 수련회</a>
+    <div class="links">
+      <a class="link" href="index.html#video">영상</a>
+      <a class="link" href="index.html#info">안내</a>
+      <a class="link active" href="schedule.html">일정</a>
+      <a class="link" href="location.html">오시는 길</a>
+      <a class="link" href="index.html#apply">참가신청</a>
     </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="eyebrow">Schedule</div>
+  <h1>수련회 일정표</h1>
+  <p>2박 3일, 함께 만들어갈 은혜의 시간</p>
+</header>
+
+<div class="day-tabs">
+  <button class="day-tab active" data-day="1">
+    Day 1
+    <span class="date">7.31 (금)</span>
+  </button>
+  <button class="day-tab" data-day="2">
+    Day 2
+    <span class="date">8.1 (토)</span>
+  </button>
+  <button class="day-tab" data-day="3">
+    Day 3
+    <span class="date">8.2 (주일)</span>
+  </button>
+</div>
+
+<main>
+
+  <!-- DAY 1 -->
+  <div class="day-section active" id="day1">
+    <div class="day-banner">
+      <div class="day-title">첫째 날 · 출발과 만남</div>
+      <div class="day-date">2026년 7월 31일 (금요일)</div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item highlight">
+        <div class="event-card special">
+          <div class="time"><span class="emoji">🚌</span> 06:30</div>
+          <div class="title">교회로 모임</div>
+          <div class="desc">참가자 전원 교회 본당 앞 집결</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="event-card">
+          <div class="time"><span class="emoji">🚍</span> 09:00 ~ 12:00</div>
+          <div class="title">출발 및 도착</div>
+          <div class="desc">교회 → 국립횡성숲체원 이동</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="event-card meal">
+          <div class="time"><span class="emoji">🍱</span> 12:00 ~ 13:00</div>
+          <div class="title">점심식사</div>
+        </div>
+      </div>
+
+      <div class="timeline-item highlight">
+        <div class="event-card worship">
+          <div class="time"><span class="emoji">🙏</span> 14:00 ~ 17:00</div>
+          <div class="title">개회예배 · 한마음 게임</div>
+          <div class="desc">수련회의 시작을 알리는 개회예배와<br>전 성도 함께하는 친교 시간</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="event-card meal">
+          <div class="time"><span class="emoji">🍽️</span> 18:00 ~ 19:00</div>
+          <div class="title">저녁식사 및 휴식</div>
+        </div>
+      </div>
+
+      <div class="timeline-item highlight">
+        <div class="event-card worship">
+          <div class="time"><span class="emoji">✨</span> 19:00 ~ 22:00</div>
+          <div class="title">은혜의 시간 [1] · 숲속 음악회</div>
+          <div class="desc">말씀과 찬양으로 채우는 첫째 날 밤</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div class="day-section" id="day2">
+    <div class="day-banner day2">
+      <div class="day-title">둘째 날 · 자연 속에서</div>
+      <div class="day-date">2026년 8월 1일 (토요일)</div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="event-card">
+          <div class="time"><span class="emoji">🌅</span> 06:30 ~ 08:00</div>
+          <div class="title">기상 · 큐티 · 아침식사</div>
+          <div class="desc">상쾌한 아침을 말씀과 함께</div>
+        </div>
+      </div>
+
+      <div class="timeline-item highlight">
+        <div class="event-card special">
+          <div class="time"><span class="emoji">🌲</span> 09:00 ~ 12:00</div>
+          <div class="title">야외활동 [1]</div>
+          <div class="desc">선택 코스로 떠나는 자연 속 힐링 시간<br>
+          <small style="color: var(--ink-soft);">청태산 휴양림 / 수가솥방 찜질방 / 허브나라·흥정계곡 / 자유시간</small></div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="event-card meal">
+          <div class="time"><span class="emoji">🍱</span> 12:00 ~ 13:00</div>
+          <div class="title">점심식사</div>
+        </div>
+      </div>
+
+      <div class="timeline-item highlight">
+        <div class="event-card special">
+          <div class="time"><span class="emoji">🍃</span> 14:00 ~ 17:00</div>
+          <div class="title">야외활동 [2]</div>
+          <div class="desc">함께하는 즐거운 오후 활동</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="event-card meal">
+          <div class="time"><span class="emoji">🍽️</span> 18:00 ~ 19:00</div>
+          <div class="title">저녁식사 및 휴식</div>
+        </div>
+      </div>
+
+      <div class="timeline-item highlight">
+        <div class="event-card worship">
+          <div class="time"><span class="emoji">🌙</span> 19:00 ~ 22:00</div>
+          <div class="title">은혜의 시간 [2] · 선교회별 친교</div>
+          <div class="desc">말씀과 함께하는 은혜의 시간 그리고<br>선교회별로 모이는 따뜻한 친교</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 3 -->
+  <div class="day-section" id="day3">
+    <div class="day-banner day3">
+      <div class="day-title">셋째 날 · 은혜를 안고</div>
+      <div class="day-date">2026년 8월 2일 (주일)</div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="event-card">
+          <div class="time"><span class="emoji">🌅</span> 06:30 ~ 08:00</div>
+          <div class="title">기상 · 큐티 · 아침식사</div>
+        </div>
+      </div>
+
+      <div class="timeline-item highlight">
+        <div class="event-card worship">
+          <div class="time"><span class="emoji">⛪</span> 09:00 ~ 12:00</div>
+          <div class="title">주일예배 · 폐회예배</div>
+          <div class="desc">주일 예배로 드리는 감사와<br>은혜로 마무리하는 폐회예배</div>
+        </div>
+      </div>
+
+      <div class="timeline-item highlight">
+        <div class="event-card special">
+          <div class="time"><span class="emoji">🚌</span> 14:00 ~ 17:00</div>
+          <div class="title">귀가 (교회로)</div>
+          <div class="desc">은혜를 가득 안고 다시 교회로</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notice">
+    <span class="icon">💡</span>
+    <div class="text">
+      <strong>일정은 현장 상황에 따라 일부 조정될 수 있습니다.</strong> 변경사항은 단톡방을 통해 안내드립니다.
+    </div>
+  </div>
+
+  <div class="back-row">
+    <a href="index.html" class="back-btn">← 메인으로 돌아가기</a>
+  </div>
+
+</main>
+
+<footer>
+  <div>대한예수교장로회 행복한교회 · 2026 전교인 여름 수련회</div>
+</footer>
+
+<script>
+  const tabs = document.querySelectorAll('.day-tab');
+  const sections = document.querySelectorAll('.day-section');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const day = tab.dataset.day;
+      tabs.forEach(t => t.classList.remove('active'));
+      sections.forEach(s => s.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('day' + day).classList.add('active');
+      window.scrollTo({ top: tabs[0].offsetTop - 80, behavior: 'smooth' });
+    });
+  });
+</script>
+
 </body>
 </html>
