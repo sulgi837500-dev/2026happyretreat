@@ -24,30 +24,77 @@
     background-image: radial-gradient(ellipse at top, rgba(127, 199, 190, 0.15), transparent 50%);
     background-attachment: fixed;
   }
+/* ===== 상단 네비게이션 ===== */
   nav.top {
     position: sticky; top: 0; z-index: 100;
     background: rgba(251, 250, 246, 0.92);
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(91, 168, 160, 0.15);
-    padding: 14px 20px;
+    padding: 12px 16px;
   }
   nav.top .nav-inner {
     max-width: 960px; margin: 0 auto;
-    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    display: flex; flex-direction: column;
+    gap: 10px;
+  }
+  nav.top .brand-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   nav.top .brand {
-    font-family: 'Gowun Batang', serif; font-weight: 700;
-    font-size: 1.05rem; color: var(--mint-deep); text-decoration: none;
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700; font-size: 1.05rem;
+    color: var(--mint-deep);
+    text-decoration: none;
+    white-space: nowrap;
   }
-  nav.top .links { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  nav.top .links {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 2px 4px;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+  nav.top .links::-webkit-scrollbar { display: none; }
   nav.top a.link {
-    color: var(--ink-soft); text-decoration: none;
-    padding: 6px 12px; border-radius: 999px;
-    font-size: 0.92rem; font-weight: 500;
+    color: var(--mint-deep);
+    background: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1.5px solid var(--mint-soft);
     transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
-  nav.top a.link:hover, nav.top a.link.active {
-    background: var(--mint-cream); color: var(--mint-deep);
+  nav.top a.link:hover {
+    background: var(--mint-cream);
+    border-color: var(--mint);
+    transform: translateY(-1px);
+  }
+  nav.top a.link.active {
+    background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%);
+    color: white;
+    border-color: var(--mint-deep);
+    box-shadow: 0 4px 12px rgba(91, 168, 160, 0.3);
+  }
+  @media (min-width: 720px) {
+    nav.top .nav-inner {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    nav.top .links {
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
   }
 
   .page-header { text-align: center; padding: 50px 20px 30px; }
@@ -336,8 +383,6 @@
   }
 
   @media (max-width: 600px) {
-    nav.top .brand { font-size: 0.95rem; }
-    nav.top a.link { padding: 6px 9px; font-size: 0.85rem; }
     .bus-progress { width: 100%; text-align: left; }
     .progress-bar { width: 100%; }
   }
@@ -347,8 +392,11 @@
 
 <nav class="top">
   <div class="nav-inner">
-    <a href="index.html" class="brand">💚 행복한교회 수련회</a>
+    <div class="brand-row">
+      <a href="index.html" class="brand">💚 행복한교회 수련회</a>
+    </div>
     <div class="links">
+      <a class="link" href="index.html#video">영상</a>
       <a class="link" href="index.html#info">안내</a>
       <a class="link" href="schedule.html">일정</a>
       <a class="link active" href="info-hub.html">정보방</a>
@@ -402,10 +450,6 @@
     <!-- 버스 카드는 JavaScript로 동적 생성됩니다 -->
   </div>
 
-  <div class="edit-help">
-    💡 <strong>버스 배차 정보를 수정하려면</strong> <code>bus.html</code> 파일 하단의 <code>const busData</code> 부분을 편집하세요. 차량 추가, 선탑자 변경, 승객 명단 수정이 가능합니다. (코드에 자세한 주석이 달려있어요)
-  </div>
-
   <div class="back-row">
     <a href="info-hub.html" class="back-btn">← 정보방으로 돌아가기</a>
   </div>
@@ -433,30 +477,30 @@ const busData = [
   {
     id: 1,
     name: "1호차",
-    leader: "김동욱",
+    leader: "홍길동",
     leaderRole: "차량부장",
     phone: "010-0000-0000",
     passengers: [
-      { name: "박노식", meta: "차량승탑팀장" },
-      { name: "박복동", meta: "성도" },
-      { name: "원희라", meta: "성도" },
-      { name: "제명숙", meta: "성도" },
-      { name: "권윤경", meta: "성도" },
-      { name: "유금선", meta: "성도" },
+      { name: "김행복", meta: "성도" },
+      { name: "김교회", meta: "성도" },
+      { name: "이은혜", meta: "성도" },
+      { name: "박사랑", meta: "성도" },
+      { name: "최믿음", meta: "성도" },
+      { name: "정소망", meta: "성도" },
       { name: "(승객 명단을 추가하세요)", meta: "" }
     ]
   },
   {
     id: 2,
     name: "2호차",
-    leader: "유병열",
+    leader: "이순신",
     leaderRole: "차량섭외팀장",
     phone: "010-0000-0000",
     passengers: [
-      { name: "김은숙", meta: "성도" },
-      { name: "장연선", meta: "성도" },
-      { name: "임채윤", meta: "성도" },
-      { name: "강병욱", meta: "실외진행팀장" },
+      { name: "김찬양", meta: "성도" },
+      { name: "박감사", meta: "성도" },
+      { name: "이기쁨", meta: "성도" },
+      { name: "최평강", meta: "성도" },
       { name: "(승객 명단을 추가하세요)", meta: "" }
     ]
   },

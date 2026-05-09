@@ -49,27 +49,71 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(91, 168, 160, 0.15);
-    padding: 14px 20px;
+    padding: 12px 16px;
   }
   nav.top .nav-inner {
     max-width: 960px; margin: 0 auto;
-    display: flex; justify-content: space-between; align-items: center;
-    gap: 12px;
+    display: flex; flex-direction: column;
+    gap: 10px;
+  }
+  nav.top .brand-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   nav.top .brand {
     font-family: 'Gowun Batang', serif;
     font-weight: 700; font-size: 1.05rem;
     color: var(--mint-deep);
+    text-decoration: none;
     white-space: nowrap;
   }
-  nav.top .links { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
-  nav.top a.link {
-    color: var(--ink-soft); text-decoration: none;
-    padding: 6px 12px; border-radius: 999px;
-    font-size: 0.92rem; font-weight: 500;
-    transition: all 0.2s ease;
+  nav.top .links {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 2px 4px;
+    justify-content: center;
+    flex-wrap: nowrap;
   }
-  nav.top a.link:hover { background: var(--mint-cream); color: var(--mint-deep); }
+  nav.top .links::-webkit-scrollbar { display: none; }
+  nav.top a.link {
+    color: var(--mint-deep);
+    background: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1.5px solid var(--mint-soft);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  nav.top a.link:hover {
+    background: var(--mint-cream);
+    border-color: var(--mint);
+    transform: translateY(-1px);
+  }
+  nav.top a.link.active {
+    background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%);
+    color: white;
+    border-color: var(--mint-deep);
+    box-shadow: 0 4px 12px rgba(91, 168, 160, 0.3);
+  }
+  @media (min-width: 720px) {
+    nav.top .nav-inner {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    nav.top .links {
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+  }
 
   /* ===== 히어로 ===== */
   .hero {
@@ -732,8 +776,6 @@
   @media (max-width: 600px) {
     .fee-box { grid-template-columns: 1fr; }
     .hero .quick-info { padding: 14px 18px; flex-direction: column; gap: 8px; }
-    nav.top .brand { font-size: 0.95rem; }
-    nav.top a.link { padding: 6px 9px; font-size: 0.85rem; }
     section { padding: 40px 16px; }
   }
 </style>
@@ -743,7 +785,9 @@
 <!-- 상단 네비 -->
 <nav class="top">
   <div class="nav-inner">
-    <div class="brand">💚 행복한교회 수련회</div>
+    <div class="brand-row">
+      <div class="brand">💚 행복한교회 수련회</div>
+    </div>
     <div class="links">
       <a class="link" href="#video">영상</a>
       <a class="link" href="#info">안내</a>
@@ -955,30 +999,18 @@
   </p>
 
   <div class="photo-gallery" id="photoGallery">
-    <!-- 사진을 추가하려면 아래 형식으로 사진을 넣으세요. images/ 폴더에 사진을 업로드하고 파일명을 적어주세요.
-         예: <div class="photo-card" onclick="openLightbox('images/photo1.jpg')"><img src="images/photo1.jpg" alt="답사 사진" loading="lazy"></div>
-    -->
-    <div class="photo-card placeholder">
-      <div class="ph-emoji">📷</div>
-      <div class="ph-text">답사 사진을<br>여기에 넣어주세요</div>
+    <div class="photo-card" onclick="openLightbox('images/ds1.jpg')">
+      <img src="images/ds1.jpg" alt="답사 사진 1" loading="lazy">
     </div>
-    <div class="photo-card placeholder">
-      <div class="ph-emoji">📷</div>
-      <div class="ph-text">답사 사진을<br>여기에 넣어주세요</div>
+    <div class="photo-card" onclick="openLightbox('images/ds2.jpg')">
+      <img src="images/ds2.jpg" alt="답사 사진 2" loading="lazy">
     </div>
-    <div class="photo-card placeholder">
-      <div class="ph-emoji">📷</div>
-      <div class="ph-text">답사 사진을<br>여기에 넣어주세요</div>
-    </div>
-    <div class="photo-card placeholder">
-      <div class="ph-emoji">📷</div>
-      <div class="ph-text">답사 사진을<br>여기에 넣어주세요</div>
+    <div class="photo-card" onclick="openLightbox('images/ds3.jpg')">
+      <img src="images/ds3.jpg" alt="답사 사진 3" loading="lazy">
     </div>
   </div>
 
-  <p class="gallery-help">
-    💡 GitHub에 <code>images</code> 폴더를 만들고 답사 사진을 업로드한 뒤 코드를 수정하면 표시됩니다
-  </p>
+  <p class="gallery-help" style="display:none"></p>
 </section>
 
 <!-- 라이트박스 -->
