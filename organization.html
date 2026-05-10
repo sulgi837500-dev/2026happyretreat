@@ -1,65 +1,888 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>수련회 섬기는 분들</title>
-    <style>
-        body { font-family: 'Malgun Gothic', sans-serif; line-height: 1.6; margin: 0; padding: 20px; background-color: #f4f7f6; color: #333; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        h2 { color: #2c3e50; border-bottom: 2px solid #1abc9c; padding-bottom: 5px; text-align: center; }
-        .leadership { text-align: center; margin-bottom: 30px; padding: 15px; background-color: #e8f6f3; border-radius: 8px; font-weight: bold; color: #16a085; }
-        .dept-card { border: 1px solid #ddd; border-radius: 8px; margin-bottom: 15px; padding: 15px; }
-        .dept-title { font-size: 1.2em; color: #34495e; font-weight: bold; border-bottom: 1px dashed #ccc; padding-bottom: 5px; margin-bottom: 10px; }
-        .dept-info { margin: 5px 0; }
-        .btn-back { display: block; width: 120px; margin: 20px auto 0; text-align: center; background: #95a5a6; color: white; padding: 10px; text-decoration: none; border-radius: 5px; }
-    </style>
+<meta charset="UTF-8" />
+<link rel="icon" type="image/jpeg" href="images/logo.jpg" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>조직 / 임무 | 2026 행복한교회 전교인 여름 수련회</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --mint: #7fc7be; --mint-deep: #5ba8a0; --mint-darker: #3d7e76;
+    --mint-soft: #d8ede9; --mint-cream: #ecf6f4;
+    --gold: #e8b766; --leaf: #8bc28a; --sky: #8ecae6;
+    --ink: #2c3e3a; --ink-soft: #5a6c68; --paper: #fbfaf6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.7; color: var(--ink); background: var(--paper);
+    background-image: radial-gradient(ellipse at top, rgba(127, 199, 190, 0.15), transparent 50%);
+    background-attachment: fixed;
+  }
+  /* ===== 상단 네비게이션 ===== */
+  nav.top {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(251, 250, 246, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(91, 168, 160, 0.15);
+    padding: 12px 16px;
+  }
+  nav.top .nav-inner {
+    max-width: 960px; margin: 0 auto;
+    display: flex; flex-direction: column;
+    gap: 10px;
+  }
+  nav.top .brand-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  nav.top .brand {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700; font-size: clamp(1.3rem, 4vw, 1.7rem);
+    color: var(--mint-deep);
+    text-decoration: none;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  nav.top .brand img {
+    width: 44px; height: 44px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  nav.top .links {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 2px 4px;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+  nav.top .links::-webkit-scrollbar { display: none; }
+  nav.top a.link {
+    color: var(--mint-deep);
+    background: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1.5px solid var(--mint-soft);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  nav.top a.link:hover {
+    background: var(--mint-cream);
+    border-color: var(--mint);
+    transform: translateY(-1px);
+  }
+  nav.top a.link.active {
+    background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%);
+    color: white;
+    border-color: var(--mint-deep);
+    box-shadow: 0 4px 12px rgba(91, 168, 160, 0.3);
+  }
+  @media (min-width: 720px) {
+    nav.top .nav-inner {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    nav.top .links {
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+  }
+
+  /* ===== 페이지 헤더 ===== */
+  .page-header {
+    text-align: center;
+    padding: 50px 20px 30px;
+  }
+  .page-header .eyebrow {
+    font-family: 'Gaegu', cursive;
+    color: var(--mint-deep);
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+  }
+  .page-header h1 {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    margin-bottom: 12px;
+  }
+  .page-header p { color: var(--ink-soft); font-size: 1rem; }
+
+  main {
+    max-width: 920px; margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* ===== 행사 정보 박스 ===== */
+  .event-info {
+    background: linear-gradient(135deg, var(--mint-deep) 0%, var(--mint) 100%);
+    color: white;
+    border-radius: 20px;
+    padding: 24px 28px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(91, 168, 160, 0.25);
+  }
+  .event-info .info-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+  .event-info .info-line:last-child { margin-bottom: 0; }
+  .event-info .label {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    flex-shrink: 0;
+    min-width: 90px;
+  }
+
+  /* ===== 리더십 ===== */
+  .leadership {
+    background: white;
+    border-radius: 18px;
+    padding: 22px 26px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 18px rgba(44, 62, 58, 0.06);
+    border: 1px solid rgba(127, 199, 190, 0.25);
+  }
+  .leadership .title {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    color: var(--mint-deep);
+    font-size: 1rem;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .leadership .leaders {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    text-align: center;
+  }
+  .leadership .leader {
+    padding: 10px;
+    background: var(--mint-cream);
+    border-radius: 12px;
+  }
+  .leadership .leader .role {
+    font-size: 0.83rem;
+    color: var(--mint-deep);
+    font-weight: 600;
+  }
+  .leadership .leader .name {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--ink);
+    margin-top: 2px;
+  }
+
+  /* ===== 부서 카드 ===== */
+  .dept-card {
+    background: white;
+    border-radius: 20px;
+    margin-bottom: 18px;
+    box-shadow: 0 6px 22px rgba(44, 62, 58, 0.06);
+    border: 1px solid rgba(127, 199, 190, 0.25);
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+  }
+  .dept-card.open { box-shadow: 0 10px 30px rgba(91, 168, 160, 0.15); }
+
+  .dept-header {
+    padding: 18px 22px;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient(135deg, white 0%, var(--mint-cream) 100%);
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+  .dept-card.open .dept-header {
+    border-bottom-color: var(--mint-soft);
+  }
+  .dept-icon {
+    width: 44px; height: 44px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%);
+    color: white;
+  }
+  .dept-info { flex: 1; min-width: 0; }
+  .dept-name {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 1.15rem;
+    margin-bottom: 2px;
+  }
+  .dept-head {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+  }
+  .dept-head strong { color: var(--mint-deep); }
+  .dept-toggle {
+    color: var(--mint-deep);
+    font-size: 1.2rem;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+  .dept-card.open .dept-toggle { transform: rotate(180deg); }
+
+  .dept-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .dept-card.open .dept-body { max-height: 3000px; }
+
+  /* 팀 행 */
+  .team-row {
+    padding: 16px 22px;
+    border-bottom: 1px dashed var(--mint-soft);
+  }
+  .team-row:last-child { border-bottom: none; }
+  .team-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .team-name {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 1rem;
+  }
+  .team-leader {
+    background: var(--gold);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+  .team-leader::before { content: '팀장 '; opacity: 0.85; }
+  .team-task {
+    background: var(--mint-cream);
+    color: var(--mint-deep);
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  .team-members {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    padding-left: 4px;
+  }
+  .team-members .person {
+    display: inline-block;
+    background: white;
+    border: 1px solid var(--mint-soft);
+    color: var(--ink);
+    padding: 2px 10px;
+    margin: 2px 4px 2px 0;
+    border-radius: 999px;
+    font-size: 0.85rem;
+  }
+
+  /* 컨트롤 */
+  .control-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .ctrl-btn {
+    background: white;
+    color: var(--mint-deep);
+    border: 1.5px solid var(--mint-soft);
+    padding: 8px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: all 0.15s ease;
+  }
+  .ctrl-btn:hover {
+    background: var(--mint-cream);
+    border-color: var(--mint);
+  }
+
+  /* 검색 */
+  .search-input {
+    width: 100%;
+    padding: 12px 18px;
+    font-size: 1rem;
+    font-family: inherit;
+    border: 2px solid var(--mint-soft);
+    border-radius: 999px;
+    background: white;
+    color: var(--ink);
+    outline: none;
+    margin-bottom: 18px;
+    transition: border-color 0.2s ease;
+  }
+  .search-input:focus { border-color: var(--mint); }
+
+  .highlight {
+    background: var(--gold);
+    color: white;
+    padding: 1px 4px;
+    border-radius: 4px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--ink-soft);
+    background: white;
+    border-radius: 16px;
+    border: 2px dashed var(--mint-soft);
+  }
+
+  /* 돌아가기 */
+  .back-row { text-align: center; margin-top: 30px; }
+  .back-btn {
+    display: inline-flex;
+    align-items: center; gap: 8px;
+    background: white;
+    color: var(--mint-deep);
+    border: 2px solid var(--mint);
+    padding: 12px 28px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+  }
+  .back-btn:hover { background: var(--mint-cream); transform: translateY(-2px); }
+
+  /* 푸터 */
+  footer .footer-logo {
+    max-width: 200px;
+    width: 60%;
+    height: auto;
+    margin: 0 auto 14px;
+    display: block;
+    opacity: 0.9;
+  }
+  footer {
+    text-align: center;
+    padding: 30px 20px 40px;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h2>수련회 섬기는 분들 (조직표)</h2>
-        
-        <div class="leadership">
-            준비위원장: 임종호 장로 &nbsp;|&nbsp; 총괄위원장: 김웅일 장로
-        </div>
 
-        <div class="dept-card">
-            <div class="dept-title">기획행정부</div>
-            <div class="dept-info"><strong>부장:</strong> 김기창</div>
-            <div class="dept-info"><strong>임무:</strong> 행사 계획 수립, 전체 행정 및 사무 관리</div>
-        </div>
-
-        <div class="dept-card">
-            <div class="dept-title">홍보동원부</div>
-            <div class="dept-info"><strong>부장:</strong> 백승태</div>
-            <div class="dept-info"><strong>임무:</strong> 홍보, 참가 신청 접수, 숙소 배정 및 관리</div>
-        </div>
-
-        <div class="dept-card">
-            <div class="dept-title">예배 및 진행부</div>
-            <div class="dept-info"><strong>부장:</strong> 정헌진(예배) / 강한규(진행)</div>
-            <div class="dept-info"><strong>임무:</strong> 예배 준비, 음향/방송 관리, 원내외 활동 진행, 음악회 주관</div>
-        </div>
-
-        <div class="dept-card">
-            <div class="dept-title">생활 및 지원부</div>
-            <div class="dept-info"><strong>부장:</strong> 김미옥(생활) / 최화성(지원)</div>
-            <div class="dept-info"><strong>임무:</strong> 식사/간식 준비, 안전 관리, 응급 환자 지원, 시설물 관리 보존</div>
-        </div>
-
-        <div class="dept-card">
-            <div class="dept-title">차량부</div>
-            <div class="dept-info"><strong>부장:</strong> 김동욱</div>
-            <div class="dept-info"><strong>임무:</strong> 차량 대여, 배차, 주차 관리, 승탑 인원 점검</div>
-        </div>
-
-        <div class="dept-card">
-            <div class="dept-title">교육봉사 및 재정부</div>
-            <div class="dept-info"><strong>부장:</strong> 김대현(교육) / 김기범(재정)</div>
-            <div class="dept-info"><strong>임무:</strong> 주일학교 부서 관리 및 간식 지원, 재정 수입/지출 관리</div>
-        </div>
-
-        <a href="index.html" class="btn-back">메인으로 돌아가기</a>
+<nav class="top">
+  <div class="nav-inner">
+    <div class="brand-row">
+      <a href="index.html" class="brand"><img src="images/logo.jpg" alt="행복한교회 로고"><span>행복한교회 수련회</span></a>
     </div>
+    <div class="links">
+      <a class="link" href="index.html#video">영상</a>
+      <a class="link" href="index.html#info">안내</a>
+      <a class="link" href="schedule.html">일정</a>
+      <a class="link" href="info-hub.html">정보방</a>
+      <a class="link" href="location.html">오시는 길</a>
+      <a class="link" href="index.html#apply">참가신청</a>
+      <a class="link active" href="organization.html">조직</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="eyebrow">Organization</div>
+  <h1>👥 조직 / 임무</h1>
+  <p>2026 전교인 수련회를 섬기는 분들</p>
+</header>
+
+<main>
+
+  <!-- 행사 정보 -->
+  <div class="event-info">
+    <div class="info-line"><span class="label">▷ 행사일자</span><span>2026. 7. 31(금) ~ 8. 2(주일)</span></div>
+    <div class="info-line"><span class="label">▷ 행사장소</span><span>국립횡성숲체원</span></div>
+    <div class="info-line"><span class="label">▷ 지도위원</span><span>당회 및 교역자</span></div>
+  </div>
+
+  <!-- 준비위원장 / 총괄위원장 -->
+  <div class="leadership">
+    <div class="title">◆ 수련회 위원장 ◆</div>
+    <div class="leaders">
+      <div class="leader">
+        <div class="role">준비위원장</div>
+        <div class="name">임종호 장로</div>
+      </div>
+      <div class="leader">
+        <div class="role">총괄위원장</div>
+        <div class="name">김웅일 장로</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 검색 -->
+  <input type="text" class="search-input" id="searchInput" placeholder="🔍 이름 또는 부서로 검색...">
+
+  <!-- 컨트롤 -->
+  <div class="control-bar">
+    <button class="ctrl-btn" onclick="toggleAll(true)">📂 모두 펼치기</button>
+    <button class="ctrl-btn" onclick="toggleAll(false)">📁 모두 접기</button>
+  </div>
+
+  <!-- 부서 카드들 -->
+  <div id="deptList">
+
+    <!-- 기획행정부 -->
+    <div class="dept-card">
+      <div class="dept-header" onclick="toggleDept(this)">
+        <div class="dept-icon">📋</div>
+        <div class="dept-info">
+          <div class="dept-name">기획행정부</div>
+          <div class="dept-head">부장: <strong>김기창</strong></div>
+        </div>
+        <div class="dept-toggle">▼</div>
+      </div>
+      <div class="dept-body">
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">기획팀</span>
+            <span class="team-leader">장재원A</span>
+            <span class="team-task">행사계획</span>
+          </div>
+          <div class="team-members">
+            <span class="person">신승자</span><span class="person">이윤희</span><span class="person">김종석</span>
+          </div>
+        </div>
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">행정팀</span>
+            <span class="team-leader">민병삼</span>
+            <span class="team-task">행정 · 사무</span>
+          </div>
+          <div class="team-members">
+            <span class="person">이형심</span><span class="person">김명희</span><span class="person">박은미</span><span class="person">황용혜</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 진행부 -->
+    <div class="dept-card">
+      <div class="dept-header" onclick="toggleDept(this)">
+        <div class="dept-icon">🎤</div>
+        <div class="dept-info">
+          <div class="dept-name">진행부</div>
+          <div class="dept-head">부장: <strong>강한규</strong></div>
+        </div>
+        <div class="dept-toggle">▼</div>
+      </div>
+      <div class="dept-body">
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">실내진행</span>
+            <span class="team-leader">김기복</span>
+            <span class="team-task">방송·찬양·강당관리·원내활동</span>
+          </div>
+          <div class="team-members">
+            <span class="person">채형남</span><span class="person">이옥순</span><span class="person">백정남</span><span class="person">안 현</span><span class="person">엄윤숙</span><span class="person">김순임</span><span class="person">배은순</span><span class="person">이미정</span><span class="person">이옥순</span>
+          </div>
+        </div>
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">실외진행</span>
+            <span class="team-leader">강병욱</span>
+            <span class="team-task">야외활동</span>
+          </div>
+          <div class="team-members">
+            <span class="person">박성흠</span><span class="person">태현석</span><span class="person">임명길</span><span class="person">김선심</span><span class="person">강복심</span><span class="person">박은순</span><span class="person">이정순B</span><span class="person">한상숙</span><span class="person">유금선</span><span class="person">장선주</span><span class="person">정혜경A</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 홍보동원부 -->
+    <div class="dept-card">
+      <div class="dept-header" onclick="toggleDept(this)">
+        <div class="dept-icon">📢</div>
+        <div class="dept-info">
+          <div class="dept-name">홍보동원부</div>
+          <div class="dept-head">부장: <strong>백승태</strong></div>
+        </div>
+        <div class="dept-toggle">▼</div>
+      </div>
+      <div class="dept-body">
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">동원(홍보)</span>
+            <span class="team-leader">박성희</span>
+            <span class="team-task">홍보 · 신청접수</span>
+          </div>
+          <div class="team-members">
+            <span class="person">김양중</span><span class="person">심경섭</span><span class="person">이슬기</span><span class="person">고정희</span><span class="person">변선옥</span><span class="person">송석미</span><span class="person">정미자</span><span class="person">팽혜숙</span><span class="person">백경숙</span><span class="person">이인숙</span><span class="person">박복란</span><span class="person">엽영선</span><span class="person">윤은숙</span><span class="person">이정선</span><span class="person">김연희</span><span class="person">백전하</span><span class="person">심춘화</span><span class="person">추유실</span><span class="person">한희숙</span>
+          </div>
+        </div>
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">방배정팀</span>
+            <span class="team-leader">이슬기</span>
+            <span class="team-task">숙소배정 · 관리</span>
+          </div>
+          <div class="team-members">
+            <span class="person">최경익</span><span class="person">맹은숙</span><span class="person">송미옥</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 예배부 -->
+    <div class="dept-card">
+      <div class="dept-header" onclick="toggleDept(this)">
+        <div class="dept-icon">🙏</div>
+        <div class="dept-info">
+          <div class="dept-name">예배부</div>
+          <div class="dept-head">부장: <strong>정헌진</strong></div>
+        </div>
+        <div class="dept-toggle">▼</div>
+      </div>
+      <div class="dept-body">
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">예배팀</span>
+            <span class="team-leader">임명길</span>
+            <span class="team-task">예배준비 · 음향관리</span>
+          </div>
+          <div class="team-members">
+            <span class="person">오옥랑</span><span class="person">김난영</span><span class="person">양경순</span><span class="person">이근왕</span><span class="person">이민경B</span><span class="person">정옥진</span><span class="person">이종숙</span><span class="person">심춘화</span><span class="person">강옥분</span><span class="person">한희숙</span><span class="person">성숙희</span><span class="person">이선희A</span>
+          </div>
+        </div>
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">찬양팀</span>
+            <span class="team-leader">이성민</span>
+            <span class="team-task">경연 및 공연 · 음악회 주관</span>
+          </div>
+          <div class="team-members">
+            <span class="person">예향찬양팀</span><span class="person">전다솜</span><span class="person">이미정</span><span class="person">박성현</span><span class="person">장지연</span><span class="person">채세인</span><span class="person">전세희</span><span class="person">백민우</span><span class="person">강민성</span><span class="person">김예빈</span><span class="person">김소영B</span><span class="person">김기복B</span><span class="person">정연희</span><span class="person">신미나</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 생활부 -->
+    <div class="dept-card">
+      <div class="dept-header" onclick="toggleDept(this)">
+        <div class="dept-icon">🍱</div>
+        <div class="dept-info">
+          <div class="dept-name">생활부</div>
+          <div class="dept-head">부장: <strong>김미옥</strong></div>
+        </div>
+        <div class="dept-toggle">▼</div>
+      </div>
+      <div class="dept-body">
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">봉사팀</span>
+            <span class="team-leader">이인숙</span>
+            <span class="team-task">안전관리 · 숙소관리 · 간식 · 식사</span>
+          </div>
+          <div class="team-members">
+            <span class="person">이순희</span><span class="person">정혜경B</span><span class="person">김지영</span><span class="person">장연선</span><span class="person">유금선</span><span class="person">권윤경</span><span class="person">이정순</span><span class="person">박영주</span><span class="person">이순희</span><span class="person">추유실</span><span class="person">김광주</span><span class="person">김은숙</span><span class="person">남궁순자</span><span class="person">변선옥</span><span class="person">성숙희</span><span class="person">송미옥</span><span class="person">양경순</span><span class="person">유종례</span><span class="person">이유인</span><span class="person">이영희</span><span class="person">이인숙</span><span class="person">조현숙</span>
+          </div>
+        </div>
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">의료팀</span>
+            <span class="team-leader">김미경</span>
+            <span class="team-task">응급환자 치료 및 후송계획 수립</span>
+          </div>
+          <div class="team-members">
+            <span class="person">이유정B</span><span class="person">윤승관</span><span class="person">이형심</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 지원부 -->
+    <div class="dept-card">
+      <div class="dept-header" onclick="toggleDept(this)">
+        <div class="dept-icon">🛠️</div>
+        <div class="dept-info">
+          <div class="dept-name">지원부</div>
+          <div class="dept-head">부장: <strong>최동빈</strong></div>
+        </div>
+        <div class="dept-toggle">▼</div>
+      </div>
+      <div class="dept-body">
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">시설팀</span>
+            <span class="team-leader">최화성</span>
+            <span class="team-task">원내외 · 시설준비 및 철수</span>
+          </div>
+          <div class="team-members">
+            <span class="person">김두수</span><span class="person">박복동</span><span class="person">정상호</span><span class="person">이해준</span><span class="person">오옥랑</span><span class="person">장영남</span><span class="person">김은숙</span><span class="person">원희라</span><span class="person">이선희B</span><span class="person">정군희</span><span class="person">김소영B</span><span class="person">신윤숙</span><span class="person">제명숙</span>
+          </div>
+        </div>
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">관리팀</span>
+            <span class="team-leader">조원</span>
+            <span class="team-task">시설물 관리 보존</span>
+          </div>
+          <div class="team-members">
+            <span class="person">김도균</span><span class="person">성숙희</span><span class="person">은명화</span><span class="person">이민경B</span>
+          </div>
+        </div>
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">행복카페</span>
+            <span class="team-leader">황용혜</span>
+            <span class="team-task">차와 다과준비</span>
+          </div>
+          <div class="team-members">
+            <span class="person">김소영B</span><span class="person">신윤숙</span><span class="person">이선희B</span><span class="person">김경미</span><span class="person">유원숙</span><span class="person">신해숙</span><span class="person">이인숙</span><span class="person">이순희</span><span class="person">이정순B</span><span class="person">이인숙B</span><span class="person">송미옥</span><span class="person">박혜숙</span><span class="person">전경순</span><span class="person">박희영</span><span class="person">은명화</span><span class="person">이윤희</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 방송부 -->
+    <div class="dept-card">
+      <div class="dept-header" onclick="toggleDept(this)">
+        <div class="dept-icon">📷</div>
+        <div class="dept-info">
+          <div class="dept-name">방송부</div>
+          <div class="dept-head">부장: <strong>백정남</strong></div>
+        </div>
+        <div class="dept-toggle">▼</div>
+      </div>
+      <div class="dept-body">
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">영상 및 사진팀</span>
+            <span class="team-leader">안현</span>
+            <span class="team-task">홍보영상 및 사진촬영</span>
+          </div>
+          <div class="team-members">
+            <span class="person">김진배</span><span class="person">백승태</span>
+          </div>
+        </div>
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">음향팀</span>
+            <span class="team-leader">송형남</span>
+          </div>
+          <div class="team-members">
+            <span class="person">돈두성</span><span class="person">서준영</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 차량부 -->
+    <div class="dept-card">
+      <div class="dept-header" onclick="toggleDept(this)">
+        <div class="dept-icon">🚌</div>
+        <div class="dept-info">
+          <div class="dept-name">차량부</div>
+          <div class="dept-head">부장: <strong>김동욱</strong></div>
+        </div>
+        <div class="dept-toggle">▼</div>
+      </div>
+      <div class="dept-body">
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">차량섭외/주차팀</span>
+            <span class="team-leader">유병열</span>
+            <span class="team-task">차량대여 · 운영배차 · 주차관리</span>
+          </div>
+          <div class="team-members">
+            <span class="person">김은숙</span><span class="person">장연선</span><span class="person">임채윤</span><span class="person">강병욱</span>
+          </div>
+        </div>
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">차량승탑팀</span>
+            <span class="team-leader">박노식</span>
+            <span class="team-task">승탑인원 점검</span>
+          </div>
+          <div class="team-members">
+            <span class="person">박복동</span><span class="person">원희라</span><span class="person">제명숙</span><span class="person">권윤경</span><span class="person">유금선</span><span class="person">천영숙B</span><span class="person">문향금</span><span class="person">강옥분</span><span class="person">김정희B</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 교육봉사부 -->
+    <div class="dept-card">
+      <div class="dept-header" onclick="toggleDept(this)">
+        <div class="dept-icon">🎒</div>
+        <div class="dept-info">
+          <div class="dept-name">교육봉사부</div>
+          <div class="dept-head">부장: <strong>김대현</strong></div>
+        </div>
+        <div class="dept-toggle">▼</div>
+      </div>
+      <div class="dept-body">
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">교육부서팀</span>
+            <span class="team-leader">김동국</span>
+            <span class="team-task">인원 및 안전사고 · 배식 · 간식관리</span>
+          </div>
+        </div>
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">유아유치부</span>
+          </div>
+          <div class="team-members">
+            <span class="person">강복심</span><span class="person">원희라</span><span class="person">채형남</span><span class="person">이효준</span><span class="person">김유리</span><span class="person">김연희</span><span class="person">박영순</span><span class="person">윤은숙</span><span class="person">한수연</span><span class="person">박성현</span>
+          </div>
+        </div>
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">초등부</span>
+          </div>
+          <div class="team-members">
+            <span class="person">강문영</span><span class="person">김영희</span><span class="person">김예빈</span><span class="person">문향금</span><span class="person">안치선</span><span class="person">안 현</span><span class="person">이옥순</span><span class="person">정순영</span><span class="person">정연희</span><span class="person">채세인</span>
+          </div>
+        </div>
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">청소년부</span>
+          </div>
+          <div class="team-members">
+            <span class="person">이석인</span><span class="person">이영아</span><span class="person">이종현</span><span class="person">임인용</span><span class="person">김소영C</span><span class="person">김성하</span>
+          </div>
+        </div>
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">청년부</span>
+          </div>
+          <div class="team-members">
+            <span class="person">송형남</span>
+          </div>
+        </div>
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">행복부</span>
+          </div>
+          <div class="team-members">
+            <span class="person">강병혜</span><span class="person">이선희A</span><span class="person">김선심</span><span class="person">김명희</span><span class="person">김은숙</span><span class="person">이순희</span><span class="person">신승자</span><span class="person">이인숙</span><span class="person">고정희</span><span class="person">김미옥</span><span class="person">이민경B</span><span class="person">유금선</span><span class="person">이선희B</span><span class="person">신해숙</span><span class="person">장선주</span><span class="person">허정원</span><span class="person">송미옥</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 재정부 -->
+    <div class="dept-card">
+      <div class="dept-header" onclick="toggleDept(this)">
+        <div class="dept-icon">💰</div>
+        <div class="dept-info">
+          <div class="dept-name">재정부</div>
+          <div class="dept-head">부장: <strong>김기범</strong></div>
+        </div>
+        <div class="dept-toggle">▼</div>
+      </div>
+      <div class="dept-body">
+        <div class="team-row">
+          <div class="team-header">
+            <span class="team-name">재무관리팀</span>
+            <span class="team-leader">김기복</span>
+            <span class="team-task">재정 수입/지출</span>
+          </div>
+          <div class="team-members">
+            <span class="person">김종석</span><span class="person">박종숙</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="empty-state" id="emptyState" style="display: none;">
+    🔍 검색 결과가 없습니다
+  </div>
+
+  <div class="back-row">
+    <a href="index.html" class="back-btn">← 메인으로 돌아가기</a>
+  </div>
+
+</main>
+
+<footer>
+  <img src="images/logo-wide.jpg" alt="행복한교회" class="footer-logo">
+  <div>대한예수교장로회 행복한교회 · 2026 전교인 여름 수련회</div>
+</footer>
+
+<script>
+  function toggleDept(header) {
+    const card = header.parentElement;
+    card.classList.toggle('open');
+  }
+
+  function toggleAll(open) {
+    document.querySelectorAll('.dept-card').forEach(card => {
+      if (open) card.classList.add('open');
+      else card.classList.remove('open');
+    });
+  }
+
+  // 검색
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.dept-card');
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      const text = card.textContent.toLowerCase();
+      if (term === '' || text.includes(term)) {
+        card.style.display = '';
+        visibleCount++;
+        if (term !== '') {
+          card.classList.add('open');
+        }
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    document.getElementById('emptyState').style.display =
+      (visibleCount === 0 && term !== '') ? 'block' : 'none';
+  });
+</script>
+
 </body>
 </html>
