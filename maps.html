@@ -46,7 +46,7 @@
   }
   nav.top .brand {
     font-family: 'Gowun Batang', serif;
-    font-weight: 700; font-size: 1.05rem;
+    font-weight: 700; font-size: clamp(1.3rem, 4vw, 1.7rem);
     color: var(--mint-deep);
     text-decoration: none;
     white-space: nowrap;
@@ -55,7 +55,7 @@
     gap: 8px;
   }
   nav.top .brand img {
-    width: 32px; height: 32px;
+    width: 44px; height: 44px;
     object-fit: contain;
     flex-shrink: 0;
   }
@@ -482,6 +482,32 @@
     <div class="place-actions">
       <a class="map-btn naver" href="https://map.naver.com/v5/search/허브나라+봉평" target="_blank" rel="noopener">🗺️ 네이버</a>
       <a class="map-btn web" href="course-herb.html">📄 자세히 보기</a>
+    </div>
+  </div>
+
+  <!-- 3일차 귀가 길 들름 장소 -->
+  <h2 class="section-title"><span class="dot"></span> 3일차 귀가 코스</h2>
+
+  <div class="place-card">
+    <div class="place-header">
+      <div class="place-icon outside" style="background: linear-gradient(135deg, var(--leaf) 0%, var(--gold) 100%);">🌳</div>
+      <div class="place-info">
+        <div class="place-name">여주 황학산 수목원</div>
+        <div class="place-addr">경기도 여주시 영릉로 327-49<br><small style="color: var(--ink-soft);">3일차 폐회예배 후 산책 코스로 들릅니다</small></div>
+      </div>
+    </div>
+    <div class="map-frame">
+      <iframe
+        src="https://www.google.com/maps?q=여주+황학산+수목원&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <div class="place-actions">
+      <a class="map-btn naver" href="https://map.naver.com/v5/search/여주+황학산+수목원" target="_blank" rel="noopener">🗺️ 네이버 지도</a>
+      <a class="map-btn kakao" href="https://map.kakao.com/?q=여주+황학산+수목원" target="_blank" rel="noopener">🗺️ 카카오 지도</a>
+      <a class="map-btn web" href="https://www.yeoju.go.kr/main/contents/yeoju0107010000" target="_blank" rel="noopener">🌐 공식 안내</a>
     </div>
   </div>
 

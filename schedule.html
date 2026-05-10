@@ -62,7 +62,7 @@
   }
   nav.top .brand {
     font-family: 'Gowun Batang', serif;
-    font-weight: 700; font-size: 1.05rem;
+    font-weight: 700; font-size: clamp(1.3rem, 4vw, 1.7rem);
     color: var(--mint-deep);
     text-decoration: none;
     white-space: nowrap;
@@ -71,7 +71,7 @@
     gap: 8px;
   }
   nav.top .brand img {
-    width: 32px; height: 32px;
+    width: 44px; height: 44px;
     object-fit: contain;
     flex-shrink: 0;
   }
@@ -545,9 +545,25 @@
         </div>
       </div>
 
+      <div class="timeline-item">
+        <div class="event-card meal">
+          <div class="time"><span class="emoji">🍱</span> 12:00 ~ 13:00</div>
+          <div class="title">점심식사</div>
+        </div>
+      </div>
+
       <div class="timeline-item highlight">
         <div class="event-card special">
-          <div class="time"><span class="emoji">🚌</span> 14:00 ~ 17:00</div>
+          <div class="time"><span class="emoji">🌳</span> 14:00 ~ 16:00</div>
+          <div class="title">여주 황학산 수목원 산책</div>
+          <div class="desc">귀가 길에 잠시 들러 함께 걷는 시간<br>
+          <small style="color: var(--ink-soft);">아름다운 수목원에서 마지막 친교의 시간</small></div>
+        </div>
+      </div>
+
+      <div class="timeline-item highlight">
+        <div class="event-card special">
+          <div class="time"><span class="emoji">🚌</span> 16:00 ~ 18:00</div>
           <div class="title">귀가 (교회로)</div>
           <div class="desc">은혜를 가득 안고 다시 교회로</div>
         </div>
