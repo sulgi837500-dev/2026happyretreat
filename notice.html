@@ -155,15 +155,6 @@
     cursor: pointer;
     font-family: inherit;
   }
-  .action-btn.write {
-    background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%);
-    color: white;
-    box-shadow: 0 6px 20px rgba(91, 168, 160, 0.3);
-  }
-  .action-btn.write:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(91, 168, 160, 0.4);
-  }
   .action-btn.kakao {
     background: var(--kakao);
     color: #3c1e1e;
@@ -435,12 +426,8 @@
 
 <main>
 
-  <!-- 액션 버튼 -->
+  <!-- 액션 버튼 (공지 작성하기 삭제됨) -->
   <div class="action-bar">
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdHg38aGjB77ONOE7Z6ms-jRx92i6mGGiCy3b8jHY0ORND-0A/viewform"
-       target="_blank" rel="noopener" class="action-btn write">
-      ✏️ 공지 작성하기
-    </a>
     <a href="#" target="_blank" rel="noopener" class="action-btn kakao" id="kakaoLink" style="display:none;">
       💬 단톡방 입장
     </a>
@@ -481,11 +468,11 @@
     </div>
   </div>
 
-  <!-- 빈 상태 -->
+  <!-- 빈 상태 (안내 문구 수정됨) -->
   <div class="empty-state" id="emptyState" style="display: none;">
     <div class="icon">📭</div>
     <div class="text">아직 등록된 공지가 없습니다</div>
-    <div class="hint">위의 "공지 작성하기" 버튼으로 첫 공지를 등록해보세요</div>
+    <div class="hint">새로운 공지가 등록될 때까지 기다려주세요</div>
   </div>
 
   <div class="back-row">
