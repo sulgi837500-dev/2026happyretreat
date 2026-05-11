@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<link rel="icon" type="image/jpeg" href="images/logo.jpg" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>공지사항 | 2026 행복한교회 전교인 여름 수련회</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --mint: #7fc7be; --mint-deep: #5ba8a0; --mint-darker: #3d7e76;
+    --mint-soft: #d8ede9; --mint-cream: #ecf6f4;
+    --gold: #e8b766; --leaf: #8bc28a; --sky: #8ecae6;
+    --urgent: #e74c3c; --urgent-soft: #fce8e8;
+    --kakao: #fee500;
+    --ink: #2c3e3a; --ink-soft: #5a6c68; --paper: #fbfaf6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.7; color: var(--ink); background: var(--paper);
+    background-image: radial-gradient(ellipse at top, rgba(127, 199, 190, 0.15), transparent 50%);
+    background-attachment: fixed;
+  }
+
+  /* ===== 상단 네비게이션 ===== */
+  nav.top {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(251, 250, 246, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(91, 168, 160, 0.15);
+    padding: 12px 16px;
+  }
+  nav.top .nav-inner {
+    max-width: 960px; margin: 0 auto;
+    display: flex; flex-direction: column;
+    gap: 10px;
+  }
+  nav.top .brand-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  nav.top .brand {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700; font-size: clamp(1.3rem, 4vw, 1.7rem);
+    color: var(--mint-deep);
+    text-decoration: none;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  nav.top .brand img {
+    width: 44px; height: 44px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  nav.top .links {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 2px 4px;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+  nav.top .links::-webkit-scrollbar { display: none; }
+  nav.top a.link {
+    color: var(--mint-deep);
+    background: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1.5px solid var(--mint-soft);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  nav.top a.link:hover {
+    background: var(--mint-cream);
+    border-color: var(--mint);
+    transform: translateY(-1px);
+  }
+  nav.top a.link.active {
+    background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%);
+    color: white;
+    border-color: var(--mint-deep);
+    box-shadow: 0 4px 12px rgba(91, 168, 160, 0.3);
+  }
+  @media (min-width: 720px) {
+    nav.top .nav-inner {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    nav.top .links {
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+  }
+
+  /* ===== 페이지 헤더 ===== */
+  .page-header {
+    text-align: center;
+    padding: 50px 20px 20px;
+  }
+  .page-header .eyebrow {
+    font-family: 'Gaegu', cursive;
+    color: var(--mint-deep);
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+  }
+  .page-header h1 {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    margin-bottom: 12px;
+  }
+  .page-header p { color: var(--ink-soft); font-size: 1rem; }
+
+  main {
+    max-width: 800px; margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* ===== 액션 버튼 영역 ===== */
+  .action-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 24px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .action-btn.write {
+    background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%);
+    color: white;
+    box-shadow: 0 6px 20px rgba(91, 168, 160, 0.3);
+  }
+  .action-btn.write:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(91, 168, 160, 0.4);
+  }
+  .action-btn.kakao {
+    background: var(--kakao);
+    color: #3c1e1e;
+    box-shadow: 0 6px 20px rgba(254, 229, 0, 0.4);
+  }
+  .action-btn.kakao:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(254, 229, 0, 0.5);
+  }
+  .action-btn.refresh {
+    background: white;
+    color: var(--mint-deep);
+    border: 1.5px solid var(--mint-soft);
+  }
+  .action-btn.refresh:hover {
+    background: var(--mint-cream);
+    border-color: var(--mint);
+  }
+
+  /* ===== 단톡방 안내 (링크 없을 때) ===== */
+  .kakao-pending {
+    background: linear-gradient(135deg, #fff8e8 0%, #fff4d4 100%);
+    border: 2px dashed var(--gold);
+    border-radius: 14px;
+    padding: 14px 22px;
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    margin-bottom: 20px;
+  }
+  .kakao-pending strong { color: var(--mint-darker); }
+
+  /* ===== 로딩 ===== */
+  .loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--ink-soft);
+  }
+  .loading-spinner {
+    display: inline-block;
+    width: 36px; height: 36px;
+    border: 3px solid var(--mint-soft);
+    border-top-color: var(--mint-deep);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 14px;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* ===== 공지 목록 ===== */
+  .notice-section {
+    margin-bottom: 30px;
+  }
+  .section-label {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--ink);
+    margin-bottom: 14px;
+    padding-left: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label .count {
+    background: var(--mint-cream);
+    color: var(--mint-deep);
+    font-size: 0.75rem;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-weight: 700;
+  }
+
+  .notice-card {
+    background: white;
+    border-radius: 18px;
+    padding: 22px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 18px rgba(44, 62, 58, 0.05);
+    border: 1px solid rgba(127, 199, 190, 0.25);
+    transition: transform 0.2s ease;
+  }
+  .notice-card:hover { transform: translateY(-2px); }
+
+  .notice-card.urgent {
+    background: linear-gradient(135deg, #fff 0%, var(--urgent-soft) 100%);
+    border: 2px solid var(--urgent);
+    box-shadow: 0 6px 24px rgba(231, 76, 60, 0.15);
+  }
+
+  .notice-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .notice-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    flex-shrink: 0;
+  }
+  .notice-badge.urgent {
+    background: var(--urgent);
+    color: white;
+  }
+  .notice-badge.normal {
+    background: var(--mint-cream);
+    color: var(--mint-deep);
+  }
+  .notice-author {
+    font-size: 0.88rem;
+    color: var(--mint-deep);
+    font-weight: 600;
+  }
+  .notice-date {
+    font-size: 0.83rem;
+    color: var(--ink-soft);
+    margin-left: auto;
+  }
+
+  .notice-title {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--ink);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .notice-card.urgent .notice-title {
+    color: var(--urgent);
+  }
+
+  .notice-body {
+    color: var(--ink);
+    font-size: 0.96rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .notice-image {
+    margin-top: 14px;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    max-width: 100%;
+  }
+  .notice-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.2s ease;
+  }
+  .notice-image:hover img { transform: scale(1.02); }
+
+  /* ===== 빈 상태 ===== */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--ink-soft);
+    background: white;
+    border-radius: 16px;
+    border: 2px dashed var(--mint-soft);
+  }
+  .empty-state .icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+  }
+  .empty-state .text {
+    font-size: 1rem;
+  }
+  .empty-state .hint {
+    font-size: 0.88rem;
+    margin-top: 8px;
+    color: var(--ink-soft);
+    opacity: 0.8;
+  }
+
+  /* ===== 라이트박스 ===== */
+  .lightbox {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 12px;
+  }
+  .lightbox .close {
+    position: absolute;
+    top: 20px; right: 20px;
+    width: 44px; height: 44px;
+    background: white;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  /* ===== 돌아가기 ===== */
+  .back-row { text-align: center; margin-top: 30px; }
+  .back-btn {
+    display: inline-flex;
+    align-items: center; gap: 8px;
+    background: white;
+    color: var(--mint-deep);
+    border: 2px solid var(--mint);
+    padding: 12px 28px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+  }
+  .back-btn:hover { background: var(--mint-cream); transform: translateY(-2px); }
+
+  /* ===== 푸터 ===== */
+  footer .footer-logo {
+    max-width: 200px;
+    width: 60%;
+    height: auto;
+    margin: 0 auto 14px;
+    display: block;
+    opacity: 0.9;
+  }
+  footer {
+    text-align: center;
+    padding: 30px 20px 40px;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="nav-inner">
+    <div class="brand-row">
+      <a href="index.html" class="brand"><img src="images/logo.jpg" alt="행복한교회 로고"><span>행복한교회 수련회</span></a>
+    </div>
+    <div class="links">
+      <a class="link" href="index.html#video">영상</a>
+      <a class="link" href="index.html#info">안내</a>
+      <a class="link" href="schedule.html">일정</a>
+      <a class="link" href="info-hub.html">정보방</a>
+      <a class="link" href="location.html">오시는 길</a>
+      <a class="link" href="index.html#apply">참가신청</a>
+      <a class="link" href="organization.html">조직</a>
+      <a class="link active" href="notice.html">공지</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="eyebrow">Notice</div>
+  <h1>📢 공지사항</h1>
+  <p>수련회 관련 안내사항을 확인하세요</p>
+</header>
+
+<main>
+
+  <!-- 액션 버튼 -->
+  <div class="action-bar">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdHg38aGjB77ONOE7Z6ms-jRx92i6mGGiCy3b8jHY0ORND-0A/viewform"
+       target="_blank" rel="noopener" class="action-btn write">
+      ✏️ 공지 작성하기
+    </a>
+    <a href="#" target="_blank" rel="noopener" class="action-btn kakao" id="kakaoLink" style="display:none;">
+      💬 단톡방 입장
+    </a>
+    <button class="action-btn refresh" onclick="loadNotices(true)">
+      🔄 새로고침
+    </button>
+  </div>
+
+  <!-- 단톡방 안내 (링크 없을 때) -->
+  <div class="kakao-pending" id="kakaoPending">
+    💬 <strong>단톡방 링크는 추후 등록 예정입니다.</strong> 등록 후 위 메뉴에 자동으로 표시됩니다.
+  </div>
+
+  <!-- 로딩 -->
+  <div class="loading" id="loading">
+    <div class="loading-spinner"></div>
+    <div>공지사항을 불러오는 중...</div>
+  </div>
+
+  <!-- 공지 컨테이너 -->
+  <div id="noticeContainer" style="display: none;">
+    <!-- 긴급 공지 -->
+    <div class="notice-section" id="urgentSection" style="display: none;">
+      <div class="section-label">
+        🚨 긴급 공지
+        <span class="count" id="urgentCount">0</span>
+      </div>
+      <div id="urgentList"></div>
+    </div>
+
+    <!-- 일반 공지 -->
+    <div class="notice-section" id="normalSection">
+      <div class="section-label">
+        📌 일반 공지
+        <span class="count" id="normalCount">0</span>
+      </div>
+      <div id="normalList"></div>
+    </div>
+  </div>
+
+  <!-- 빈 상태 -->
+  <div class="empty-state" id="emptyState" style="display: none;">
+    <div class="icon">📭</div>
+    <div class="text">아직 등록된 공지가 없습니다</div>
+    <div class="hint">위의 "공지 작성하기" 버튼으로 첫 공지를 등록해보세요</div>
+  </div>
+
+  <div class="back-row">
+    <a href="index.html" class="back-btn">← 메인으로 돌아가기</a>
+  </div>
+
+</main>
+
+<!-- 라이트박스 -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<footer>
+  <img src="images/logo-wide.jpg" alt="행복한교회" class="footer-logo">
+  <div>대한예수교장로회 행복한교회 · 2026 전교인 여름 수련회</div>
+</footer>
+
+<script>
+  // ====================================================================
+  // 🔧 설정 — 카톡 단톡방 링크를 받으면 여기에 입력하세요
+  // ====================================================================
+  const KAKAO_LINK = ""; // 예: "https://open.kakao.com/o/abc123" 또는 일반 단톡방 초대 링크
+  // ====================================================================
+
+  // 구글시트 CSV 게시 URL
+  const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT4VmicMOroHRputh47wk-ZjO-PnJOECf907u0ybrjC_26dB7n-nuFjsVml0BMqmmT-M2pl8FmNsEId/pub?gid=0&single=true&output=csv";
+
+  // 카톡 링크 처리
+  if (KAKAO_LINK && KAKAO_LINK.trim() !== "") {
+    const kakaoBtn = document.getElementById("kakaoLink");
+    kakaoBtn.href = KAKAO_LINK;
+    kakaoBtn.style.display = "inline-flex";
+    document.getElementById("kakaoPending").style.display = "none";
+  }
+
+  // CSV 파싱 (큰따옴표·줄바꿈 처리)
+  function parseCSV(text) {
+    const rows = [];
+    let row = [];
+    let cell = "";
+    let inQuotes = false;
+    let i = 0;
+    while (i < text.length) {
+      const c = text[i];
+      const next = text[i + 1];
+      if (inQuotes) {
+        if (c === '"' && next === '"') { cell += '"'; i += 2; continue; }
+        if (c === '"') { inQuotes = false; i++; continue; }
+        cell += c; i++;
+      } else {
+        if (c === '"') { inQuotes = true; i++; continue; }
+        if (c === ',') { row.push(cell); cell = ""; i++; continue; }
+        if (c === '\r') { i++; continue; }
+        if (c === '\n') { row.push(cell); rows.push(row); row = []; cell = ""; i++; continue; }
+        cell += c; i++;
+      }
+    }
+    if (cell !== "" || row.length > 0) { row.push(cell); rows.push(row); }
+    return rows;
+  }
+
+  // 날짜 파싱
+  function parseDate(str) {
+    if (!str) return new Date(0);
+    const d = new Date(str);
+    if (!isNaN(d.getTime())) return d;
+    return new Date(0);
+  }
+
+  // 날짜 표시 형식
+  function formatDate(date) {
+    if (date.getTime() === 0) return "";
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMin = Math.floor(diffMs / 60000);
+    const diffHour = Math.floor(diffMs / 3600000);
+    const diffDay = Math.floor(diffMs / 86400000);
+
+    if (diffMin < 1) return "방금 전";
+    if (diffMin < 60) return diffMin + "분 전";
+    if (diffHour < 24) return diffHour + "시간 전";
+    if (diffDay < 7) return diffDay + "일 전";
+
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  }
+
+  // HTML 이스케이프
+  function escapeHtml(str) {
+    if (!str) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  // 공지 카드 HTML 생성
+  function renderNotice(notice) {
+    const isUrgent = notice.type === "긴급";
+    const badgeClass = isUrgent ? "urgent" : "normal";
+    const cardClass = isUrgent ? "urgent" : "";
+    const dateDisplay = formatDate(notice.date);
+
+    let imageHtml = "";
+    if (notice.imageUrl && notice.imageUrl.trim() !== "") {
+      const url = escapeHtml(notice.imageUrl.trim());
+      imageHtml = `
+        <div class="notice-image" onclick="openLightbox('${url}')">
+          <img src="${url}" alt="공지 이미지" loading="lazy" onerror="this.parentElement.style.display='none'">
+        </div>`;
+    }
+
+    return `
+      <div class="notice-card ${cardClass}">
+        <div class="notice-meta">
+          <span class="notice-badge ${badgeClass}">${isUrgent ? "🚨 긴급" : "📌 일반"}</span>
+          <span class="notice-author">${escapeHtml(notice.author)}</span>
+          <span class="notice-date">${dateDisplay}</span>
+        </div>
+        <div class="notice-title">${escapeHtml(notice.title)}</div>
+        <div class="notice-body">${escapeHtml(notice.body)}</div>
+        ${imageHtml}
+      </div>
+    `;
+  }
+
+  // 공지 불러오기
+  async function loadNotices(forceRefresh = false) {
+    const loading = document.getElementById("loading");
+    const container = document.getElementById("noticeContainer");
+    const emptyState = document.getElementById("emptyState");
+
+    loading.style.display = "block";
+    container.style.display = "none";
+    emptyState.style.display = "none";
+
+    try {
+      const url = SHEET_CSV_URL + (forceRefresh ? "&t=" + Date.now() : "");
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("시트를 불러올 수 없습니다.");
+      const csvText = await response.text();
+      const rows = parseCSV(csvText);
+
+      // 헤더 행 제거
+      if (rows.length === 0) throw new Error("데이터가 없습니다.");
+      const dataRows = rows.slice(1);
+
+      // 컬럼 순서: 날짜 | 종류 | 작성자 | 제목 | 내용 | 이미지URL | 표시여부
+      const notices = dataRows
+        .filter(row => row.length >= 7 && row[3] && row[3].trim() !== "") // 제목이 있는 행만
+        .filter(row => (row[6] || "").trim().toUpperCase() === "Y")        // 표시여부 Y만
+        .map(row => ({
+          date: parseDate(row[0]),
+          dateRaw: row[0],
+          type: (row[1] || "일반").trim(),
+          author: (row[2] || "").trim(),
+          title: (row[3] || "").trim(),
+          body: (row[4] || "").trim(),
+          imageUrl: (row[5] || "").trim(),
+        }))
+        .sort((a, b) => b.date - a.date); // 최신순
+
+      loading.style.display = "none";
+
+      if (notices.length === 0) {
+        emptyState.style.display = "block";
+        return;
+      }
+
+      // 긴급 / 일반 분리
+      const urgent = notices.filter(n => n.type === "긴급");
+      const normal = notices.filter(n => n.type !== "긴급");
+
+      const urgentSection = document.getElementById("urgentSection");
+      const normalSection = document.getElementById("normalSection");
+
+      if (urgent.length > 0) {
+        document.getElementById("urgentList").innerHTML = urgent.map(renderNotice).join("");
+        document.getElementById("urgentCount").textContent = urgent.length;
+        urgentSection.style.display = "block";
+      } else {
+        urgentSection.style.display = "none";
+      }
+
+      if (normal.length > 0) {
+        document.getElementById("normalList").innerHTML = normal.map(renderNotice).join("");
+        document.getElementById("normalCount").textContent = normal.length;
+        normalSection.style.display = "block";
+      } else {
+        normalSection.style.display = "none";
+      }
+
+      container.style.display = "block";
+    } catch (err) {
+      console.error(err);
+      loading.style.display = "none";
+      emptyState.style.display = "block";
+      document.querySelector("#emptyState .text").textContent = "공지사항을 불러올 수 없습니다";
+      document.querySelector("#emptyState .hint").textContent = "잠시 후 새로고침해 주세요";
+    }
+  }
+
+  // 라이트박스
+  function openLightbox(src) {
+    document.getElementById("lightboxImg").src = src;
+    document.getElementById("lightbox").classList.add("active");
+  }
+  function closeLightbox() {
+    document.getElementById("lightbox").classList.remove("active");
+  }
+
+  // 페이지 로드 시 자동 실행
+  loadNotices();
+
+  // 30초마다 자동 새로고침 (선택적 - 너무 자주면 부담되니 1분으로)
+  setInterval(() => loadNotices(true), 60000);
+</script>
+
+</body>
+</html>
