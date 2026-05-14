@@ -538,6 +538,108 @@
     border-color: var(--mint);
   }
 
+  /* ===== D-Day 카운트다운 ===== */
+  .dday-section {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 20px 20px 0;
+    text-align: center;
+  }
+  .dday-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  @media (min-width: 600px) {
+    .dday-row {
+      flex-direction: row;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+  }
+  .dday-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 26px;
+    border-radius: 999px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(91, 168, 160, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  .dday-badge.retreat {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--mint-deep) 100%);
+  }
+  .dday-badge.signup {
+    background: linear-gradient(135deg, var(--mint) 0%, var(--leaf) 100%);
+    box-shadow: 0 10px 30px rgba(139, 194, 138, 0.3);
+  }
+  .dday-badge.urgent {
+    background: linear-gradient(135deg, #e74c3c 0%, var(--gold) 100%);
+    box-shadow: 0 10px 30px rgba(231, 76, 60, 0.35);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+  }
+  .dday-badge::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -20%;
+    width: 60%; height: 200%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+    transform: rotate(25deg);
+    animation: shine 4s ease-in-out infinite;
+  }
+  @keyframes shine {
+    0%, 100% { transform: translateX(-100%) rotate(25deg); }
+    50% { transform: translateX(300%) rotate(25deg); }
+  }
+  .dday-emoji {
+    font-size: 1.4rem;
+    position: relative;
+    z-index: 1;
+  }
+  .dday-label {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    opacity: 0.95;
+    position: relative;
+    z-index: 1;
+  }
+  .dday-count {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    font-size: clamp(1.3rem, 4vw, 1.7rem);
+    letter-spacing: 0.02em;
+    position: relative;
+    z-index: 1;
+  }
+  .dday-count .num {
+    font-size: 1.2em;
+    margin: 0 3px;
+  }
+  .dday-badge.dday-zero {
+    background: linear-gradient(135deg, #e74c3c 0%, var(--gold) 100%);
+  }
+  .dday-badge.dday-past {
+    background: linear-gradient(135deg, var(--leaf) 0%, var(--mint-deep) 100%);
+    opacity: 0.85;
+  }
+  @media (max-width: 500px) {
+    .dday-badge {
+      padding: 12px 20px;
+      gap: 10px;
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
   /* ===== 비디오 섹션 (슬라이더) ===== */
   .video-section {
     max-width: 920px;
@@ -843,6 +945,22 @@
   </div>
 </header>
 
+<!-- D-Day 카운트다운 -->
+<div class="dday-section">
+  <div class="dday-row">
+    <div class="dday-badge signup" id="signupBadge">
+      <span class="dday-emoji">📝</span>
+      <span class="dday-label">접수마감까지</span>
+      <span class="dday-count" id="signupCount">D-???</span>
+    </div>
+    <div class="dday-badge retreat" id="ddayBadge">
+      <span class="dday-emoji">⏰</span>
+      <span class="dday-label">수련회까지</span>
+      <span class="dday-count" id="ddayCount">D-???</span>
+    </div>
+  </div>
+</div>
+
 <!-- 홍보 영상 -->
 <section id="video" class="video-section fade-in">
   <p class="section-eyebrow">Trailer</p>
@@ -1089,6 +1207,77 @@
 </footer>
 
 <script>
+  // D-Day 카운트다운 (수련회 + 접수마감)
+  function updateDday() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // 1) 수련회 카운트다운 (2026년 7월 31일)
+    const retreatDate = new Date(2026, 6, 31);
+    retreatDate.setHours(0, 0, 0, 0);
+    const retreatDiff = Math.round((retreatDate - today) / (1000 * 60 * 60 * 24));
+
+    const retreatBadge = document.getElementById('ddayBadge');
+    const retreatCount = document.getElementById('ddayCount');
+
+    if (retreatDiff > 0) {
+      retreatCount.innerHTML = 'D<span class="num">-' + retreatDiff + '</span>';
+      retreatBadge.classList.remove('dday-zero', 'dday-past');
+    } else if (retreatDiff === 0) {
+      retreatCount.innerHTML = '<span class="num">D-DAY!</span> 🎉';
+      retreatBadge.classList.add('dday-zero');
+      retreatBadge.querySelector('.dday-label').textContent = '드디어 오늘!';
+    } else if (retreatDiff >= -2) {
+      retreatCount.innerHTML = '<span class="num">' + (-retreatDiff + 1) + '일차</span> 진행중';
+      retreatBadge.classList.add('dday-zero');
+      retreatBadge.querySelector('.dday-label').textContent = '수련회';
+    } else {
+      retreatCount.innerHTML = '함께한 은혜 ✨';
+      retreatBadge.classList.add('dday-past');
+      retreatBadge.querySelector('.dday-label').textContent = '2026 수련회';
+    }
+
+    // 2) 접수마감 카운트다운 (2026년 6월 14일)
+    const signupDate = new Date(2026, 5, 14);
+    signupDate.setHours(0, 0, 0, 0);
+    const signupDiff = Math.round((signupDate - today) / (1000 * 60 * 60 * 24));
+
+    const signupBadge = document.getElementById('signupBadge');
+    const signupCount = document.getElementById('signupCount');
+    const signupStart = new Date(2026, 4, 17); // 5월 17일 신청 시작
+    signupStart.setHours(0, 0, 0, 0);
+    const startDiff = Math.round((signupStart - today) / (1000 * 60 * 60 * 24));
+
+    if (startDiff > 0) {
+      // 아직 신청 시작 전
+      signupCount.innerHTML = 'D<span class="num">-' + startDiff + '</span>';
+      signupBadge.querySelector('.dday-label').textContent = '신청시작까지';
+      signupBadge.classList.remove('urgent', 'dday-past');
+    } else if (signupDiff > 7) {
+      // 신청 진행 중 (마감 8일 이상 남음)
+      signupCount.innerHTML = 'D<span class="num">-' + signupDiff + '</span>';
+      signupBadge.querySelector('.dday-label').textContent = '접수마감까지';
+      signupBadge.classList.remove('urgent', 'dday-past');
+    } else if (signupDiff > 0) {
+      // 마감 임박 (7일 이내)
+      signupCount.innerHTML = 'D<span class="num">-' + signupDiff + '</span>';
+      signupBadge.querySelector('.dday-label').textContent = '⚡ 접수마감 임박!';
+      signupBadge.classList.add('urgent');
+    } else if (signupDiff === 0) {
+      // 마감 당일
+      signupCount.innerHTML = '<span class="num">오늘 마감!</span> ⚡';
+      signupBadge.querySelector('.dday-label').textContent = '접수';
+      signupBadge.classList.add('urgent');
+    } else {
+      // 신청 마감됨
+      signupCount.innerHTML = '마감되었습니다';
+      signupBadge.querySelector('.dday-label').textContent = '접수';
+      signupBadge.classList.add('dday-past');
+      signupBadge.classList.remove('urgent');
+    }
+  }
+  updateDday();
+
   // 계좌번호 복사
   function copyAccount() {
     const text = '농협 351-1246-5847-53 (예금주: 대한예수교장로회 행복한교회)';
