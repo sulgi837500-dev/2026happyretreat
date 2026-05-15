@@ -402,6 +402,96 @@
   .option .name { font-weight: 600; color: var(--ink); }
   .option .sub { font-size: 0.85rem; color: var(--ink-soft); margin-top: 4px; }
 
+  /* ===== 이동수단 옵션 - 클릭 가능 표시 ===== */
+  .option.clickable-tip {
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+  }
+  .option.clickable-tip:active {
+    transform: scale(0.97);
+  }
+
+  /* ===== 토스트 말풍선 ===== */
+  .toast-bubble {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: linear-gradient(135deg, var(--mint-deep) 0%, var(--mint) 100%);
+    color: white;
+    padding: 18px 28px;
+    border-radius: 20px;
+    box-shadow: 0 15px 45px rgba(91, 168, 160, 0.45);
+    font-size: 1rem;
+    font-weight: 600;
+    max-width: 90%;
+    width: max-content;
+    text-align: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    line-height: 1.5;
+  }
+  .toast-bubble.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .toast-bubble.car {
+    background: linear-gradient(135deg, var(--gold) 0%, #d99853 100%);
+    box-shadow: 0 15px 45px rgba(232, 183, 102, 0.5);
+  }
+  .toast-bubble.bus {
+    background: linear-gradient(135deg, var(--mint-deep) 0%, var(--leaf) 100%);
+    box-shadow: 0 15px 45px rgba(91, 168, 160, 0.45);
+  }
+  .toast-bubble .emoji {
+    font-size: 1.5rem;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .toast-bubble .main-text {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .toast-bubble .sub-text {
+    font-size: 0.9rem;
+    opacity: 0.95;
+    font-weight: 400;
+  }
+  /* 말풍선 꼬리 */
+  .toast-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 12px solid var(--mint-deep);
+  }
+  .toast-bubble.car::before {
+    border-top-color: var(--gold);
+  }
+  .toast-bubble.bus::before {
+    border-top-color: var(--leaf);
+  }
+  /* 살짝 흔들리는 애니메이션 */
+  @keyframes wobble {
+    0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+    25% { transform: translateX(-50%) translateY(-3px) rotate(-1deg); }
+    75% { transform: translateX(-50%) translateY(-3px) rotate(1deg); }
+  }
+  .toast-bubble.show {
+    animation: wobble 1.5s ease-in-out;
+  }
+
   /* ===== 계좌 ===== */
   .account-box {
     background: white;
@@ -1111,11 +1201,11 @@
 
   <h3 style="font-family: 'Gowun Batang', serif; font-size: 1.3rem; margin-top: 40px; margin-bottom: 12px; color: var(--ink);">🚌 이동 수단</h3>
   <div class="options-grid" style="grid-template-columns: repeat(2, 1fr);">
-    <div class="option">
+    <div class="option clickable-tip" onclick="showTip('car')">
       <span class="emoji">🚗</span>
       <div class="name">자차 이용</div>
     </div>
-    <div class="option">
+    <div class="option clickable-tip" onclick="showTip('bus')">
       <span class="emoji">🚌</span>
       <div class="name">교회 버스</div>
     </div>
@@ -1149,6 +1239,13 @@
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <button class="close" onclick="closeLightbox()">✕</button>
   <img id="lightboxImg" src="" alt="">
+</div>
+
+<!-- 이동수단 토스트 말풍선 -->
+<div class="toast-bubble" id="toastBubble">
+  <span class="emoji" id="toastEmoji"></span>
+  <span class="main-text" id="toastMain"></span>
+  <span class="sub-text" id="toastSub"></span>
 </div>
 
 <!-- 참가 신청 -->
@@ -1277,6 +1374,42 @@
     }
   }
   updateDday();
+
+  // 이동수단 토스트 말풍선
+  let toastTimer = null;
+  function showTip(type) {
+    const bubble = document.getElementById('toastBubble');
+    const emoji = document.getElementById('toastEmoji');
+    const main = document.getElementById('toastMain');
+    const sub = document.getElementById('toastSub');
+    
+    bubble.classList.remove('car', 'bus', 'show');
+    
+    if (type === 'car') {
+      bubble.classList.add('car');
+      emoji.textContent = '🚗';
+      main.textContent = '안전운전 하세요!';
+      sub.textContent = '목적지: 국립횡성숲체원';
+    } else if (type === 'bus') {
+      bubble.classList.add('bus');
+      emoji.textContent = '🚌';
+      main.textContent = '7시 30분까지 교회 앞으로!';
+      sub.textContent = '늦지 않게 모여주세요 😊';
+    }
+    
+    // 살짝 딜레이 후 표시 (애니메이션 재시작용)
+    setTimeout(() => {
+      bubble.classList.add('show');
+    }, 10);
+    
+    // 이전 타이머 취소
+    if (toastTimer) clearTimeout(toastTimer);
+    
+    // 3초 후 사라짐
+    toastTimer = setTimeout(() => {
+      bubble.classList.remove('show');
+    }, 3000);
+  }
 
   // 계좌번호 복사
   function copyAccount() {
