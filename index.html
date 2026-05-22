@@ -1012,10 +1012,10 @@
 <!-- 히어로 -->
 <header class="hero">
   <div class="sun"></div>
-  <div class="eyebrow">2026 행복한교회 전교인 수련회</div>
-  <h1>
-    다시 함께,<br>
-    다시 <span class="accent">은혜</span>
+  <div class="eyebrow">2026 행복한교회 전교인 수련회 · 주제</div>
+  <h1 style="font-size: clamp(1.6rem, 5.2vw, 2.8rem); line-height: 1.5;">
+    하나님이 <span class="accent">기뻐하시는</span> 교회,<br>
+    하나님이 <span class="accent">찾으시는</span> 성도
   </h1>
   <p class="lead">
     푸른 숲, 시원한 바람, 그리고 사랑하는 성도님들과 함께.<br>
@@ -1050,6 +1050,109 @@
     </div>
   </div>
 </div>
+
+<!-- ===== 3일간의 말씀 ===== -->
+<style>
+  .word-sub {
+    font-family: 'Gaegu', cursive;
+    text-align: center;
+    color: var(--mint-deep);
+    font-size: 1.05rem;
+    margin: -22px 0 30px;
+  }
+  .word-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 18px;
+  }
+  .word-card {
+    background: white;
+    border-radius: 18px;
+    border-top: 5px solid var(--mint-deep);
+    box-shadow: 0 6px 20px rgba(44, 62, 58, 0.06);
+    padding: 24px 22px 26px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .word-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(44, 62, 58, 0.1);
+  }
+  .word-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .word-card .word-day {
+    background: var(--mint-deep);
+    color: white;
+    font-family: 'Gaegu', cursive;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+  }
+  .word-card .word-date {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  .word-card .word-ref {
+    display: inline-block;
+    background: var(--gold-soft);
+    color: #8a5a14;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 5px 14px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+  }
+  .word-card .word-title {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    font-size: 1.12rem;
+    line-height: 1.5;
+    color: var(--ink);
+    margin: 0;
+    word-break: keep-all;
+  }
+</style>
+
+<section id="message" class="fade-in">
+  <p class="section-eyebrow">Message</p>
+  <h2 class="section-title">📖 3일간의 말씀</h2>
+  <p class="word-sub">요한계시록, 일곱 교회를 향한 말씀</p>
+
+  <div class="word-grid">
+    <div class="word-card">
+      <div class="word-card-top">
+        <span class="word-day">DAY 1</span>
+        <span class="word-date">7.31 (금)</span>
+      </div>
+      <span class="word-ref">계 2:8–11</span>
+      <p class="word-title">고난을 두려워하지 않고 충성하는 교회</p>
+    </div>
+
+    <div class="word-card">
+      <div class="word-card-top">
+        <span class="word-day">DAY 2</span>
+        <span class="word-date">8.1 (토)</span>
+      </div>
+      <span class="word-ref">계 3:1–6</span>
+      <p class="word-title">그 남은 바 죽게 된 것을 굳게 하는 교회</p>
+    </div>
+
+    <div class="word-card">
+      <div class="word-card-top">
+        <span class="word-day">DAY 3</span>
+        <span class="word-date">8.2 (주일)</span>
+      </div>
+      <span class="word-ref">계 3:7–13</span>
+      <p class="word-title">작은 능력을 가지고도 주의 이름을 배반하지 않는 교회</p>
+    </div>
+  </div>
+</section>
 
 <!-- 홍보 영상 -->
 <section id="video" class="video-section fade-in">
