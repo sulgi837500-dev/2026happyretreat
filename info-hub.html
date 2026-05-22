@@ -16,6 +16,7 @@
     --mint-soft: #d8ede9; --mint-cream: #ecf6f4;
     --gold: #e8b766; --gold-soft: #f4d9a8;
     --leaf: #8bc28a; --sky: #8ecae6;
+    --violet: #a48ecb;
     --ink: #2c3e3a; --ink-soft: #5a6c68;
     --paper: #fbfaf6;
   }
@@ -29,7 +30,8 @@
       radial-gradient(ellipse at top right, rgba(232, 183, 102, 0.12), transparent 50%);
     background-attachment: fixed;
   }
-/* ===== 상단 네비게이션 ===== */
+
+  /* ===== 상단 네비게이션 ===== */
   nav.top {
     position: sticky; top: 0; z-index: 100;
     background: rgba(251, 250, 246, 0.92);
@@ -130,7 +132,7 @@
     padding: 0 20px 60px;
   }
 
-  /* 카드 그리드 */
+  /* ===== 카드 그리드 ===== */
   .hub-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -177,10 +179,13 @@
     margin-bottom: 16px;
     position: relative;
   }
-  .hub-card.lyrics .icon-box { background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%); }
-  .hub-card.bible .icon-box { background: linear-gradient(135deg, var(--gold) 0%, #d49a3f 100%); }
-  .hub-card.bus .icon-box { background: linear-gradient(135deg, var(--leaf) 0%, var(--mint-deep) 100%); }
-  .hub-card.maps .icon-box { background: linear-gradient(135deg, var(--sky) 0%, var(--mint) 100%); }
+
+  /* 카드 색상별 아이콘 */
+  .hub-card.sermon .icon-box  { background: linear-gradient(135deg, #a48ecb 0%, #7a5fad 100%); }
+  .hub-card.lyrics .icon-box  { background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%); }
+  .hub-card.bible .icon-box   { background: linear-gradient(135deg, var(--gold) 0%, #d49a3f 100%); }
+  .hub-card.bus .icon-box     { background: linear-gradient(135deg, var(--leaf) 0%, var(--mint-deep) 100%); }
+  .hub-card.maps .icon-box    { background: linear-gradient(135deg, var(--sky) 0%, var(--mint) 100%); }
 
   .hub-card .title {
     font-family: 'Gowun Batang', serif;
@@ -204,6 +209,8 @@
     font-size: 0.95rem;
     position: relative;
   }
+  .hub-card.sermon .arrow { color: #7a5fad; }
+
   .hub-card .arrow::after {
     content: ' →';
     transition: margin-left 0.2s ease;
@@ -211,7 +218,7 @@
   }
   .hub-card:hover .arrow::after { margin-left: 4px; }
 
-  /* 돌아가기 */
+  /* ===== 돌아가기 ===== */
   .back-row {
     text-align: center;
     margin-top: 40px;
@@ -247,9 +254,6 @@
     color: var(--ink-soft);
     font-size: 0.9rem;
   }
-
-  @media (max-width: 600px) {
-  }
 </style>
 </head>
 <body>
@@ -280,6 +284,15 @@
 <main>
   <div class="hub-grid">
 
+    <!-- 설교 본문 말씀 (신규) -->
+    <a href="sermon.html" class="hub-card sermon">
+      <div class="icon-box">📖</div>
+      <div class="title">설교 본문 말씀</div>
+      <div class="desc">수련회 3일간의 설교 본문 말씀을 날짜별로 확인하세요</div>
+      <div class="arrow">말씀 보러 가기</div>
+    </a>
+
+    <!-- 찬양 가사 -->
     <a href="lyrics.html" class="hub-card lyrics">
       <div class="icon-box">🎵</div>
       <div class="title">찬양 가사 모음</div>
@@ -287,13 +300,15 @@
       <div class="arrow">가사 보러 가기</div>
     </a>
 
+    <!-- 성경 읽기 -->
     <a href="https://www.bible.com/ko/bible/197/JHN.4.NKRV" target="_blank" rel="noopener" class="hub-card bible">
-      <div class="icon-box">📖</div>
+      <div class="icon-box">📕</div>
       <div class="title">성경 읽기</div>
       <div class="desc">성경 한국어 NKRV 등 무료 성경 읽기 사이트로 바로 연결돼요</div>
       <div class="arrow">성경 읽으러 가기</div>
     </a>
 
+    <!-- 버스 배차표 -->
     <a href="bus.html" class="hub-card bus">
       <div class="icon-box">🚌</div>
       <div class="title">버스 배차표</div>
@@ -301,8 +316,9 @@
       <div class="arrow">배차표 보기</div>
     </a>
 
+    <!-- 장소 안내도 -->
     <a href="maps.html" class="hub-card maps">
-      <div class="icon-box">🗺️</div>
+      <div class="icon-box">🗺</div>
       <div class="title">장소 안내도</div>
       <div class="desc">숲체원과 수련회 장소들의 지도와 시설 안내</div>
       <div class="arrow">안내도 보기</div>
