@@ -150,6 +150,31 @@
   }
   .search-input:focus { border-color: var(--mint); }
 
+  /* ===== DAY 섹션 ===== */
+  .day-section { margin-bottom: 34px; }
+  .day-banner {
+    display: flex; align-items: center; gap: 12px;
+    margin: 6px 2px 16px;
+    padding: 13px 20px;
+    background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%);
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(91, 168, 160, 0.22);
+  }
+  .day-banner .day-num {
+    font-family: 'Gowun Batang', serif; font-weight: 700;
+    color: white; font-size: 1.25rem; letter-spacing: 0.5px;
+  }
+  .day-banner .day-label {
+    color: rgba(255, 255, 255, 0.92); font-size: 1rem;
+    font-family: 'Gaegu', cursive;
+  }
+  .day-banner .day-count {
+    margin-left: auto; color: white; font-size: 0.82rem;
+    background: rgba(255, 255, 255, 0.22);
+    padding: 3px 12px; border-radius: 999px;
+    white-space: nowrap;
+  }
+
   /* 찬양 카드 */
   .song-card {
     background: white;
@@ -163,10 +188,10 @@
   .song-card.open { box-shadow: 0 10px 30px rgba(91, 168, 160, 0.15); }
 
   .song-header {
-    padding: 18px 22px;
+    padding: 16px 18px;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
     cursor: pointer;
     user-select: none;
     transition: background 0.2s ease;
@@ -174,10 +199,11 @@
   .song-header:hover { background: var(--mint-cream); }
   .song-card.open .song-header { background: var(--mint-cream); }
 
-  .song-num {
+  /* 키(Key) 뱃지 */
+  .song-key {
     flex-shrink: 0;
-    width: 36px; height: 36px;
-    background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%);
+    min-width: 44px; height: 38px; padding: 0 9px;
+    background: linear-gradient(135deg, var(--gold) 0%, #d9a24f 100%);
     color: white;
     border-radius: 10px;
     display: flex;
@@ -185,7 +211,8 @@
     justify-content: center;
     font-family: 'Gowun Batang', serif;
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
+    box-shadow: 0 3px 8px rgba(217, 162, 79, 0.3);
   }
   .song-info { flex: 1; min-width: 0; }
   .song-title {
@@ -194,30 +221,77 @@
     color: var(--ink);
     font-size: 1.05rem;
     margin-bottom: 2px;
+    line-height: 1.4;
   }
-  .song-meta {
-    font-size: 0.83rem;
+  .song-title .medley-note {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    font-size: 0.82rem;
     color: var(--ink-soft);
   }
-  .song-toggle {
-    color: var(--mint-deep);
-    font-size: 1.2rem;
-    transition: transform 0.2s ease;
-    flex-shrink: 0;
+  .song-meta {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
   }
-  .song-card.open .song-toggle { transform: rotate(180deg); }
+
+  /* 가사 열기 (아코디언) 버튼 */
+  .song-toggle {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--mint-cream);
+    color: var(--mint-deep);
+    border: 1.5px solid var(--mint-soft);
+    border-radius: 999px;
+    padding: 6px 13px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1;
+    transition: all 0.2s ease;
+  }
+  .song-header:hover .song-toggle { background: white; border-color: var(--mint); }
+  .song-toggle .chev {
+    display: inline-flex;
+    transition: transform 0.25s ease;
+  }
+  .song-toggle .chev svg { display: block; }
+  .song-card.open .song-toggle {
+    background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%);
+    color: white;
+    border-color: var(--mint-deep);
+    box-shadow: 0 3px 10px rgba(91, 168, 160, 0.28);
+  }
+  .song-card.open .song-toggle .chev { transform: rotate(180deg); }
+
+  /* 유튜브 재생 버튼 */
+  .yt-btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px; height: 33px;
+    background: linear-gradient(180deg, #ff5049 0%, #e60000 100%);
+    border: none;
+    border-radius: 9px;
+    text-decoration: none;
+    box-shadow: 0 3px 8px rgba(230, 0, 0, 0.28);
+    transition: all 0.2s ease;
+  }
+  .yt-btn svg { display: block; }
+  .yt-btn:hover { transform: translateY(-1px) scale(1.04); box-shadow: 0 5px 13px rgba(230, 0, 0, 0.36); }
 
   .song-body {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease;
+    transition: max-height 0.4s ease;
   }
-  .song-card.open .song-body { max-height: 2000px; }
+  .song-card.open .song-body { max-height: 4000px; }
 
   .lyrics {
     padding: 0 22px 22px;
     font-size: 1rem;
-    line-height: 1.9;
+    line-height: 1.95;
     color: var(--ink);
     white-space: pre-line;
     border-top: 1px dashed var(--mint-soft);
@@ -227,7 +301,7 @@
     color: var(--mint-deep);
     font-weight: 700;
     font-size: 0.85rem;
-    margin-top: 12px;
+    margin-top: 16px;
     margin-bottom: 4px;
     display: block;
   }
@@ -253,25 +327,6 @@
     font-weight: 600;
   }
   .font-btn:hover { background: var(--mint-soft); }
-
-  /* 추가 안내 */
-  .add-help {
-    background: linear-gradient(135deg, var(--mint-cream) 0%, white 100%);
-    border-radius: 14px;
-    padding: 18px 22px;
-    margin-top: 24px;
-    border-left: 4px solid var(--mint);
-    font-size: 0.92rem;
-    color: var(--ink-soft);
-  }
-  .add-help strong { color: var(--mint-deep); }
-  .add-help code {
-    background: white;
-    padding: 2px 6px;
-    border-radius: 4px;
-    color: var(--mint-darker);
-    font-size: 0.85rem;
-  }
 
   .empty-state {
     text-align: center;
@@ -312,9 +367,6 @@
     color: var(--ink-soft);
     font-size: 0.9rem;
   }
-
-  @media (max-width: 600px) {
-  }
 </style>
 </head>
 <body>
@@ -339,7 +391,7 @@
 <header class="page-header">
   <div class="eyebrow">Worship</div>
   <h1>🎵 찬양 가사 모음</h1>
-  <p>마음 다해 함께 부르는 찬양</p>
+  <p>마음 다해 함께 부르는 찬양 · 금색 뱃지는 연주 키(Key)예요</p>
 </header>
 
 <main>
@@ -350,135 +402,431 @@
 
   <div id="songList">
 
-    <!-- 찬양 1 -->
-    <div class="song-card">
-      <div class="song-header" onclick="toggleSong(this)">
-        <div class="song-num">01</div>
-        <div class="song-info">
-          <div class="song-title">주 사랑이 나를 숨쉬게 해</div>
-          <div class="song-meta">CCM · 4분 30초</div>
-        </div>
-        <div class="song-toggle">▼</div>
+    <!-- ===================== DAY 1 ===================== -->
+    <div class="day-section">
+      <div class="day-banner">
+        <span class="day-num">DAY 1</span>
+        <span class="day-label">첫째 날</span>
+        <span class="day-count">5곡</span>
       </div>
-      <div class="song-body">
-        <div class="font-control">
-          <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
-          <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+
+      <!-- 1-1 -->
+      <div class="song-card">
+        <div class="song-header" onclick="toggleSong(this)">
+          <div class="song-key">A</div>
+          <div class="song-info">
+            <div class="song-title">예수 나의 치료자 <span class="medley-note">+ 주님은 내 호흡 + 주께 가까이 날 이끄소서</span></div>
+            <div class="song-meta">DAY 1 · 1번곡 · 메들리 3곡</div>
+          </div>
+          <div class="song-toggle"><span class="toggle-text">가사</span><span class="chev"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <a class="yt-btn" href="https://youtu.be/kf1cNKAeeVc" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="유튜브에서 듣기"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></a>
         </div>
-        <div class="lyrics">
-<span class="verse-label">[Verse 1]</span>
-주 사랑이 나를 숨 쉬게 해 
-세상 그 어떤 어려움 속에도
-주 은혜로 나를 돌보시며 
-세상 끝날까지 지켜주시네
-주 사랑이 나를 이끄시네 
-내가 갈 수 없는 그곳으로
-주의 사랑 나를 붙드시며 
-세상 끝날까지 인도하시네
+        <div class="song-body">
+          <div class="font-control">
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+          </div>
+          <div class="lyrics"><span class="verse-label">[예수 나의 치료자]</span>
+예수 나의 좋은 치료자 그의 눈이 머무는 곳은
+나의 슬픔과 고통 고개 들어 그의 눈을 볼 때에 난 알았네
+예수 나의 좋은 치료자 그의 손길이 닿는 곳은
+나의 상처와 아픔 영원히 흐를 것 같았던 눈물 다 멎었네
+예수 나의 치료자 나 노래하리라 천한 나를 돌아보신 구세주를 찬양해
+하늘 닿는 곳까지 내 손 들리라 예수 나의 치료자
 
-<span class="verse-label">[Chorus]</span>
-주님만이 내 아픔 아시며 
-주님만이 내 맘 어루만지네
-어느 누구도 나를 향하신 
-주님의 사랑을 끊을 수 없네
-주님만이 내 능력이시며 
-주님 만이 나의 구원이시네
-어느 누구도 나를 향하신 
-주님의 사랑을 끊을 수 없네
+<span class="verse-label">[주님은 내 호흡]</span>
+주님은 내 호흡 내 안에 성령 살아계셔
+말씀은 내 양식 생명의 말씀 나를 치네
+오 나의 예수 난 갈망해요 오 주 없이 난 살 수 없네
 
+<span class="verse-label">[주께 가까이 날 이끄소서]</span>
+목마른 나의 영혼 주를 부르니 나의 맘 만져 주소서
+주님만을 원합니다 더 원합니다 나의 맘 만져 주소서
+주께 가까이 날 이끄소서 간절히 주님만을 원합니다
+채워 주소서 주의 사랑을 진정한 찬양 드릴 수 있도록</div>
         </div>
       </div>
+
+      <!-- 1-2 -->
+      <div class="song-card">
+        <div class="song-header" onclick="toggleSong(this)">
+          <div class="song-key">E</div>
+          <div class="song-info">
+            <div class="song-title">내가 어둠 속에서</div>
+            <div class="song-meta">DAY 1 · 2번곡</div>
+          </div>
+          <div class="song-toggle"><span class="toggle-text">가사</span><span class="chev"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <a class="yt-btn" href="https://youtu.be/hy-FXBSsHYw" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="유튜브에서 듣기"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></a>
+        </div>
+        <div class="song-body">
+          <div class="font-control">
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+          </div>
+          <div class="lyrics">내가 어둠 속에서 헤맬 때에도 주님은 함께 계셔
+내가 시험 당하여 괴로울 때도 주님은 함께 계셔
+기뻐 찬양하네 할렐루야 내 영혼 주를 찬양하네
+기뻐 찬양하네 할렐루야 내 영혼 주를 찬양하네</div>
+        </div>
+      </div>
+
+      <!-- 1-3 -->
+      <div class="song-card">
+        <div class="song-header" onclick="toggleSong(this)">
+          <div class="song-key">A</div>
+          <div class="song-info">
+            <div class="song-title">전능하신 나의 주 하나님은</div>
+            <div class="song-meta">DAY 1 · 3번곡</div>
+          </div>
+          <div class="song-toggle"><span class="toggle-text">가사</span><span class="chev"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <a class="yt-btn" href="https://youtu.be/ACQS5dWTYWo" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="유튜브에서 듣기"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></a>
+        </div>
+        <div class="song-body">
+          <div class="font-control">
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+          </div>
+          <div class="lyrics">전능하신 나의 주 하나님은 능치 못하실 일 전혀 없네
+우리의 모든 간구도 우리의 모든 생각도
+우리의 모든 꿈과 모든 소망도 신실하신 나의 주 하나님은
+우리의 모든 괴로움 바꿀 수 있네
+불가능한 일 행하시고 죽은 자를 일으키시니 그를 이길 자 아무도 없네
+주의 말씀 의지하여 깊은 곳에 그물 던져
+오늘 그가 놀라운 일을 이루시는 것 보라
+주의 말씀 의지하여 믿음으로 그물 던져 믿는 자에게 능치 못함 없네</div>
+        </div>
+      </div>
+
+      <!-- 1-4 -->
+      <div class="song-card">
+        <div class="song-header" onclick="toggleSong(this)">
+          <div class="song-key">A</div>
+          <div class="song-info">
+            <div class="song-title">두려워 말라 <span class="medley-note">+ 물 가운데 지날 때에도 + 아무것도 두려워 말라</span></div>
+            <div class="song-meta">DAY 1 · 4번곡 · 메들리 3곡</div>
+          </div>
+          <div class="song-toggle"><span class="toggle-text">가사</span><span class="chev"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <a class="yt-btn" href="https://youtu.be/dvx6wF8A4Ds" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="유튜브에서 듣기"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></a>
+        </div>
+        <div class="song-body">
+          <div class="font-control">
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+          </div>
+          <div class="lyrics"><span class="verse-label">[두려워 말라]</span>
+두려워 말라 너와 함께 함이니 놀라지 말라 나는 네 하나님 됨이니
+무서워 말라 내가 널 도와주리니 너는 마음에 염려치 말라
+내가 너를 굳세게 하리라 내 손으로 너를 꼭 붙잡아 주리라
+내가 너를 의롭게 함이니 너는 마음에 염려치 말라
+
+<span class="verse-label">[물 가운데 지날 때에도]</span>
+물 가운데 지날 때에도 침몰치 않으며
+불 가운데 행할 때에도 너를 사르지 못하게 하시리
+너를 지명하여 부르신 하나님 큰 사랑
+너를 구속하여 살리신 하나님 내게 말씀하시네
+두려워 말라 놀라지도 말라 내가 어딜 가든지 무슨 일 만나든지 내가 함께 하리라
+
+<span class="verse-label">[아무것도 두려워 말라]</span>
+아무것도 두려워 말라 주 나의 하나님이 지켜주시네
+놀라지 마라 겁내지 마라 주님 나를 지켜주시네
+내 맘이 힘에 겨워 지칠지라도 주님 나를 지켜주시네
+세상의 험한 풍파 몰아칠 때도 주님 나를 지켜주시네
+주님은 나의 산성 주님은 나의 요새 주님은 나의 소망 나의 힘이 되신 여호와</div>
+        </div>
+      </div>
+
+      <!-- 1-5 -->
+      <div class="song-card">
+        <div class="song-header" onclick="toggleSong(this)">
+          <div class="song-key">G-A</div>
+          <div class="song-info">
+            <div class="song-title">나는 믿네</div>
+            <div class="song-meta">DAY 1 · 5번곡</div>
+          </div>
+          <div class="song-toggle"><span class="toggle-text">가사</span><span class="chev"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <a class="yt-btn" href="https://youtu.be/Qek0xGCTCIc" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="유튜브에서 듣기"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></a>
+        </div>
+        <div class="song-body">
+          <div class="font-control">
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+          </div>
+          <div class="lyrics">내게 허락하신 시련을 통해 나의 믿음 더욱 강하게 자라고
+험한 산과 골짜기 지나는 동안 주께 더 가까이 나를 이끄시네
+내가 겪는 시험이 어렵고 힘겨워도 내 주님보다 크지 않네
+내 앞에 바다가 갈라지지 않으면 주가 나로 바다 위 걷게 하리
+나는 믿네 주의 능력으로 내 삶 새롭게 되리
+나는 믿네 주의 능력으로 담대히 나아가리라
+주와 함께 싸워 승리하리라 날마다 믿음으로 나 살아가리</div>
+        </div>
+      </div>
+
     </div>
 
-    <!-- 찬양 2 -->
-    <div class="song-card">
-      <div class="song-header" onclick="toggleSong(this)">
-        <div class="song-num">02</div>
-        <div class="song-info">
-          <div class="song-title">주 하나님 지으신 모든 세</div>
-          <div class="song-meta">CCM · 5분</div>
-        </div>
-        <div class="song-toggle">▼</div>
+    <!-- ===================== DAY 2 ===================== -->
+    <div class="day-section">
+      <div class="day-banner">
+        <span class="day-num">DAY 2</span>
+        <span class="day-label">둘째 날</span>
+        <span class="day-count">6곡</span>
       </div>
-      <div class="song-body">
-        <div class="font-control">
-          <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
-          <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+
+      <!-- 2-1 -->
+      <div class="song-card">
+        <div class="song-header" onclick="toggleSong(this)">
+          <div class="song-key">D</div>
+          <div class="song-info">
+            <div class="song-title">주를 위한 이곳에</div>
+            <div class="song-meta">DAY 2 · 1번곡</div>
+          </div>
+          <div class="song-toggle"><span class="toggle-text">가사</span><span class="chev"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <a class="yt-btn" href="https://youtu.be/kdau721UAh0" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="유튜브에서 듣기"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></a>
         </div>
-        <div class="lyrics">
-<span class="verse-label">[Verse]</span>
-1절
-주하나님 지으신 모든 세계
-내 마음속에 그리어 볼 때
-하늘의 별 울려 퍼지는 뇌성
-주님의 권능 우주에 찼네
-2절
-숲속이나 험한 산골짝에서
-지저귀는 저 새소리들과
-고요하게 흐르는 시냇물은
-주님의 솜씨 노래하도다
-3절
-주 하나님 독생자 아낌없이
-우리를 위해 보내주셨네
-십자가에 피 흘려 죽으신 주
-내 모든 죄를 대속하셨네
-4절
-내 주 예수 세상에 다시 올 때
-저 천국으로 날 인도하리
-나 겸손히 엎드려 경배하며
-영원히 주를 찬양하리라
-<span class="verse-label">[Chorus]</span>
-주님의 높고 위대하심을 내 영혼이 찬양하네
-주님의 높고 위대하심을 내 영혼이 찬양하네
+        <div class="song-body">
+          <div class="font-control">
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+          </div>
+          <div class="lyrics">주를 위한 이곳에 예배하는 자들 중에 그가 찾는 이 없어 주님께서 슬퍼하시네
+주님이 찾으시는 그 한 사람 그 예배자 내가 그 사람 되길 간절히 주께 예배하네
+주 은혜로 이곳에 서 있네 주 임재에 엎드려 절하네
+그 어느 것도 난 필요 없네 주님만 경배해</div>
         </div>
       </div>
+
+      <!-- 2-2 -->
+      <div class="song-card">
+        <div class="song-header" onclick="toggleSong(this)">
+          <div class="song-key">D-E</div>
+          <div class="song-info">
+            <div class="song-title">마음의 예배 <span class="medley-note">(후렴)</span></div>
+            <div class="song-meta">DAY 2 · 2번곡 · 후렴만</div>
+          </div>
+          <div class="song-toggle"><span class="toggle-text">가사</span><span class="chev"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <a class="yt-btn" href="https://youtu.be/dHS0EhyZoio" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="유튜브에서 듣기"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></a>
+        </div>
+        <div class="song-body">
+          <div class="font-control">
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+          </div>
+          <div class="lyrics">찬양의 열기 모두 끝나면 주님께 나올 때
+주께 드릴 마음의 예배 주를 위한 주를 향한 노래
+내가 영적인 노래로 주님께 돌아가는 것 아니니
+중심 잃은 예배에 주님이 바라는 건 오직 참된 내 마음</div>
+        </div>
+      </div>
+
+      <!-- 2-3 -->
+      <div class="song-card">
+        <div class="song-header" onclick="toggleSong(this)">
+          <div class="song-key">G-A</div>
+          <div class="song-info">
+            <div class="song-title">빈들에 마른 풀 같이</div>
+            <div class="song-meta">DAY 2 · 3번곡</div>
+          </div>
+          <div class="song-toggle"><span class="toggle-text">가사</span><span class="chev"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <a class="yt-btn" href="https://youtu.be/uej4pbjEzLE" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="유튜브에서 듣기"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></a>
+        </div>
+        <div class="song-body">
+          <div class="font-control">
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+          </div>
+          <div class="lyrics">빈들에 마른 풀 같이 시들은 나의 영혼
+주님의 허락한 성령 간절히 기다리네
+가물어 메마른 땅에 단비를 내리시듯
+성령의 단비를 부어 새 생명 주옵소서</div>
+        </div>
+      </div>
+
+      <!-- 2-4 -->
+      <div class="song-card">
+        <div class="song-header" onclick="toggleSong(this)">
+          <div class="song-key">G</div>
+          <div class="song-info">
+            <div class="song-title">그 날이 도적같이</div>
+            <div class="song-meta">DAY 2 · 4번곡</div>
+          </div>
+          <div class="song-toggle"><span class="toggle-text">가사</span><span class="chev"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <a class="yt-btn" href="https://youtu.be/6d6Ocy-p-MU" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="유튜브에서 듣기"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></a>
+        </div>
+        <div class="song-body">
+          <div class="font-control">
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+          </div>
+          <div class="lyrics">그 날이 도적같이 이를 줄 너희는 모르리라
+깨어 있으라 잠들지 말아라 주님과 동행하라
+평강의 하나님이 영광의 하나님이 너희를 거룩하게 하시고
+흠 없게 보존하시기를 원하노라
+항상 기뻐하라 쉬지 말고 기도하라 범사에 감사하라
+이는 예수 안에서 너희에게 향하신 하나님 뜻이니라</div>
+        </div>
+      </div>
+
+      <!-- 2-5 -->
+      <div class="song-card">
+        <div class="song-header" onclick="toggleSong(this)">
+          <div class="song-key">B♭</div>
+          <div class="song-info">
+            <div class="song-title">우릴 사용하소서</div>
+            <div class="song-meta">DAY 2 · 5번곡</div>
+          </div>
+          <div class="song-toggle"><span class="toggle-text">가사</span><span class="chev"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <a class="yt-btn" href="https://youtu.be/lUOmPC9eMos" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="유튜브에서 듣기"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></a>
+        </div>
+        <div class="song-body">
+          <div class="font-control">
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+          </div>
+          <div class="lyrics">우리에겐 소원이 하나 있네 주님 다시 오실 그 날까지
+우리 가슴에 새긴 주의 십자가 사랑 나의 교회를 사랑케 하네
+주의 교회를 향한 우리 마음 희생과 포기와 가난과 고난
+하물며 죽음조차 우릴 막을 수 없네 우리 교회는 이 땅의 희망
+교회를 교회 되게 예배를 예배 되게 우릴 사용하소서
+진정한 부흥의 날 오늘 임하도록 우릴 사용하소서</div>
+        </div>
+      </div>
+
+      <!-- 2-6 -->
+      <div class="song-card">
+        <div class="song-header" onclick="toggleSong(this)">
+          <div class="song-key">B♭</div>
+          <div class="song-info">
+            <div class="song-title">성령이 오셨네</div>
+            <div class="song-meta">DAY 2 · 6번곡</div>
+          </div>
+          <div class="song-toggle"><span class="toggle-text">가사</span><span class="chev"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <a class="yt-btn" href="https://youtu.be/XbQU6bPr2Mg" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="유튜브에서 듣기"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></a>
+        </div>
+        <div class="song-body">
+          <div class="font-control">
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+          </div>
+          <div class="lyrics">허무한 시절 지날 때 깊은 한숨 내쉴 때 그런 풍경 보시며 탄식하는 분 있네
+고아 같이 너희를 버려두지 않으리 내가 너희와 영원히 함께 하리라
+눌린 자 갇힌 자 자유함이 없는 자 피난처가 되시는 성령님 계시네
+주의 영이 계신 곳에 참 자유가 있다네 진리의 영이신 성령이 오셨네
+성령이 오셨네 성령이 오셨네 내 주의 보내신 성령이 오셨네
+우리 인생 가운데 친히 찾아 오셔서 그 나라 꿈꾸게 하시네</div>
+        </div>
+      </div>
+
     </div>
 
-    <!-- 찬양 3 -->
-    <div class="song-card">
-      <div class="song-header" onclick="toggleSong(this)">
-        <div class="song-num">03</div>
-        <div class="song-info">
-          <div class="song-title">은혜</div>
-          <div class="song-meta">CCM · 4분</div>
-        </div>
-        <div class="song-toggle">▼</div>
+    <!-- ===================== DAY 3 ===================== -->
+    <div class="day-section">
+      <div class="day-banner">
+        <span class="day-num">DAY 3</span>
+        <span class="day-label">셋째 날</span>
+        <span class="day-count">4곡</span>
       </div>
-      <div class="song-body">
-        <div class="font-control">
-          <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
-          <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+
+      <!-- 3-1 -->
+      <div class="song-card">
+        <div class="song-header" onclick="toggleSong(this)">
+          <div class="song-key">E</div>
+          <div class="song-info">
+            <div class="song-title">원하고 바라고 기도합니다</div>
+            <div class="song-meta">DAY 3 · 1번곡</div>
+          </div>
+          <div class="song-toggle"><span class="toggle-text">가사</span><span class="chev"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <a class="yt-btn" href="https://youtu.be/eoDsJr7LF-0" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="유튜브에서 듣기"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></a>
         </div>
-        <div class="lyrics">
-<span class="verse-label">[Verse]</span>
-내가 누려왔던 모든 것들이
-내가 지나왔던 모든 시간이
-내가 걸어왔던 모든 순간이
-당연한 것 아니라 은혜였소         
-
-아침 해가 뜨고 저녁의 노을
-봄의 꽃 향기와 가을의 열매
-변하는 계절의 모든 순간이
-당연한 것 아니라 은혜였소
-
-<span class="verse-label">[Chorus]</span>
-모든 것이 은혜 은혜 은혜
-한 없는 은혜
-내 삶에 당연한 건 하나도 없었던 것을
-모든 것이 은혜 은혜였소
-
-<span class="verse-label">[Verse 2]</span>
-내가 이땅에 태어나 사는 것
-어린 아이 시절과 지금까지
- 숨을 쉬며 살며 꿈을 꾸는 삶
- 당연한 것 아니라 은혜였소
-
-내가 하나님의 자녀로 살며
-오늘 찬양하고 예배하는 삶
-복음을 전할 수 있는 축복이
-당연한 것 아니라 은혜였소
+        <div class="song-body">
+          <div class="font-control">
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+          </div>
+          <div class="lyrics">이 세상을 살아가는 동안에 나의 힘을 의지할 수 없으니
+기도하고 낙심하지 말 것은 주께서 참 소망이 되심이라
+하나님의 꿈이 나의 비전이 되고 예수님의 성품이 나의 인격이 되고
+성령님의 권능이 나의 능력이 되길 원하고 바라고 기도합니다</div>
         </div>
       </div>
+
+      <!-- 3-2 -->
+      <div class="song-card">
+        <div class="song-header" onclick="toggleSong(this)">
+          <div class="song-key">E</div>
+          <div class="song-info">
+            <div class="song-title">소원 <span class="medley-note">(삶의 작은 일에도) (후렴)</span></div>
+            <div class="song-meta">DAY 3 · 2번곡 · 후렴만</div>
+          </div>
+          <div class="song-toggle"><span class="toggle-text">가사</span><span class="chev"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <a class="yt-btn" href="https://youtu.be/y69YbSANc8A" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="유튜브에서 듣기"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></a>
+        </div>
+        <div class="song-body">
+          <div class="font-control">
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+          </div>
+          <div class="lyrics">내가 노래하듯이 또 내가 얘기하듯이 살길 난 살길 원하네
+그 목소리 하나하나에 그 숨결 하나하나에
+그 아름다운 주의 이름 부르며 살길 원하네</div>
+        </div>
+      </div>
+
+      <!-- 3-3 -->
+      <div class="song-card">
+        <div class="song-header" onclick="toggleSong(this)">
+          <div class="song-key">A</div>
+          <div class="song-info">
+            <div class="song-title">돌아서지 않으리</div>
+            <div class="song-meta">DAY 3 · 3번곡</div>
+          </div>
+          <div class="song-toggle"><span class="toggle-text">가사</span><span class="chev"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <a class="yt-btn" href="https://youtu.be/ylxNWHW6UMs" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="유튜브에서 듣기"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></a>
+        </div>
+        <div class="song-body">
+          <div class="font-control">
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+          </div>
+          <div class="lyrics">주님 뜻대로 살기로 했네 주님 뜻대로 살기로 했네
+주님 뜻대로 살기로 했네 뒤돌아서지 않겠네
+이 세상 사람 날 몰라줘도 이 세상 사람 날 몰라줘도
+이 세상 사람 날 몰라줘도 뒤돌아서지 않겠네
+세상 등지고 십자가 보네 세상 등지고 십자가 보네
+세상 등지고 십자가 보네 뒤돌아서지 않겠네
+
+어떠한 시련이 와도 수많은 유혹 속에도
+신실하신 주님 약속 난 붙들리라
+세상이 이해 못하고 우리를 조롱하여도
+신실하신 주님 약속만 붙들리라 결코 돌아서지 않으리</div>
+        </div>
+      </div>
+
+      <!-- 3-4 -->
+      <div class="song-card">
+        <div class="song-header" onclick="toggleSong(this)">
+          <div class="song-key">C</div>
+          <div class="song-info">
+            <div class="song-title">말씀 앞에서</div>
+            <div class="song-meta">DAY 3 · 4번곡</div>
+          </div>
+          <div class="song-toggle"><span class="toggle-text">가사</span><span class="chev"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <a class="yt-btn" href="https://youtu.be/YFC06NtZzso" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="유튜브에서 듣기"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></a>
+        </div>
+        <div class="song-body">
+          <div class="font-control">
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, -1)">가-</button>
+            <button class="font-btn" onclick="event.stopPropagation(); changeFontSize(this, 1)">가+</button>
+          </div>
+          <div class="lyrics">말씀 앞에서 경외함으로 주께 홀로 섭니다
+생명의 말씀 읽고 순종해 주를 예배합니다
+기록된 말씀 힘이 있어서 진리로 우릴 거룩케 하며
+거룩한 말씀 세세 영원히 복음이 되어 말씀하시네
+하나님 말씀에 두려워 떠는 자 그 말씀에 생명을 거는 자
+한 사람 찾으시는 주님의 약속을 믿어
+하나님 말씀에 운명을 거는 자 순종하며 주 따라가는 자
+영원한 하나님 나라 이뤄갈 주의 교회여 일어나라</div>
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -507,25 +855,32 @@
   function changeFontSize(btn, direction) {
     const lyrics = btn.closest('.song-body').querySelector('.lyrics');
     const current = parseFloat(window.getComputedStyle(lyrics).fontSize);
-    const newSize = Math.max(0.85, Math.min(1.6, current/16 + direction * 0.1));
+    const newSize = Math.max(0.85, Math.min(1.6, current / 16 + direction * 0.1));
     lyrics.style.fontSize = newSize + 'rem';
   }
 
-  // 검색
+  // 검색 (제목으로 필터 + 빈 DAY 섹션 자동 숨김)
   document.getElementById('searchInput').addEventListener('input', (e) => {
     const term = e.target.value.toLowerCase().trim();
     const cards = document.querySelectorAll('.song-card');
     let visibleCount = 0;
+
     cards.forEach(card => {
       const title = card.querySelector('.song-title').textContent.toLowerCase();
-      if (title.includes(term)) {
-        card.style.display = '';
-        visibleCount++;
-      } else {
-        card.style.display = 'none';
-      }
+      const match = title.includes(term);
+      card.style.display = match ? '' : 'none';
+      if (match) visibleCount++;
     });
-    document.getElementById('emptyState').style.display = (visibleCount === 0 && term !== '') ? 'block' : 'none';
+
+    // 곡이 하나도 안 보이는 DAY 섹션은 통째로 숨김
+    document.querySelectorAll('.day-section').forEach(section => {
+      const hasVisible = [...section.querySelectorAll('.song-card')]
+        .some(c => c.style.display !== 'none');
+      section.style.display = hasVisible ? '' : 'none';
+    });
+
+    document.getElementById('emptyState').style.display =
+      (visibleCount === 0 && term !== '') ? 'block' : 'none';
   });
 </script>
 
