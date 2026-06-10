@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<link rel="icon" type="image/jpeg" href="images/logo.jpg" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>용평 발왕산 케이블카 | 2026 행복한교회 전교인 여름 수련회</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --mint: #7fc7be; --mint-deep: #5ba8a0; --mint-darker: #3d7e76;
+    --mint-soft: #d8ede9; --mint-cream: #ecf6f4;
+    --gold: #e8b766; --leaf: #8bc28a; --sky: #8ecae6; --sky-deep: #4a93b8;
+    --ink: #2c3e3a; --ink-soft: #5a6c68; --paper: #fbfaf6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.7; color: var(--ink); background: var(--paper);
+    background-image: radial-gradient(ellipse at top, rgba(142, 202, 230, 0.20), transparent 50%);
+    background-attachment: fixed;
+  }
+/* ===== 상단 네비게이션 ===== */
+  nav.top {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(251, 250, 246, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(91, 168, 160, 0.15);
+    padding: 12px 16px;
+  }
+  nav.top .nav-inner {
+    max-width: 960px; margin: 0 auto;
+    display: flex; flex-direction: column;
+    gap: 10px;
+  }
+  nav.top .brand-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  nav.top .brand {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700; font-size: clamp(1.3rem, 4vw, 1.7rem);
+    color: var(--mint-deep);
+    text-decoration: none;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  nav.top .brand img {
+    width: 44px; height: 44px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  nav.top .links {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 2px 4px;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+  nav.top .links::-webkit-scrollbar { display: none; }
+  nav.top a.link {
+    color: var(--mint-deep);
+    background: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1.5px solid var(--mint-soft);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  nav.top a.link:hover {
+    background: var(--mint-cream);
+    border-color: var(--mint);
+    transform: translateY(-1px);
+  }
+  nav.top a.link.active {
+    background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%);
+    color: white;
+    border-color: var(--mint-deep);
+    box-shadow: 0 4px 12px rgba(91, 168, 160, 0.3);
+  }
+  @media (min-width: 720px) {
+    nav.top .nav-inner {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    nav.top .links {
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+  }
+
+  /* 히어로 */
+  .course-hero {
+    text-align: center;
+    padding: 60px 20px 40px;
+    background: linear-gradient(135deg, rgba(142, 202, 230, 0.22) 0%, rgba(127, 199, 190, 0.1) 100%);
+  }
+  .course-hero .emoji {
+    font-size: 4rem;
+    margin-bottom: 12px;
+  }
+  .course-hero .eyebrow {
+    font-family: 'Gaegu', cursive;
+    color: var(--sky-deep);
+    font-size: 1.2rem;
+    margin-bottom: 6px;
+  }
+  .course-hero h1 {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    margin-bottom: 12px;
+  }
+  .course-hero .tagline {
+    color: var(--ink-soft);
+    font-size: 1.1rem;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  main {
+    max-width: 820px; margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* 사진 갤러리 */
+  .photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 30px 0;
+  }
+  .photo-card {
+    aspect-ratio: 4/3;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--mint-cream);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    border: 1px solid var(--mint-soft);
+  }
+  .photo-card:hover { transform: translateY(-3px); }
+  .photo-card img { width: 100%; height: 100%; object-fit: cover; }
+  .photo-card.placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--sky-deep);
+    background: linear-gradient(135deg, #eaf6fb 0%, #d6ecf5 100%);
+    border: 2px dashed var(--sky);
+    cursor: default;
+  }
+  .photo-card.placeholder .ph-emoji { font-size: 2rem; margin-bottom: 6px; }
+  .photo-card.placeholder .ph-text {
+    font-family: 'Gaegu', cursive;
+    text-align: center;
+    padding: 0 10px;
+  }
+
+  /* 정보 카드 */
+  .info-card {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 18px;
+    box-shadow: 0 6px 22px rgba(44, 62, 58, 0.07);
+    border: 1px solid rgba(127, 199, 190, 0.25);
+  }
+  .info-card h2 {
+    font-family: 'Gowun Batang', serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--ink);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .info-card h2 .dot {
+    width: 8px; height: 8px;
+    background: var(--sky-deep);
+    border-radius: 50%;
+  }
+  .info-card p {
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .info-card p:last-child { margin-bottom: 0; }
+
+  .feature-list {
+    list-style: none;
+    padding: 0;
+  }
+  .feature-list li {
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--mint-soft);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .feature-list li:last-child { border-bottom: none; }
+  .feature-list li .check {
+    color: var(--leaf);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .feature-list li strong { color: var(--sky-deep); }
+
+  .basic-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .basic-info .item {
+    background: var(--mint-cream);
+    padding: 14px 18px;
+    border-radius: 12px;
+    border-left: 3px solid var(--sky-deep);
+  }
+  .basic-info .label {
+    font-size: 0.83rem;
+    color: var(--sky-deep);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .basic-info .value {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* 외부 링크 버튼 */
+  .external-links {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+  }
+  .ext-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: transform 0.2s ease;
+  }
+  .ext-btn.primary {
+    background: linear-gradient(135deg, var(--sky) 0%, var(--sky-deep) 100%);
+    color: white;
+    box-shadow: 0 6px 18px rgba(74, 147, 184, 0.3);
+  }
+  .ext-btn.naver { background: #03c75a; color: white; }
+  .ext-btn.kakao { background: #fee500; color: #2c3e3a; }
+  .ext-btn:hover { transform: translateY(-2px); }
+
+  /* 라이트박스 */
+  .lightbox {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 12px;
+  }
+  .lightbox .close {
+    position: absolute;
+    top: 20px; right: 20px;
+    width: 44px; height: 44px;
+    background: white;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  .back-row { text-align: center; margin-top: 30px; }
+  .back-btn {
+    display: inline-flex;
+    align-items: center; gap: 8px;
+    background: white;
+    color: var(--mint-deep);
+    border: 2px solid var(--mint);
+    padding: 12px 28px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+  }
+  .back-btn:hover { background: var(--mint-cream); transform: translateY(-2px); }
+
+  footer .footer-logo {
+    max-width: 200px;
+    width: 60%;
+    height: auto;
+    margin: 0 auto 14px;
+    display: block;
+    opacity: 0.9;
+  }
+  footer {
+    text-align: center;
+    padding: 30px 20px 40px;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    .info-card { padding: 22px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="nav-inner">
+    <div class="brand-row">
+      <a href="index.html" class="brand"><img src="images/logo.jpg" alt="행복한교회 로고"><span>행복한교회 수련회</span></a>
+    </div>
+    <div class="links">
+      <a class="link" href="index.html">안내</a>
+      <a class="link" href="schedule.html">일정</a>
+      <a class="link" href="info-hub.html">정보</a>
+      <a class="link" href="notice.html">공지</a>
+      <a class="link" href="location.html">오시는 길</a>
+      <a class="link" href="index.html#apply">참가신청</a>
+      <a class="link" href="organization.html">조직</a>
+    </div>
+  </div>
+</nav>
+
+<header class="course-hero">
+  <div class="emoji">🚡</div>
+  <div class="eyebrow">선택 코스 ④</div>
+  <h1>용평 발왕산 케이블카</h1>
+  <p class="tagline">국내 최장 케이블카로 오르는 해발 1,458m 발왕산 정상</p>
+</header>
+
+<main>
+
+  <!-- 사진 갤러리 -->
+  <div class="photo-gallery">
+    <div class="photo-card placeholder">
+      <span class="ph-emoji">🚡</span>
+      <span class="ph-text">사진 준비 중</span>
+    </div>
+    <div class="photo-card placeholder">
+      <span class="ph-emoji">⛰️</span>
+      <span class="ph-text">발왕산 정상</span>
+    </div>
+    <div class="photo-card placeholder">
+      <span class="ph-emoji">🌅</span>
+      <span class="ph-text">스카이워크</span>
+    </div>
+  </div>
+
+  <!-- 소개 -->
+  <div class="info-card">
+    <h2><span class="dot"></span> 어떤 곳인가요?</h2>
+    <p>
+      평창 <strong>모나용평(옛 용평리조트)</strong>의 드래곤 프라자에서 출발해 해발 1,458m 발왕산 정상까지 오르는 관광 케이블카입니다.
+      왕복 7.4km로 국내에서 가장 긴 케이블카이며, 8인승 캐빈을 타고 약 18분 동안 능선과 숲을 발 아래로 내려다보며 정상에 닿습니다.
+    </p>
+    <p>
+      발왕산은 평창 동계올림픽 알파인스키 대회가 열린 곳이자 드라마 &lt;겨울연가&gt;·&lt;도깨비&gt; 촬영지로도 잘 알려져 있어요.
+      정상에는 우리나라에서 가장 높은 곳에 자리한 <strong>스카이워크</strong>가 있어, 맑은 날에는 강릉 바다까지 시원하게 조망할 수 있습니다.
+      힘든 등산 없이 케이블카로 정상까지 오를 수 있어 어르신과 어린아이도 함께하기 좋습니다.
+    </p>
+  </div>
+
+  <!-- 추천 포인트 -->
+  <div class="info-card">
+    <h2><span class="dot"></span> 이런 점이 좋아요</h2>
+    <ul class="feature-list">
+      <li><span class="check">✓</span><span><strong>국내 최장 7.4km 케이블카</strong> — 8인승 캐빈으로 18분간 하늘 산책</span></li>
+      <li><span class="check">✓</span><span><strong>해발 1,458m 발왕산 정상</strong> — 등산 없이 케이블카로 편하게</span></li>
+      <li><span class="check">✓</span><span><strong>국내 최고 높이 스카이워크</strong> — 맑은 날엔 강릉 바다까지 조망</span></li>
+      <li><span class="check">✓</span><span><strong>여름에도 시원한 고지대</strong> — 정상은 도심보다 훨씬 선선해요</span></li>
+      <li><span class="check">✓</span><span><strong>온 가족 함께</strong> — 어르신·아이도 부담 없이 정상 풍경을</span></li>
+    </ul>
+  </div>
+
+  <!-- 기본 정보 -->
+  <div class="info-card">
+    <h2><span class="dot"></span> 기본 정보</h2>
+    <div class="basic-info">
+      <div class="item">
+        <div class="label">📍 주소</div>
+        <div class="value">강원특별자치도 평창군<br>대관령면 올림픽로 715<br>(드래곤 프라자)</div>
+      </div>
+      <div class="item">
+        <div class="label">📞 문의</div>
+        <div class="value">케이블카 033-330-7423<br>모나용평 033-335-5757</div>
+      </div>
+      <div class="item">
+        <div class="label">🕐 운영 시간</div>
+        <div class="value">09:00 ~ 17:00<br>(기상악화 시 휴장)</div>
+      </div>
+      <div class="item">
+        <div class="label">🚗 숲체원에서</div>
+        <div class="value">차량 약 50분~1시간</div>
+      </div>
+    </div>
+
+    <div class="external-links">
+      <a class="ext-btn primary" href="https://www.yongpyong.co.kr/kor/convenience/leports/gondola.do" target="_blank" rel="noopener">
+        🌐 공식 홈페이지
+      </a>
+      <a class="ext-btn naver" href="https://map.naver.com/v5/search/발왕산관광케이블카" target="_blank" rel="noopener">
+        🗺️ 네이버 지도
+      </a>
+      <a class="ext-btn kakao" href="https://map.kakao.com/?q=발왕산관광케이블카" target="_blank" rel="noopener">
+        🗺️ 카카오 지도
+      </a>
+    </div>
+
+    <p style="margin-top: 18px; font-size: 0.9rem; color: var(--ink-soft); padding-top: 14px; border-top: 1px dashed var(--mint-soft);">
+      ※ 유료 옵션입니다. 단체 요금과 정확한 이용 시간은 출발 전 단톡방을 통해 안내드립니다.<br>
+      ※ 발왕산 정상은 바람이 강하고 도심보다 선선하니 <strong>겉옷</strong>을 챙겨주세요. 강풍·기상악화 시 케이블카 운행이 중단될 수 있습니다.
+    </p>
+  </div>
+
+  <div class="back-row">
+    <a href="index.html#apply" class="back-btn">← 메인으로 돌아가기</a>
+  </div>
+
+</main>
+
+<footer>
+  <img src="images/logo-wide.jpg" alt="행복한교회" class="footer-logo">
+  <div>대한예수교장로회 행복한교회 · 2026 전교인 여름 수련회</div>
+</footer>
+
+</body>
+</html>
