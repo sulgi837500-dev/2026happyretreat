@@ -128,6 +128,10 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1
 .backlink{display:inline-block;margin-top:14px;color:var(--green);text-decoration:none;font-weight:600;font-size:.92rem}
 @media (max-width:430px){.h1{font-size:1.35rem}.stat .v{font-size:1.45rem}.tab{font-size:.84rem}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#1E2A22;color:#fff;padding:13px 20px;border-radius:14px;font-weight:600;font-size:.95rem;box-shadow:0 10px 30px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:90%;text-align:center}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.cf-acts{display:flex;gap:8px;margin-top:8px}.cf-acts button{flex:1}
+.cf-msg{font-size:1.12rem;font-weight:700;margin:2px 0 6px;line-height:1.4}
 </style>
 </head>
 <body>
@@ -639,9 +643,9 @@ function openPick(person){
 }
 async function doCheckin(person,bus){
   const counts=busCounts(), cap=BUSES[bus-1].cap;
-  if((counts[bus]||0)>=cap){ alert(`${BUSES[bus-1].label}는 이미 만석입니다. 다른 호차를 선택하세요.`); openPick(person); return; }
+  if((counts[bus]||0)>=cap){ toast(`${BUSES[bus-1].label}는 이미 만석입니다`); openPick(person); return; }
   const r=await backend.checkin(person.n, person.id, bus);
-  if(r.already){ alert(`${person.n}님은 이미 체크인되어 있습니다.`); closeModal(); return; }
+  if(r.already){ toast(`${person.n}님은 이미 체크인되어 있습니다`); closeModal(); return; }
   showResult(r, (counts[bus]||0)+1>=cap);
 }
 function showResult(entry, filled){
@@ -656,7 +660,9 @@ function showResult(entry, filled){
 function closeModal(){ $('#modal').classList.remove('on'); pending=null; }
 
 /* ---- 이벤트 ---- */
-async function confirmCancel(name,id,key,busLabel){ if(confirm(`${name}님 탑승 체크인을 취소할까요?${busLabel?' ('+busLabel+')':''}`)){ await backend.cancelById(id,key); } }
+function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('on'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('on'),2200); }
+function confirmDialog(msg,yes){ return new Promise(res=>{ $('#cfText').textContent=msg; $('#cfYes').textContent=yes||'예, 진행'; const m=$('#cfModal'); m.classList.add('on'); const close=v=>{ m.classList.remove('on'); $('#cfYes').onclick=null; $('#cfNo').onclick=null; m.onclick=null; res(v); }; $('#cfYes').onclick=()=>close(true); $('#cfNo').onclick=()=>close(false); m.onclick=e=>{ if(e.target===m) close(false); }; }); }
+async function confirmCancel(name,id,key,busLabel){ if(await confirmDialog(`${name}님 탑승 체크인을 취소할까요?${busLabel?' ('+busLabel+')':''}`,'취소하기')){ await backend.cancelById(id,key); toast(`${name}님 취소되었습니다`); } }
 $('#buses').addEventListener('click', e=>{ const c=e.target.closest('.chip[data-id]'); if(c) confirmCancel(c.dataset.name, c.dataset.id, c.dataset.key, c.dataset.bus); });
 $('#tabs').addEventListener('click', e=>{ const t=e.target.closest('.tab[data-i]'); if(t) setSession(+t.dataset.i); });
 $('#q').addEventListener('input', e=>renderRoster(e.target.value));
@@ -668,10 +674,10 @@ $('#busPick').addEventListener('click', e=>{ const b=e.target.closest('.busbtn[d
 $('#cCancel').addEventListener('click', closeModal);
 $('#cClose').addEventListener('click', ()=>{ $('#q').value=''; renderRoster(''); closeModal(); });
 $('#modal').addEventListener('click', e=>{ if(e.target.id==='modal') closeModal(); });
-$('#undo').addEventListener('click', async()=>{ if(confirm(`[${SESSIONS[curSession].title}] 가장 최근 체크인 1명을 취소할까요?`)) await backend.undoLast(); });
-$('#cancelBtn').addEventListener('click', async()=>{ const n=$('#cancelName').value.trim(); if(!n)return; const cnt=await backend.cancel(n); $('#cancelName').value=''; alert(cnt?`${n}님 ${cnt}건 취소했습니다.`:`${n}님 체크인을 찾지 못했습니다.`); });
-$('#reset').addEventListener('click', async()=>{ const d=SESSIONS[curSession].title; if(confirm(`정말 [${d}] 전체 체크인을 초기화할까요?`)&&confirm('되돌릴 수 없습니다. 한 번 더 확인합니다. 초기화할까요?')){ await backend.reset(); localStorage.removeItem(MYKEY); } });
-$('#resetAll').addEventListener('click', async()=>{ if(confirm('3일(첫째날·둘째날·셋째날) 모든 체크인을 지울까요?')&&confirm('되돌릴 수 없습니다. 정말 전체 초기화할까요?')){ await backend.resetAll(); SESSIONS.forEach(s=>localStorage.removeItem('retreat_my_'+s.id)); } });
+$('#undo').addEventListener('click', async()=>{ if(await confirmDialog(`[${SESSIONS[curSession].title}] 가장 최근 체크인 1명을 취소할까요?`,'취소하기')) await backend.undoLast(); });
+$('#cancelBtn').addEventListener('click', async()=>{ const n=$('#cancelName').value.trim(); if(!n)return; const cnt=await backend.cancel(n); $('#cancelName').value=''; toast(cnt?`${n}님 ${cnt}건 취소했습니다`:`${n}님 체크인을 찾지 못했습니다`); });
+$('#reset').addEventListener('click', async()=>{ const d=SESSIONS[curSession].title; if(await confirmDialog(`[${d}] 전체 체크인을 초기화할까요?`,'초기화') && await confirmDialog('되돌릴 수 없습니다. 정말 초기화할까요?','초기화')){ await backend.reset(); localStorage.removeItem(MYKEY); toast(`[${d}] 전체 초기화 완료`); } });
+$('#resetAll').addEventListener('click', async()=>{ if(await confirmDialog('3일(첫째날·둘째날·셋째날) 모든 체크인을 지울까요?','전체 초기화') && await confirmDialog('되돌릴 수 없습니다. 정말 전체 초기화할까요?','전체 초기화')){ await backend.resetAll(); SESSIONS.forEach(s=>localStorage.removeItem('retreat_my_'+s.id)); toast('모든 날짜 초기화 완료'); } });
 
 /* ---- 시작 ---- */
 (async function init(){
@@ -683,5 +689,13 @@ $('#resetAll').addEventListener('click', async()=>{ if(confirm('3일(첫째날·
   setSession(0);
 })();
 </script>
+<div class="modal" id="cfModal"><div class="card">
+  <div class="cf-msg" id="cfText"></div>
+  <div class="cf-acts">
+    <button class="cancelpick" id="cfNo">아니오</button>
+    <button class="closebtn" id="cfYes" style="background:var(--warn)">예, 진행</button>
+  </div>
+</div></div>
+<div id="toast"></div>
 </body>
 </html>
