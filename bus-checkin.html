@@ -60,7 +60,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1
 .rrow .ctag{font-size:.74rem;color:var(--muted);font-weight:600;margin-left:8px}
 .rrow .go{color:#9aa49d;font-size:.92rem}
 .rrow .done{font-size:.78rem;font-weight:700;color:#fff;padding:4px 10px;border-radius:999px;flex:none}
-.rrow.is-done{cursor:default;background:#FAF9F5}
+.rrow.is-done{cursor:pointer;background:#FAF9F5}
 .rrow.is-done .name{color:var(--muted)}
 .empty{padding:18px;text-align:center;color:var(--muted);font-size:.9rem}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 16px}
@@ -85,6 +85,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1
 .names:empty::after{content:'아직 탑승자가 없어요';color:var(--muted);font-size:.86rem}
 .chip{font-size:.92rem;padding:6px 11px;border-radius:999px;background:#F2F1EA;color:var(--ink);border:1px solid var(--line);display:inline-flex;align-items:center;gap:6px}
 .chip .o{font-size:.72rem;color:var(--muted);font-weight:700}
+.chip{cursor:pointer;font-family:var(--font)}
+.chip .x{margin-left:5px;color:var(--warn);font-weight:800;font-size:.78rem;opacity:.7}
 .chip.fresh{animation:pop .6s ease both;background:#fff}
 @keyframes pop{0%{transform:scale(.7);opacity:0}60%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
 .admin{margin:24px 0 0}
@@ -167,6 +169,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1
       <button id="undo">↩ 방금 체크인 취소 (마지막 1명)</button>
       <div class="row"><input id="cancelName" type="text" placeholder="취소할 이름" /><button id="cancelBtn">이름으로 취소</button></div>
       <button class="danger" id="reset">🔄 이 날짜 전체 초기화</button>
+      <button class="danger" id="resetAll">🧨 모든 날짜(3일) 전체 초기화</button>
     </div>
   </details>
   <div class="foot">
@@ -532,6 +535,8 @@ function makeFirebaseBackend(){
       await db.ref(P()+'/checkins/'+last.id).remove(); await db.ref(P()+'/claims/'+last.key).remove(); },
     async cancel(name){ const all=Object.values((await db.ref(P()+'/checkins').once('value')).val()||{}); const hits=all.filter(e=>norm(e.name)===norm(name));
       for(const e of hits){ await db.ref(P()+'/checkins/'+e.id).remove(); await db.ref(P()+'/claims/'+e.key).remove(); } return hits.length; },
+    async cancelById(id,key){ await db.ref(P()+'/checkins/'+id).remove(); await db.ref(P()+'/claims/'+key).remove(); },
+    async resetAll(){ await db.ref('sessions').remove(); },
     async reset(){ await db.ref(P()+'/checkins').remove(); await db.ref(P()+'/counter').remove(); await db.ref(P()+'/claims').remove(); }
   };
 }
@@ -550,6 +555,8 @@ function makeLocalBackend(){
     async undoLast(){ const d=read(S); const all=Object.values(d.checkins); if(!all.length)return;
       const last=all.sort((a,b)=>b.order-a.order)[0]; if(d.counter===last.order)d.counter--; delete d.checkins[last.id]; delete d.claims[last.key]; write(S,d); },
     async cancel(name){ const d=read(S); const hits=Object.values(d.checkins).filter(e=>norm(e.name)===norm(name)); hits.forEach(e=>{delete d.checkins[e.id];delete d.claims[e.key];}); write(S,d); return hits.length; },
+    async cancelById(id,key){ const d=read(S); delete d.checkins[id]; delete d.claims[key]; write(S,d); },
+    async resetAll(){ SESSIONS.forEach(s=>localStorage.removeItem('retreat_bus_v4_'+s.id)); window.dispatchEvent(new Event('local-sync')); },
     async reset(){ write(S,{counter:0,checkins:{},claims:{}}); }
   };
 }
@@ -580,7 +587,7 @@ function render(){
   $('#buses').innerHTML=BUSES.map((b,i)=>{
     const n=i+1, list=(byBus[n]||[]).sort((a,b)=>a.order-b.order), cnt=list.length, pct=Math.min(100,Math.round(cnt/b.cap*100));
     let st='go',stTxt='탑승 중'; if(cnt>=b.cap){st='full';stTxt='만석';} else if(cnt>=b.cap-5){st='near';stTxt='마감 임박';}
-    const chips=list.map(e=>`<span class="chip ${e.id===newestId?'fresh':''}"><span class="o">${e.order}</span>${e.name}</span>`).join('');
+    const chips=list.map(e=>`<button class="chip ${e.id===newestId?'fresh':''}" data-id="${e.id}" data-key="${e.key}" data-name="${e.name}" data-bus="${b.label}"><span class="o">${e.order}</span>${e.name}<span class="x">✕</span></button>`).join('');
     return `<div class="bus ${cnt>=b.cap?'is-full':''}" style="--c:${b.color}"><div class="top"><span class="pill">${b.label}</span><div class="meta"><div class="count">${cnt}<small> / ${b.cap}명</small></div><div class="state ${st}">${stTxt}</div></div><span class="fullbadge">만석</span></div><div class="bar"><i style="width:${pct}%"></i></div><div class="names">${chips}</div></div>`;
   }).join('');
   renderRoster($('#q').value); renderMine();
@@ -607,9 +614,9 @@ function renderRoster(query){
     const ct = cm && p.c ? `<span class="ctag">${p.c.split('·')[0]}</span>` : '';
     if(done.has(p.id)){
       const e=CHECKINS.find(x=>x.key===p.id); const b=BUSES[(e?.bus||1)-1];
-      return `<div class="rrow is-done"><span><span class="name">${p.n}</span>${ct}</span><span class="done" style="background:${b.color}">${b.label} 완료</span></div>`;
+      return `<button class="rrow is-done" data-cancel="1" data-eid="${e.id}" data-ekey="${e.key}" data-name="${p.n}" data-bus="${b.label}"><span><span class="name">${p.n}</span>${ct}</span><span class="done" style="background:${b.color}">${b.label} · 취소 ✕</span></button>`;
     }
-    return `<button class="rrow" data-id="${p.id}"><span><span class="name">${p.n}</span>${ct}</span><span class="go">호차 선택 ›</span></button>`;
+    return `<button class="rrow" data-pick="${p.id}"><span><span class="name">${p.n}</span>${ct}</span><span class="go">호차 선택 ›</span></button>`;
   }).join('');
 }
 
@@ -649,10 +656,12 @@ function showResult(entry, filled){
 function closeModal(){ $('#modal').classList.remove('on'); pending=null; }
 
 /* ---- 이벤트 ---- */
+async function confirmCancel(name,id,key,busLabel){ if(confirm(`${name}님 탑승 체크인을 취소할까요?${busLabel?' ('+busLabel+')':''}`)){ await backend.cancelById(id,key); } }
+$('#buses').addEventListener('click', e=>{ const c=e.target.closest('.chip[data-id]'); if(c) confirmCancel(c.dataset.name, c.dataset.id, c.dataset.key, c.dataset.bus); });
 $('#tabs').addEventListener('click', e=>{ const t=e.target.closest('.tab[data-i]'); if(t) setSession(+t.dataset.i); });
 $('#q').addEventListener('input', e=>renderRoster(e.target.value));
 $('#q').addEventListener('keydown', e=>{ if(e.key==='Enter') $('#qBtn').click(); });
-$('#roster').addEventListener('click', e=>{ const row=e.target.closest('.rrow[data-id]'); if(!row)return; const p=byId(row.dataset.id); if(p) openPick(p); });
+$('#roster').addEventListener('click', e=>{ const pick=e.target.closest('.rrow[data-pick]'); if(pick){ const p=byId(pick.dataset.pick); if(p) openPick(p); return; } const can=e.target.closest('.rrow[data-cancel]'); if(can){ confirmCancel(can.dataset.name, can.dataset.eid, can.dataset.ekey, can.dataset.bus); } });
 $('#qBtn').addEventListener('click', ()=>{ const name=$('#q').value.trim(); if(!name) return $('#q').focus();
   const p=CANDS.find(x=>norm(x.n)===norm(name)); openPick(p||{id:'n'+norm(name),n:name,c:''}); });
 $('#busPick').addEventListener('click', e=>{ const b=e.target.closest('.busbtn[data-bus]'); if(!b||b.disabled)return; doCheckin(pending,+b.dataset.bus); });
@@ -662,6 +671,7 @@ $('#modal').addEventListener('click', e=>{ if(e.target.id==='modal') closeModal(
 $('#undo').addEventListener('click', async()=>{ if(confirm(`[${SESSIONS[curSession].title}] 가장 최근 체크인 1명을 취소할까요?`)) await backend.undoLast(); });
 $('#cancelBtn').addEventListener('click', async()=>{ const n=$('#cancelName').value.trim(); if(!n)return; const cnt=await backend.cancel(n); $('#cancelName').value=''; alert(cnt?`${n}님 ${cnt}건 취소했습니다.`:`${n}님 체크인을 찾지 못했습니다.`); });
 $('#reset').addEventListener('click', async()=>{ const d=SESSIONS[curSession].title; if(confirm(`정말 [${d}] 전체 체크인을 초기화할까요?`)&&confirm('되돌릴 수 없습니다. 한 번 더 확인합니다. 초기화할까요?')){ await backend.reset(); localStorage.removeItem(MYKEY); } });
+$('#resetAll').addEventListener('click', async()=>{ if(confirm('3일(첫째날·둘째날·셋째날) 모든 체크인을 지울까요?')&&confirm('되돌릴 수 없습니다. 정말 전체 초기화할까요?')){ await backend.resetAll(); SESSIONS.forEach(s=>localStorage.removeItem('retreat_my_'+s.id)); } });
 
 /* ---- 시작 ---- */
 (async function init(){
