@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>실시간 탑승 체크인 | 2026 행복한교회 여름 수련회</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css" />
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<style>
+:root{--bg:#F4F2EC;--panel:#FFFFFF;--ink:#1E2A22;--muted:#5E6B62;--line:#E3E0D6;--green:#2F6B4F;--green-d:#245840;--warn:#B23A2E;--ok:#2F6B4F;--r:16px;--r-lg:22px;--shadow:0 1px 2px rgba(30,42,34,.06),0 8px 24px rgba(30,42,34,.07);--font:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;font-feature-settings:"tnum"}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 64px}
+.site-head{background:var(--green);color:#fff}
+.site-head .inner{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:12px 16px}
+.site-head img{width:34px;height:34px;border-radius:8px;object-fit:cover;background:#fff}
+.site-head b{font-weight:700;font-size:1.02rem}
+.nav{display:flex;gap:4px;overflow-x:auto;background:var(--green-d);padding:8px 10px;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{color:#E7F0EA;text-decoration:none;font-size:.86rem;white-space:nowrap;padding:6px 11px;border-radius:999px}
+.nav a.here{background:rgba(255,255,255,.16);color:#fff;font-weight:600}
+.mode{display:flex;align-items:center;gap:8px;margin:14px 0 0;padding:10px 14px;border-radius:12px;font-size:.86rem;font-weight:600}
+.mode.live{background:#E7F3EC;color:#235e43;border:1px solid #BFDFCC}
+.mode.demo{background:#FBF3DF;color:#7a5a12;border:1px solid #ECDDA8}
+.mode .dot{width:9px;height:9px;border-radius:50%;flex:none}
+.mode.live .dot{background:#2F9E63;box-shadow:0 0 0 4px rgba(47,158,99,.18)}
+.mode.demo .dot{background:#E0A92B}
+.tabs{display:flex;gap:6px;margin:14px 0 2px;background:#EAE7DD;padding:5px;border-radius:14px}
+.tab{flex:1;font-family:var(--font);font-weight:700;font-size:.92rem;border:none;background:transparent;color:var(--muted);padding:11px 6px;border-radius:10px;cursor:pointer;line-height:1.2}
+.tab small{display:block;font-weight:600;font-size:.74rem;opacity:.85;margin-top:2px}
+.tab.on{background:#fff;color:var(--green);box-shadow:var(--shadow)}
+.tab:active{transform:translateY(1px)}
+.h1{margin:18px 0 4px;font-size:1.55rem;font-weight:800;letter-spacing:-.02em}
+.h1 .day{color:var(--green)}
+.sub{margin:0 0 18px;color:var(--muted);font-size:.95rem}
+.sub b{color:var(--ink)}
+.mine{display:none;align-items:center;gap:12px;margin:0 0 16px;padding:14px 16px;border-radius:var(--r);background:var(--panel);box-shadow:var(--shadow);border-left:6px solid var(--green)}
+.mine .badge{font-size:1.4rem;font-weight:800;padding:6px 14px;border-radius:12px;color:#fff;flex:none}
+.mine .t{font-size:.82rem;color:var(--muted)}
+.mine .n{font-size:1.06rem;font-weight:700}
+.fullAlert{display:none;align-items:center;gap:8px;margin:0 0 16px;padding:12px 16px;border-radius:12px;background:#FBE9E6;color:var(--warn);font-weight:700;font-size:.92rem;border:1px solid #F2C9C2}
+.fullAlert.on{display:flex}
+.panel{background:var(--panel);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:18px;margin:0 0 18px}
+.panel h2{margin:0 0 4px;font-size:1.12rem;font-weight:700;display:flex;align-items:center;gap:7px}
+.panel p.hint{margin:0 0 14px;color:var(--muted);font-size:.86rem}
+.panel p.hint b{color:var(--green)}
+.search{display:flex;gap:8px}
+.search input{flex:1;font-family:var(--font);font-size:1.05rem;padding:14px 16px;border:1.5px solid var(--line);border-radius:14px;background:#FBFAF6;color:var(--ink)}
+.search input:focus{outline:none;border-color:var(--green);background:#fff;box-shadow:0 0 0 3px rgba(47,107,79,.12)}
+.btn{font-family:var(--font);font-weight:700;font-size:1rem;border:none;border-radius:14px;padding:14px 18px;background:var(--green);color:#fff;cursor:pointer}
+.btn:active{transform:translateY(1px)}
+.roster{margin-top:12px;max-height:46vh;overflow:auto;border:1px solid var(--line);border-radius:14px}
+.roster:empty{display:none}
+.rrow{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:14px 16px;border:none;border-bottom:1px solid var(--line);background:#fff;font-family:var(--font);font-size:1.06rem;color:var(--ink);text-align:left;cursor:pointer}
+.rrow:last-child{border-bottom:none}
+.rrow:active{background:#F4F2EC}
+.rrow .name{font-weight:600}
+.rrow .ctag{font-size:.74rem;color:var(--muted);font-weight:600;margin-left:8px}
+.rrow .go{color:#9aa49d;font-size:.92rem}
+.rrow .done{font-size:.78rem;font-weight:700;color:#fff;padding:4px 10px;border-radius:999px;flex:none}
+.rrow.is-done{cursor:default;background:#FAF9F5}
+.rrow.is-done .name{color:var(--muted)}
+.empty{padding:18px;text-align:center;color:var(--muted);font-size:.9rem}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 16px}
+.stat{background:var(--panel);border-radius:var(--r);box-shadow:var(--shadow);padding:14px;text-align:center}
+.stat .v{font-size:1.7rem;font-weight:800;line-height:1;letter-spacing:-.02em}
+.stat .l{font-size:.78rem;color:var(--muted);margin-top:5px}
+.buses{display:grid;gap:14px}
+.bus{background:var(--panel);border-radius:var(--r-lg);box-shadow:var(--shadow);overflow:hidden;border-top:6px solid var(--c)}
+.bus.is-full{outline:2px solid var(--warn)}
+.bus .top{display:flex;align-items:center;gap:12px;padding:16px 18px 12px}
+.bus .pill{font-size:1.1rem;font-weight:800;color:#fff;padding:7px 14px;border-radius:12px;background:var(--c);flex:none}
+.bus .meta{flex:1;min-width:0}
+.bus .count{font-size:1.05rem;font-weight:700}
+.bus .count small{color:var(--muted);font-weight:500}
+.bus .state{font-size:.78rem;font-weight:700;margin-top:2px}
+.bus .state.go{color:var(--ok)}.bus .state.near{color:#C2682A}.bus .state.full{color:var(--warn)}
+.bus .fullbadge{display:none;font-size:.74rem;font-weight:800;color:#fff;background:var(--warn);padding:5px 11px;border-radius:999px;flex:none}
+.bus.is-full .fullbadge{display:inline-block}
+.bar{height:8px;background:#EDEBE3;border-radius:999px;margin:0 18px;overflow:hidden}
+.bar>i{display:block;height:100%;width:0;background:var(--c);border-radius:999px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.names{display:flex;flex-wrap:wrap;gap:7px;padding:14px 18px 18px}
+.names:empty::after{content:'아직 탑승자가 없어요';color:var(--muted);font-size:.86rem}
+.chip{font-size:.92rem;padding:6px 11px;border-radius:999px;background:#F2F1EA;color:var(--ink);border:1px solid var(--line);display:inline-flex;align-items:center;gap:6px}
+.chip .o{font-size:.72rem;color:var(--muted);font-weight:700}
+.chip.fresh{animation:pop .6s ease both;background:#fff}
+@keyframes pop{0%{transform:scale(.7);opacity:0}60%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+.admin{margin:24px 0 0}
+.admin summary{cursor:pointer;font-size:.9rem;color:var(--muted);font-weight:600;list-style:none;padding:10px 2px}
+.admin summary::-webkit-details-marker{display:none}
+.admin summary::before{content:'⚙ '}
+.admin .box{background:var(--panel);border-radius:var(--r);box-shadow:var(--shadow);padding:16px;margin-top:6px;display:grid;gap:10px}
+.admin .row{display:flex;gap:8px}
+.admin .row input{flex:1;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font-family:var(--font);font-size:.96rem}
+.admin button{font-family:var(--font);font-weight:600;border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:12px;padding:12px 14px;cursor:pointer;font-size:.92rem}
+.admin button.danger{border-color:#E7B7AF;color:var(--warn)}
+.admin .note{font-size:.8rem;color:var(--muted)}
+.modal{position:fixed;inset:0;background:rgba(20,28,22,.5);display:none;align-items:center;justify-content:center;padding:20px;z-index:50;backdrop-filter:blur(2px)}
+.modal.on{display:flex;animation:fade .2s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.card{background:#fff;border-radius:24px;max-width:400px;width:100%;padding:24px 22px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.card .big{font-size:1.02rem;color:var(--muted)}
+.card .daytag{font-size:.8rem;font-weight:700;color:var(--green);margin-bottom:2px}
+.card .who{font-size:1.5rem;font-weight:800;margin:4px 0 6px}
+.card .course{display:none;font-size:.88rem;font-weight:700;color:#7A4F9E;margin:0 0 12px}
+.busbtns{display:grid;gap:10px;margin:6px 0 14px}
+.busbtn{display:flex;align-items:center;justify-content:space-between;font-family:var(--font);border:2px solid var(--c);background:#fff;color:var(--ink);border-radius:16px;padding:16px 18px;cursor:pointer;width:100%}
+.busbtn .bl{font-size:1.15rem;font-weight:800;color:var(--c);text-align:left}
+.busbtn .bc{font-size:1rem;font-weight:700;color:var(--muted)}
+.busbtn.rec{box-shadow:0 0 0 4px rgba(47,107,79,.14)}
+.busbtn:active{transform:translateY(1px)}
+.busbtn.full{border-color:var(--line);background:#F6F5F1;cursor:not-allowed;opacity:.75}
+.busbtn.full .bl{color:#9aa49d}.busbtn.full .bc{color:var(--warn);font-weight:800}
+.cancelpick,.closebtn{width:100%;font-family:var(--font);font-weight:700;font-size:1rem;border:none;border-radius:14px;padding:14px;cursor:pointer}
+.cancelpick{background:#F1F0EA;color:var(--ink)}
+.closebtn{background:var(--green);color:#fff}
+.result{font-size:2.6rem;font-weight:800;color:#fff;padding:18px;border-radius:18px;line-height:1.1}
+.result small{display:block;font-size:1rem;font-weight:600;opacity:.92;margin-top:6px}
+.order{margin:14px 0 14px;color:var(--muted);font-weight:600}
+.fullmsg{display:none;margin:0 0 14px;padding:12px 14px;border-radius:12px;background:#FBE9E6;color:var(--warn);font-weight:700;font-size:.92rem}
+.fullmsg.on{display:block}
+.foot{text-align:center;margin:34px 0 0;color:var(--muted);font-size:.82rem}
+.foot img{width:150px;opacity:.9;display:block;margin:0 auto 10px}
+.backlink{display:inline-block;margin-top:14px;color:var(--green);text-decoration:none;font-weight:600;font-size:.92rem}
+@media (max-width:430px){.h1{font-size:1.35rem}.stat .v{font-size:1.45rem}.tab{font-size:.84rem}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="site-head"><div class="inner">
+  <img src="https://sulgi837500-dev.github.io/2026happyretreat/images/logo.jpg" alt="행복한교회 로고" onerror="this.style.display='none'"/>
+  <b>행복한교회 수련회</b>
+</div></header>
+<nav class="nav">
+  <a href="https://sulgi837500-dev.github.io/2026happyretreat/index.html">안내</a>
+  <a href="https://sulgi837500-dev.github.io/2026happyretreat/schedule.html">일정</a>
+  <a href="https://sulgi837500-dev.github.io/2026happyretreat/info-hub.html">정보</a>
+  <a href="https://sulgi837500-dev.github.io/2026happyretreat/notice.html">공지</a>
+  <a href="https://sulgi837500-dev.github.io/2026happyretreat/location.html">오시는 길</a>
+  <a class="here" href="#">탑승 체크인</a>
+</nav>
+<div class="wrap">
+  <div id="mode" class="mode demo"><span class="dot"></span><span id="modeText">미리보기 모드 · 이 기기에서만 저장됩니다</span></div>
+  <div id="tabs" class="tabs"></div>
+  <h1 class="h1">🚌 <span id="dayTitle" class="day">첫째날</span> 탑승 체크인</h1>
+  <p class="sub">위에서 <b>날짜</b>를 고르고, 이름을 검색해 누른 뒤 <b>호차를 선택</b>하세요. 날짜별로 따로 집계되고, 정원이 차면 <b>만석</b>으로 표시됩니다.</p>
+  <div id="mine" class="mine"><span class="badge" id="mineBadge">2호차</span><div><div class="t" id="mineName">홍길동님</div><div class="n" id="mineWhich"></div></div></div>
+  <div id="fullAlert" class="fullAlert"></div>
+  <section class="panel">
+    <h2>✋ 탑승 체크인</h2>
+    <p class="hint" id="checkinHint"></p>
+    <div class="search"><input id="q" type="text" inputmode="search" placeholder="이름 검색 (예: 이슬기)" autocomplete="off" /><button class="btn" id="qBtn">찾기</button></div>
+    <div id="roster" class="roster"></div>
+  </section>
+  <div class="stats">
+    <div class="stat"><div class="v" id="sTotal">0</div><div class="l">탑승 완료</div></div>
+    <div class="stat"><div class="v" id="sCap">0</div><div class="l">총 정원</div></div>
+    <div class="stat"><div class="v" id="sPct">0%</div><div class="l">진행률</div></div>
+  </div>
+  <div id="buses" class="buses"></div>
+  <details class="admin">
+    <summary>운영자 도구 (선택한 날짜에만 적용)</summary>
+    <div class="box">
+      <p class="note">출발 전 준비 담당자만 사용하세요. 변경 내용은 <b>선택한 날짜</b>에만 적용되고 모든 기기에 즉시 반영됩니다.</p>
+      <button id="undo">↩ 방금 체크인 취소 (마지막 1명)</button>
+      <div class="row"><input id="cancelName" type="text" placeholder="취소할 이름" /><button id="cancelBtn">이름으로 취소</button></div>
+      <button class="danger" id="reset">🔄 이 날짜 전체 초기화</button>
+    </div>
+  </details>
+  <div class="foot">
+    <img src="https://sulgi837500-dev.github.io/2026happyretreat/images/logo-wide.jpg" alt="행복한교회" onerror="this.style.display='none'"/>
+    대한예수교장로회 행복한교회 · 2026 전교인 여름 수련회<br/>
+    <a class="backlink" href="https://sulgi837500-dev.github.io/2026happyretreat/info-hub.html">← 정보방으로 돌아가기</a>
+  </div>
+</div>
+<div class="modal" id="modal"><div class="card" id="card">
+  <div id="stagePick">
+    <div class="daytag" id="cDay">첫째날</div>
+    <div class="big">탑승하실 호차를 선택하세요</div>
+    <div class="who" id="cWho">홍길동님</div>
+    <div class="course" id="cCourse"></div>
+    <div class="busbtns" id="busPick"></div>
+    <button class="cancelpick" id="cCancel">취소</button>
+  </div>
+  <div id="stageResult" style="display:none">
+    <div class="daytag" id="rDay">첫째날</div>
+    <div class="who" id="rWho"></div>
+    <div class="result" id="cResult"></div>
+    <div class="order" id="cOrder"></div>
+    <div class="fullmsg" id="cFull"></div>
+    <button class="closebtn" id="cClose">닫기</button>
+  </div>
+</div></div>
+
+<script>
+/* ============================================================
+   ① 설정 — 이 부분만 바꾸면 됩니다
+   ============================================================ */
+// 호차 색상(순환 사용)
+const BUS_COLORS=['#2F6B4F','#2B6CB0','#C2682A','#7A4F9E','#B7791F','#3B7A8C'];
+
+// 코스 이름(둘째날)
+const HERB='허브나라·흥정계곡', JJIM='수가솔방 찜질방';
+
+// 날짜(3회) 설정 — 호차 이름/정원/대상자를 날짜마다 다르게 줍니다.
+//  ※ 교회버스 185명 → 5대 (1~4호차 최대 40명, 5호차가 나머지 ≈25~33명)
+//    · 허브나라 88명 → 2대, 수가솔방 17명 → 1대
+const SESSIONS=[
+  { id:'day1', title:'첫째날', sub:'출발', note:'교회버스 이용자',
+    pick:p=>p.b===1,
+    buses:[{label:'1호차',cap:40},{label:'2호차',cap:40},{label:'3호차',cap:40},{label:'4호차',cap:40},{label:'5호차',cap:45}] },
+  { id:'day2', title:'둘째날', sub:'선택관광', note:'코스 신청자', courseMode:true,
+    pick:p=>p.c===HERB||p.c===JJIM,
+    buses:[{label:'허브나라 1호차',cap:45,course:HERB},
+           {label:'허브나라 2호차',cap:45,course:HERB},
+           {label:'수가솔방 찜질방',cap:25,course:JJIM}] },
+  { id:'day3', title:'셋째날', sub:'복귀', note:'교회버스 이용자',
+    pick:p=>p.b===1,
+    buses:[{label:'1호차',cap:40},{label:'2호차',cap:40},{label:'3호차',cap:40},{label:'4호차',cap:40},{label:'5호차',cap:45}] },
+];
+
+// 참가자 명단(2026 수련회 최종 명단 자동 추출) — n:이름, b:교회버스(1)/자차(0), c:선택코스
+const PEOPLE=[
+{n:"홍영자",b:1,c:"허브나라·흥정계곡"},
+{n:"이석인",b:1,c:"허브나라·흥정계곡"},
+{n:"강복심",b:0,c:"수가솔방 찜질방"},
+{n:"백승태",b:0,c:"수가솔방 찜질방"},
+{n:"강한규",b:1,c:"허브나라·흥정계곡"},
+{n:"이루다",b:0,c:"허브나라·흥정계곡"},
+{n:"이슬기",b:0,c:"허브나라·흥정계곡"},
+{n:"이환이",b:0,c:"허브나라·흥정계곡"},
+{n:"이준이",b:0,c:"허브나라·흥정계곡"},
+{n:"허정원",b:1,c:"허브나라·흥정계곡"},
+{n:"김진배",b:1,c:"허브나라·흥정계곡"},
+{n:"박정희",b:1,c:"허브나라·흥정계곡"},
+{n:"신승자",b:0,c:"허브나라·흥정계곡"},
+{n:"박찬별",b:0,c:"허브나라·흥정계곡"},
+{n:"이영아",b:0,c:"허브나라·흥정계곡"},
+{n:"안현",b:0,c:"허브나라·흥정계곡"},
+{n:"안채아",b:0,c:"허브나라·흥정계곡"},
+{n:"안채겸",b:0,c:"허브나라·흥정계곡"},
+{n:"정선영",b:0,c:"허브나라·흥정계곡"},
+{n:"백전영",b:0,c:"허브나라·흥정계곡"},
+{n:"정소윤",b:0,c:"허브나라·흥정계곡"},
+{n:"정유찬",b:1,c:"허브나라·흥정계곡"},
+{n:"이옥선",b:1,c:"허브나라·흥정계곡"},
+{n:"이민규",b:1,c:"허브나라·흥정계곡"},
+{n:"이신우",b:1,c:"허브나라·흥정계곡"},
+{n:"이지우",b:1,c:"허브나라·흥정계곡"},
+{n:"최경익",b:1,c:"허브나라·흥정계곡"},
+{n:"김상배",b:1,c:"허브나라·흥정계곡"},
+{n:"맹은숙",b:1,c:"허브나라·흥정계곡"},
+{n:"주재은",b:1,c:"허브나라·흥정계곡"},
+{n:"유병열",b:0,c:"허브나라·흥정계곡"},
+{n:"전금숙",b:0,c:"허브나라·흥정계곡"},
+{n:"한수연",b:1},
+{n:"김효식",b:1},
+{n:"장성숙",b:1},
+{n:"김명석",b:1},
+{n:"엄윤숙",b:1,c:"수가솔방 찜질방"},
+{n:"신종하",b:1,c:"수가솔방 찜질방"},
+{n:"박복란",b:1,c:"수가솔방 찜질방"},
+{n:"선우태길",b:1},
+{n:"이선희",b:1},
+{n:"정헌진",b:1},
+{n:"최종남",b:1,c:"수가솔방 찜질방"},
+{n:"김기순",b:1,c:"수가솔방 찜질방"},
+{n:"원희라",b:1},
+{n:"김미옥",b:1,c:"허브나라·흥정계곡"},
+{n:"임종호",b:1,c:"허브나라·흥정계곡"},
+{n:"유금주",b:1},
+{n:"유종례",b:1},
+{n:"성숙희",b:1},
+{n:"김선영",b:1},
+{n:"공수연",b:1},
+{n:"이점순",b:1},
+{n:"김광주",b:1},
+{n:"조숙정",b:1},
+{n:"조현숙",b:1},
+{n:"최순단B",b:1},
+{n:"이영숙A",b:1},
+{n:"장연선",b:1},
+{n:"장영남",b:1},
+{n:"서정숙",b:1,c:"허브나라·흥정계곡"},
+{n:"박경자",b:1,c:"수가솔방 찜질방"},
+{n:"김영례",b:1},
+{n:"현종환",b:1},
+{n:"이미정",b:1},
+{n:"현민재",b:1},
+{n:"최화성",b:0},
+{n:"장인옥",b:1,c:"허브나라·흥정계곡"},
+{n:"민경무",b:0,c:"허브나라·흥정계곡"},
+{n:"조은미",b:0,c:"허브나라·흥정계곡"},
+{n:"민자영",b:0,c:"허브나라·흥정계곡"},
+{n:"민선",b:0,c:"허브나라·흥정계곡"},
+{n:"임헌숙",b:1,c:"허브나라·흥정계곡"},
+{n:"이 웅",b:1,c:"허브나라·흥정계곡"},
+{n:"한희숙",b:1,c:"허브나라·흥정계곡"},
+{n:"김유리",b:1},
+{n:"신미나",b:1},
+{n:"조정림",b:1},
+{n:"김현숙",b:0,c:"허브나라·흥정계곡"},
+{n:"이공섭",b:0,c:"허브나라·흥정계곡"},
+{n:"박희영",b:1,c:"허브나라·흥정계곡"},
+{n:"이민희",b:1,c:"허브나라·흥정계곡"},
+{n:"채형남",b:0,c:"허브나라·흥정계곡"},
+{n:"이다희",b:1,c:"허브나라·흥정계곡"},
+{n:"김지영",b:1,c:"허브나라·흥정계곡"},
+{n:"김정희",b:1},
+{n:"박동욱",b:1,c:"허브나라·흥정계곡"},
+{n:"제명숙",b:1},
+{n:"진영숙",b:1,c:"허브나라·흥정계곡"},
+{n:"전경순",b:1},
+{n:"이영희",b:1},
+{n:"이선희A",b:1,c:"허브나라·흥정계곡"},
+{n:"김웅일",b:1,c:"허브나라·흥정계곡"},
+{n:"양경순",b:1},
+{n:"김용익",b:1},
+{n:"김이선",b:1},
+{n:"엽영선",b:1},
+{n:"고정희",b:1},
+{n:"태현석",b:1},
+{n:"조한선",b:1},
+{n:"박복동",b:1},
+{n:"양해동",b:1},
+{n:"정혜경A",b:1},
+{n:"김미경",b:1,c:"허브나라·흥정계곡"},
+{n:"김형숙",b:1},
+{n:"김흥식",b:1},
+{n:"심춘화",b:1,c:"허브나라·흥정계곡"},
+{n:"이경희D",b:1,c:"허브나라·흥정계곡"},
+{n:"김고영",b:1},
+{n:"김경미",b:1},
+{n:"박성희",b:1,c:"허브나라·흥정계곡"},
+{n:"김명희",b:1},
+{n:"추유실",b:1},
+{n:"김소영C",b:1},
+{n:"김대현",b:1},
+{n:"김순임",b:1},
+{n:"이종숙",b:1},
+{n:"김종란",b:1},
+{n:"이건용",b:1},
+{n:"황향춘",b:1},
+{n:"심경섭",b:1},
+{n:"황미희",b:1},
+{n:"장선주",b:1},
+{n:"이인숙",b:1},
+{n:"나향균",b:1},
+{n:"이춘구",b:1},
+{n:"송남식",b:1},
+{n:"정승미",b:1,c:"허브나라·흥정계곡"},
+{n:"문영남",b:1},
+{n:"전창호",b:1},
+{n:"송송희",b:1},
+{n:"이유정",b:1},
+{n:"김로아",b:1},
+{n:"김지한",b:1},
+{n:"황용혜",b:1,c:"허브나라·흥정계곡"},
+{n:"이형심",b:1},
+{n:"장재원B",b:1},
+{n:"윤가영",b:1},
+{n:"송형남",b:1},
+{n:"김소영B",b:1},
+{n:"송준성",b:1},
+{n:"박은순",b:1},
+{n:"김정희A",b:1},
+{n:"지태남",b:1},
+{n:"금미숙",b:0},
+{n:"이근홍",b:0},
+{n:"은명화",b:1,c:"수가솔방 찜질방"},
+{n:"장원호",b:0,c:"허브나라·흥정계곡"},
+{n:"김혜린",b:0,c:"허브나라·흥정계곡"},
+{n:"장윤빈",b:0,c:"허브나라·흥정계곡"},
+{n:"장윤서",b:0,c:"허브나라·흥정계곡"},
+{n:"윤은숙 권사",b:1,c:"허브나라·흥정계곡"},
+{n:"김성관",b:1,c:"수가솔방 찜질방"},
+{n:"박영주",b:1,c:"수가솔방 찜질방"},
+{n:"이옥순",b:0,c:"허브나라·흥정계곡"},
+{n:"백정남",b:0,c:"허브나라·흥정계곡"},
+{n:"백하성",b:0,c:"허브나라·흥정계곡"},
+{n:"백하라",b:0,c:"허브나라·흥정계곡"},
+{n:"김채원",b:0,c:"허브나라·흥정계곡"},
+{n:"김은아",b:0},
+{n:"김용배",b:0},
+{n:"김루야",b:0},
+{n:"김누엘",b:0},
+{n:"김옥희",b:0},
+{n:"박상국",b:0},
+{n:"허성애",b:0,c:"허브나라·흥정계곡"},
+{n:"박원택",b:0,c:"허브나라·흥정계곡"},
+{n:"박성현",b:0,c:"허브나라·흥정계곡"},
+{n:"유승혁",b:0},
+{n:"유양우",b:1,c:"허브나라·흥정계곡"},
+{n:"김영식",b:1,c:"허브나라·흥정계곡"},
+{n:"조규은",b:1,c:"허브나라·흥정계곡"},
+{n:"김수연",b:1,c:"허브나라·흥정계곡"},
+{n:"김길수",b:0,c:"허브나라·흥정계곡"},
+{n:"유영록",b:0,c:"허브나라·흥정계곡"},
+{n:"김규리",b:0,c:"허브나라·흥정계곡"},
+{n:"김영재",b:0,c:"허브나라·흥정계곡"},
+{n:"조미향",b:1},
+{n:"전윤상",b:1},
+{n:"송미옥",b:1},
+{n:"성명희",b:1},
+{n:"이호범",b:1},
+{n:"김선심",b:0},
+{n:"임명길",b:0},
+{n:"한상숙",b:1,c:"수가솔방 찜질방"},
+{n:"권성희",b:1,c:"수가솔방 찜질방"},
+{n:"이순희",b:1},
+{n:"김석수",b:1},
+{n:"변선옥",b:1},
+{n:"강병혜",b:1,c:"수가솔방 찜질방"},
+{n:"김동욱",b:1,c:"허브나라·흥정계곡"},
+{n:"박은미",b:1},
+{n:"서준영",b:1},
+{n:"오현철",b:1},
+{n:"오하얀",b:1},
+{n:"배정환",b:1},
+{n:"박두순",b:1},
+{n:"이정선",b:0,c:"수가솔방 찜질방"},
+{n:"김기창",b:0},
+{n:"김성인",b:0},
+{n:"김성초",b:0},
+{n:"최미정",b:1},
+{n:"버스기사님1",b:1},
+{n:"버스기사님2",b:1},
+{n:"버스기사님3",b:1},
+{n:"버스기사님4",b:1},
+{n:"강사목사님",b:1},
+{n:"음향기사님",b:0},
+{n:"음향기사님",b:0},
+{n:"박삼순",b:1},
+{n:"전병준",b:1},
+{n:"강애호",b:1},
+{n:"정연희",b:0,c:"허브나라·흥정계곡"},
+{n:"김기범",b:0},
+{n:"김예빈",b:0,c:"허브나라·흥정계곡"},
+{n:"김시온",b:1,c:"허브나라·흥정계곡"},
+{n:"김도윤",b:1,c:"허브나라·흥정계곡"},
+{n:"이유인",b:1},
+{n:"박희정",b:1},
+{n:"이우평",b:1},
+{n:"최정희",b:1,c:"허브나라·흥정계곡"},
+{n:"정혜경B",b:1,c:"허브나라·흥정계곡"},
+{n:"김영배",b:1,c:"허브나라·흥정계곡"},
+{n:"팽혜숙",b:1,c:"허브나라·흥정계곡"},
+{n:"김복이",b:1},
+{n:"홍미영",b:1},
+{n:"김종완",b:1},
+{n:"박혜숙",b:1,c:"수가솔방 찜질방"},
+{n:"신해숙",b:0},
+{n:"최윤진",b:0},
+{n:"오주희",b:0},
+{n:"채세인",b:0},
+{n:"장진",b:0},
+{n:"강나윤",b:0},
+{n:"강혜진",b:0},
+{n:"정사랑",b:0},
+{n:"황은성",b:0},
+{n:"이민경B",b:0},
+{n:"유금선",b:0},
+{n:"강옥분",b:1},
+{n:"김명자",b:1},
+{n:"송남식",b:1},
+{n:"김미례",b:1},
+{n:"최명자",b:1},
+{n:"권윤경",b:1},
+{n:"권오성",b:1},
+{n:"류성숙",b:1},
+{n:"서홍석",b:1},
+{n:"김석배",b:1},
+{n:"김정미",b:1},
+{n:"유경애",b:1},
+{n:"노경임",b:1},
+{n:"장종례",b:1},
+{n:"전영란",b:1},
+{n:"장옥련",b:1},
+{n:"장강숙",b:1},
+{n:"유원숙",b:1,c:"수가솔방 찜질방"},
+{n:"전다솜",b:0},
+{n:"이성민",b:0},
+{n:"이유온",b:0}
+];
+
+// Firebase 실시간 DB 설정 — 채우면 '실시간 공유'가 켜집니다.(비우면 이 기기 미리보기 모드)
+const FIREBASE_CONFIG={
+  apiKey:"AIzaSyAfsTKYWHXmfiGO8q_2S8YVgR3V1766Ppg",
+  authDomain:"happy-retreat-2026.firebaseapp.com",
+  databaseURL:"https://happy-retreat-2026-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:"happy-retreat-2026",
+  appId:"1:530792314584:web:5f24d3ba0228029f5949ad"
+};
+
+/* ============================================================
+   ② 공통 로직 (수정 불필요)
+   ============================================================ */
+PEOPLE.forEach((p,i)=>p.id='p'+i);
+const isLive=FIREBASE_CONFIG.databaseURL && !FIREBASE_CONFIG.databaseURL.includes('여기에');
+const $=s=>document.querySelector(s);
+const norm=s=>(s||'').trim().replace(/\s+/g,'');
+const byId=id=>PEOPLE.find(p=>p.id===id);
+
+let backend, CHECKINS=[], curSession=0;
+let BUSES=[], CAP_TOTAL=0, MYKEY='', CANDS=[];
+const checkedKeys=()=>new Set(CHECKINS.map(e=>e.key));
+function busCounts(){ const m={}; BUSES.forEach((_,i)=>m[i+1]=0); CHECKINS.forEach(e=>{m[e.bus]=(m[e.bus]||0)+1;}); return m; }
+function recommendedBus(c,allow){ for(let i=0;i<BUSES.length;i++){ const n=i+1; if(allow&&!allow.includes(n))continue; if((c[n]||0)<BUSES[i].cap)return n; } return null; }
+
+/* ---- 백엔드 (날짜별 분리 저장) ---- */
+function makeFirebaseBackend(){
+  firebase.initializeApp(FIREBASE_CONFIG);
+  const db=firebase.database();
+  let cb=null, ref=null, S=null;
+  const P=()=>'sessions/'+S;
+  return {
+    subscribe(fn){ cb=fn; },
+    use(id){ if(ref) ref.off(); S=id; ref=db.ref(P()+'/checkins'); ref.on('value', s=>{ if(cb) cb(Object.values(s.val()||{})); }); },
+    async checkin(name,key,bus){
+      const claimRef=db.ref(P()+'/claims/'+key);
+      const claim=await claimRef.transaction(cur=>cur===null?{t:Date.now()}:undefined);
+      if(!claim.committed) return {already:true};
+      const ctr=await db.ref(P()+'/counter').transaction(c=>(c||0)+1);
+      const order=ctr.snapshot.val(), id='c'+order+'_'+key, entry={id,name,order,bus,key,ts:Date.now()};
+      await db.ref(P()+'/checkins/'+id).set(entry); await claimRef.set({id,order,bus}); return entry;
+    },
+    async undoLast(){ const all=Object.values((await db.ref(P()+'/checkins').once('value')).val()||{}); if(!all.length)return;
+      const last=all.sort((a,b)=>b.order-a.order)[0]; const cur=(await db.ref(P()+'/counter').once('value')).val()||0;
+      if(cur===last.order) await db.ref(P()+'/counter').transaction(c=>(c||1)-1);
+      await db.ref(P()+'/checkins/'+last.id).remove(); await db.ref(P()+'/claims/'+last.key).remove(); },
+    async cancel(name){ const all=Object.values((await db.ref(P()+'/checkins').once('value')).val()||{}); const hits=all.filter(e=>norm(e.name)===norm(name));
+      for(const e of hits){ await db.ref(P()+'/checkins/'+e.id).remove(); await db.ref(P()+'/claims/'+e.key).remove(); } return hits.length; },
+    async reset(){ await db.ref(P()+'/checkins').remove(); await db.ref(P()+'/counter').remove(); await db.ref(P()+'/claims').remove(); }
+  };
+}
+function makeLocalBackend(){
+  let cb=null,S=null; const KEY=id=>'retreat_bus_v4_'+id;
+  const read=id=>{ try{return JSON.parse(localStorage.getItem(KEY(id)))||{counter:0,checkins:{},claims:{}}}catch{return{counter:0,checkins:{},claims:{}}} };
+  const write=(id,d)=>{ localStorage.setItem(KEY(id),JSON.stringify(d)); window.dispatchEvent(new Event('local-sync')); };
+  const emit=()=>{ if(cb&&S) cb(Object.values(read(S).checkins)); };
+  window.addEventListener('storage',e=>{ if(e.key&&e.key.indexOf('retreat_bus_v4_')===0) emit(); });
+  window.addEventListener('local-sync',emit);
+  return {
+    subscribe(fn){ cb=fn; }, use(id){ S=id; emit(); },
+    async checkin(name,key,bus){ const d=read(S); if(d.claims[key]) return {already:true};
+      const order=(d.counter||0)+1, id='c'+order+'_'+key, entry={id,name,order,bus,key,ts:Date.now()};
+      d.counter=order; d.checkins[id]=entry; d.claims[key]={id,order,bus}; write(S,d); return entry; },
+    async undoLast(){ const d=read(S); const all=Object.values(d.checkins); if(!all.length)return;
+      const last=all.sort((a,b)=>b.order-a.order)[0]; if(d.counter===last.order)d.counter--; delete d.checkins[last.id]; delete d.claims[last.key]; write(S,d); },
+    async cancel(name){ const d=read(S); const hits=Object.values(d.checkins).filter(e=>norm(e.name)===norm(name)); hits.forEach(e=>{delete d.checkins[e.id];delete d.claims[e.key];}); write(S,d); return hits.length; },
+    async reset(){ write(S,{counter:0,checkins:{},claims:{}}); }
+  };
+}
+
+/* ============================================================
+   ③ 렌더링 / 상호작용
+   ============================================================ */
+function renderTabs(){ $('#tabs').innerHTML=SESSIONS.map((s,i)=>`<button class="tab ${i===curSession?'on':''}" data-i="${i}">${s.title}<small>${s.sub}</small></button>`).join(''); }
+
+function setSession(idx){
+  curSession=idx; const s=SESSIONS[idx];
+  BUSES=s.buses.map((b,i)=>({label:b.label,cap:b.cap,course:b.course||null,color:BUS_COLORS[i%BUS_COLORS.length]}));
+  CAP_TOTAL=BUSES.reduce((a,b)=>a+b.cap,0); MYKEY='retreat_my_'+s.id; CANDS=PEOPLE.filter(s.pick);
+  $('#dayTitle').textContent=s.title;
+  $('#cDay').textContent=$('#rDay').textContent=`${s.title} · ${s.sub}`;
+  $('#checkinHint').innerHTML=`이름을 검색해 누른 뒤 호차를 선택하세요. <b>이 날짜 대상: ${s.note} ${CANDS.length}명</b>`;
+  $('#q').value=''; closeModal(); renderTabs(); CHECKINS=[]; render(); backend.use(s.id);
+}
+
+function render(){
+  const total=CHECKINS.length, counts=busCounts();
+  $('#sTotal').textContent=total; $('#sCap').textContent=CAP_TOTAL; $('#sPct').textContent=Math.round(total/CAP_TOTAL*100)+'%';
+  const fulls=BUSES.map((b,i)=>(counts[i+1]||0)>=b.cap?b.label:null).filter(Boolean);
+  const fa=$('#fullAlert');
+  if(fulls.length){ fa.classList.add('on'); fa.innerHTML='🚨 <span>'+fulls.join('·')+' 만석 — 다음 호차로 안내해 주세요</span>'; } else fa.classList.remove('on');
+  const byBus={}; BUSES.forEach((_,i)=>byBus[i+1]=[]); CHECKINS.forEach(e=>{(byBus[e.bus]=byBus[e.bus]||[]).push(e);});
+  const newestId=CHECKINS.length?CHECKINS.slice().sort((a,b)=>b.order-a.order)[0].id:null;
+  $('#buses').innerHTML=BUSES.map((b,i)=>{
+    const n=i+1, list=(byBus[n]||[]).sort((a,b)=>a.order-b.order), cnt=list.length, pct=Math.min(100,Math.round(cnt/b.cap*100));
+    let st='go',stTxt='탑승 중'; if(cnt>=b.cap){st='full';stTxt='만석';} else if(cnt>=b.cap-5){st='near';stTxt='마감 임박';}
+    const chips=list.map(e=>`<span class="chip ${e.id===newestId?'fresh':''}"><span class="o">${e.order}</span>${e.name}</span>`).join('');
+    return `<div class="bus ${cnt>=b.cap?'is-full':''}" style="--c:${b.color}"><div class="top"><span class="pill">${b.label}</span><div class="meta"><div class="count">${cnt}<small> / ${b.cap}명</small></div><div class="state ${st}">${stTxt}</div></div><span class="fullbadge">만석</span></div><div class="bar"><i style="width:${pct}%"></i></div><div class="names">${chips}</div></div>`;
+  }).join('');
+  renderRoster($('#q').value); renderMine();
+}
+
+function renderMine(){
+  let mine=null; try{ mine=JSON.parse(localStorage.getItem(MYKEY)); }catch{}
+  const box=$('#mine');
+  if(mine && checkedKeys().has(mine.key) && mine.bus<=BUSES.length){
+    const b=BUSES[mine.bus-1];
+    box.style.display='flex'; box.style.borderLeftColor=b.color;
+    const bd=$('#mineBadge'); bd.textContent=b.label; bd.style.background=b.color; bd.style.fontSize=b.label.length>4?'1rem':'1.4rem';
+    $('#mineName').textContent=mine.name+'님'; $('#mineWhich').textContent=`${b.label} · ${mine.order}번째 탑승`;
+  } else box.style.display='none';
+}
+
+function renderRoster(query){
+  const box=$('#roster'); const q=norm(query); const cm=SESSIONS[curSession].courseMode;
+  if(q===''){ box.innerHTML=''; return; }
+  const done=checkedKeys();
+  const list=CANDS.filter(p=>norm(p.n).includes(q));
+  if(!list.length){ box.innerHTML=`<div class="empty">‘${query}’ 이 날짜 대상 명단에 없습니다.<br>그대로 “찾기”를 누르면 직접 체크인할 수 있어요.</div>`; return; }
+  box.innerHTML=list.map(p=>{
+    const ct = cm && p.c ? `<span class="ctag">${p.c.split('·')[0]}</span>` : '';
+    if(done.has(p.id)){
+      const e=CHECKINS.find(x=>x.key===p.id); const b=BUSES[(e?.bus||1)-1];
+      return `<div class="rrow is-done"><span><span class="name">${p.n}</span>${ct}</span><span class="done" style="background:${b.color}">${b.label} 완료</span></div>`;
+    }
+    return `<button class="rrow" data-id="${p.id}"><span><span class="name">${p.n}</span>${ct}</span><span class="go">호차 선택 ›</span></button>`;
+  }).join('');
+}
+
+/* ---- 호차 선택 모달 ---- */
+let pending=null;
+function openPick(person){
+  pending=person; const cm=SESSIONS[curSession].courseMode;
+  $('#cWho').textContent=person.n+'님';
+  const cEl=$('#cCourse');
+  if(cm && person.c){ cEl.style.display='block'; cEl.textContent='🎯 '+person.c+' 코스'; } else cEl.style.display='none';
+  let allow=null;
+  if(cm && person.c){ allow=BUSES.map((b,i)=>b.course===person.c?i+1:null).filter(Boolean); }
+  const counts=busCounts(), rec=recommendedBus(counts,allow);
+  $('#busPick').innerHTML=BUSES.map((b,i)=>{
+    const n=i+1; if(allow && !allow.includes(n)) return '';
+    const c=counts[n]||0, full=c>=b.cap, recd=(!full&&n===rec);
+    return `<button class="busbtn ${full?'full':''} ${recd?'rec':''}" data-bus="${n}" ${full?'disabled':''} style="--c:${b.color}"><span class="bl">${b.label}${recd?' · 추천':''}</span><span class="bc">${full?'만석':c+' / '+b.cap}</span></button>`;
+  }).join('');
+  $('#stagePick').style.display='block'; $('#stageResult').style.display='none'; $('#modal').classList.add('on');
+}
+async function doCheckin(person,bus){
+  const counts=busCounts(), cap=BUSES[bus-1].cap;
+  if((counts[bus]||0)>=cap){ alert(`${BUSES[bus-1].label}는 이미 만석입니다. 다른 호차를 선택하세요.`); openPick(person); return; }
+  const r=await backend.checkin(person.n, person.id, bus);
+  if(r.already){ alert(`${person.n}님은 이미 체크인되어 있습니다.`); closeModal(); return; }
+  showResult(r, (counts[bus]||0)+1>=cap);
+}
+function showResult(entry, filled){
+  const b=BUSES[entry.bus-1];
+  $('#rWho').textContent=entry.name+'님';
+  const r=$('#cResult'); r.style.background=b.color; r.innerHTML=`${b.label}<small>안전하게 탑승하세요 🚌</small>`;
+  $('#cOrder').textContent=`${entry.order}번째 탑승`;
+  const fm=$('#cFull'); if(filled){ fm.classList.add('on'); fm.textContent=`🚨 ${b.label}가 만석이 되었습니다. 다음 분부터 다른 호차로 안내해 주세요.`; } else fm.classList.remove('on');
+  $('#stagePick').style.display='none'; $('#stageResult').style.display='block';
+  localStorage.setItem(MYKEY, JSON.stringify({name:entry.name,key:entry.key,bus:entry.bus,order:entry.order}));
+}
+function closeModal(){ $('#modal').classList.remove('on'); pending=null; }
+
+/* ---- 이벤트 ---- */
+$('#tabs').addEventListener('click', e=>{ const t=e.target.closest('.tab[data-i]'); if(t) setSession(+t.dataset.i); });
+$('#q').addEventListener('input', e=>renderRoster(e.target.value));
+$('#q').addEventListener('keydown', e=>{ if(e.key==='Enter') $('#qBtn').click(); });
+$('#roster').addEventListener('click', e=>{ const row=e.target.closest('.rrow[data-id]'); if(!row)return; const p=byId(row.dataset.id); if(p) openPick(p); });
+$('#qBtn').addEventListener('click', ()=>{ const name=$('#q').value.trim(); if(!name) return $('#q').focus();
+  const p=CANDS.find(x=>norm(x.n)===norm(name)); openPick(p||{id:'n'+norm(name),n:name,c:''}); });
+$('#busPick').addEventListener('click', e=>{ const b=e.target.closest('.busbtn[data-bus]'); if(!b||b.disabled)return; doCheckin(pending,+b.dataset.bus); });
+$('#cCancel').addEventListener('click', closeModal);
+$('#cClose').addEventListener('click', ()=>{ $('#q').value=''; renderRoster(''); closeModal(); });
+$('#modal').addEventListener('click', e=>{ if(e.target.id==='modal') closeModal(); });
+$('#undo').addEventListener('click', async()=>{ if(confirm(`[${SESSIONS[curSession].title}] 가장 최근 체크인 1명을 취소할까요?`)) await backend.undoLast(); });
+$('#cancelBtn').addEventListener('click', async()=>{ const n=$('#cancelName').value.trim(); if(!n)return; const cnt=await backend.cancel(n); $('#cancelName').value=''; alert(cnt?`${n}님 ${cnt}건 취소했습니다.`:`${n}님 체크인을 찾지 못했습니다.`); });
+$('#reset').addEventListener('click', async()=>{ const d=SESSIONS[curSession].title; if(confirm(`정말 [${d}] 전체 체크인을 초기화할까요?`)&&confirm('되돌릴 수 없습니다. 한 번 더 확인합니다. 초기화할까요?')){ await backend.reset(); localStorage.removeItem(MYKEY); } });
+
+/* ---- 시작 ---- */
+(async function init(){
+  renderTabs();
+  if(isLive && typeof firebase!=='undefined'){ try{ backend=makeFirebaseBackend(); $('#mode').className='mode live'; $('#modeText').textContent='실시간 공유 켜짐 · 모든 기기에서 함께 보입니다'; }
+    catch(err){ console.error(err); backend=makeLocalBackend(); $('#modeText').textContent='Firebase 연결 실패 — 미리보기 모드로 작동합니다'; } }
+  else { backend=makeLocalBackend(); }
+  backend.subscribe(list=>{ CHECKINS=list; render(); });
+  setSession(0);
+})();
+</script>
+</body>
+</html>
