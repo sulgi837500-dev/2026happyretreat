@@ -591,7 +591,7 @@ function render(){
   $('#buses').innerHTML=BUSES.map((b,i)=>{
     const n=i+1, list=(byBus[n]||[]).sort((a,b)=>a.order-b.order), cnt=list.length, pct=Math.min(100,Math.round(cnt/b.cap*100));
     let st='go',stTxt='탑승 중'; if(cnt>=b.cap){st='full';stTxt='만석';} else if(cnt>=b.cap-5){st='near';stTxt='마감 임박';}
-    const chips=list.map(e=>`<button class="chip ${e.id===newestId?'fresh':''}" data-id="${e.id}" data-key="${e.key}" data-name="${e.name}" data-bus="${b.label}"><span class="o">${e.order}</span>${e.name}<span class="x">✕</span></button>`).join('');
+    const chips=list.map((e,idx)=>`<button class="chip ${e.id===newestId?'fresh':''}" data-id="${e.id}" data-key="${e.key}" data-name="${e.name}" data-bus="${b.label}"><span class="o">${idx+1}</span>${e.name}<span class="x">✕</span></button>`).join('');
     return `<div class="bus ${cnt>=b.cap?'is-full':''}" style="--c:${b.color}"><div class="top"><span class="pill">${b.label}</span><div class="meta"><div class="count">${cnt}<small> / ${b.cap}명</small></div><div class="state ${st}">${stTxt}</div></div><span class="fullbadge">만석</span></div><div class="bar"><i style="width:${pct}%"></i></div><div class="names">${chips}</div></div>`;
   }).join('');
   renderRoster($('#q').value); renderMine();
@@ -604,7 +604,7 @@ function renderMine(){
     const b=BUSES[mine.bus-1];
     box.style.display='flex'; box.style.borderLeftColor=b.color;
     const bd=$('#mineBadge'); bd.textContent=b.label; bd.style.background=b.color; bd.style.fontSize=b.label.length>4?'1rem':'1.4rem';
-    $('#mineName').textContent=mine.name+'님'; $('#mineWhich').textContent=`${b.label} · ${mine.order}번째 탑승`;
+    $('#mineName').textContent=mine.name+'님'; $('#mineWhich').textContent=`${b.label}${mine.pos?' · '+mine.pos+'번째 탑승':''}`;
   } else box.style.display='none';
 }
 
@@ -646,16 +646,16 @@ async function doCheckin(person,bus){
   if((counts[bus]||0)>=cap){ toast(`${BUSES[bus-1].label}는 이미 만석입니다`); openPick(person); return; }
   const r=await backend.checkin(person.n, person.id, bus);
   if(r.already){ toast(`${person.n}님은 이미 체크인되어 있습니다`); closeModal(); return; }
-  showResult(r, (counts[bus]||0)+1>=cap);
+  showResult(r, (counts[bus]||0)+1>=cap, (counts[bus]||0)+1);
 }
-function showResult(entry, filled){
+function showResult(entry, filled, pos){
   const b=BUSES[entry.bus-1];
   $('#rWho').textContent=entry.name+'님';
   const r=$('#cResult'); r.style.background=b.color; r.innerHTML=`${b.label}<small>안전하게 탑승하세요 🚌</small>`;
-  $('#cOrder').textContent=`${entry.order}번째 탑승`;
+  $('#cOrder').textContent=`${entry.bus<=BUSES.length?BUSES[entry.bus-1].label+' ':''}${pos}번째 탑승`;
   const fm=$('#cFull'); if(filled){ fm.classList.add('on'); fm.textContent=`🚨 ${b.label}가 만석이 되었습니다. 다음 분부터 다른 호차로 안내해 주세요.`; } else fm.classList.remove('on');
   $('#stagePick').style.display='none'; $('#stageResult').style.display='block';
-  localStorage.setItem(MYKEY, JSON.stringify({name:entry.name,key:entry.key,bus:entry.bus,order:entry.order}));
+  localStorage.setItem(MYKEY, JSON.stringify({name:entry.name,key:entry.key,bus:entry.bus,pos:pos}));
 }
 function closeModal(){ $('#modal').classList.remove('on'); pending=null; }
 
