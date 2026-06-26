@@ -182,6 +182,7 @@
 
   /* 카드 색상별 아이콘 */
   .hub-card.sermon .icon-box  { background: linear-gradient(135deg, #a48ecb 0%, #7a5fad 100%); }
+  .hub-card.qt .icon-box      { background: linear-gradient(135deg, #f6b56b 0%, #ec8c6b 100%); }
   .hub-card.lyrics .icon-box  { background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%); }
   .hub-card.bible .icon-box   { background: linear-gradient(135deg, var(--gold) 0%, #d49a3f 100%); }
   .hub-card.bus .icon-box     { background: linear-gradient(135deg, var(--leaf) 0%, var(--mint-deep) 100%); }
@@ -210,6 +211,7 @@
     position: relative;
   }
   .hub-card.sermon .arrow { color: #7a5fad; }
+  .hub-card.qt .arrow { color: #d9744f; }
 
   .hub-card .arrow::after {
     content: ' →';
@@ -290,6 +292,14 @@
       <div class="title">설교 본문 말씀</div>
       <div class="desc">수련회 3일간의 설교 본문 말씀을 날짜별로 확인하세요</div>
       <div class="arrow">말씀 보러 가기</div>
+    </a>
+
+    <!-- 큐티 말씀 -->
+    <a href="qt.html" class="hub-card qt">
+      <div class="icon-box">🌅</div>
+      <div class="title">큐티 말씀</div>
+      <div class="desc">토·일 아침 큐티 본문 말씀과 찬송을 날짜별로 확인하세요</div>
+      <div class="arrow">큐티 보러 가기</div>
     </a>
 
     <!-- 찬양 가사 -->
