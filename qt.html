@@ -35,40 +35,31 @@
   nav.top {
     position: sticky; top: 0; z-index: 100;
     background: rgba(251, 250, 246, 0.92);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(91, 168, 160, 0.15);
-    padding: 12px 16px;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(91, 168, 160, 0.15); padding: 12px 16px;
   }
-  nav.top .nav-inner {
-    max-width: 960px; margin: 0 auto;
-    display: flex; flex-direction: column; gap: 10px;
-  }
+  nav.top .nav-inner { max-width: 960px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
   nav.top .brand-row { display: flex; justify-content: center; align-items: center; }
   nav.top .brand {
-    font-family: 'Gowun Batang', serif;
-    font-weight: 700; font-size: clamp(1.3rem, 4vw, 1.7rem);
-    color: var(--mint-deep); text-decoration: none;
-    white-space: nowrap; display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Gowun Batang', serif; font-weight: 700; font-size: clamp(1.3rem, 4vw, 1.7rem);
+    color: var(--mint-deep); text-decoration: none; white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 8px;
   }
   nav.top .brand img { width: 44px; height: 44px; object-fit: contain; flex-shrink: 0; }
   nav.top .links {
-    display: flex; gap: 6px; overflow-x: auto;
-    -webkit-overflow-scrolling: touch; scrollbar-width: none;
-    padding: 2px 4px; justify-content: center; flex-wrap: nowrap;
+    display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; padding: 2px 4px; justify-content: center; flex-wrap: nowrap;
   }
   nav.top .links::-webkit-scrollbar { display: none; }
   nav.top a.link {
     color: var(--mint-deep); background: white; text-decoration: none;
     padding: 8px 16px; border-radius: 999px; font-size: 0.9rem; font-weight: 600;
-    border: 1.5px solid var(--mint-soft); transition: all 0.2s ease;
-    white-space: nowrap; flex-shrink: 0;
+    border: 1.5px solid var(--mint-soft); transition: all 0.2s ease; white-space: nowrap; flex-shrink: 0;
   }
   nav.top a.link:hover { background: var(--mint-cream); border-color: var(--mint); transform: translateY(-1px); }
   nav.top a.link.active {
     background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%);
-    color: white; border-color: var(--mint-deep);
-    box-shadow: 0 4px 12px rgba(91, 168, 160, 0.3);
+    color: white; border-color: var(--mint-deep); box-shadow: 0 4px 12px rgba(91, 168, 160, 0.3);
   }
   @media (min-width: 720px) {
     nav.top .nav-inner { flex-direction: row; justify-content: space-between; gap: 16px; }
@@ -76,14 +67,8 @@
   }
 
   .page-header { text-align: center; padding: 60px 20px 32px; }
-  .page-header .eyebrow {
-    font-family: 'Gaegu', cursive; color: var(--dawn-deep);
-    font-size: 1.3rem; margin-bottom: 8px;
-  }
-  .page-header h1 {
-    font-family: 'Gowun Batang', serif; font-weight: 700;
-    font-size: clamp(2rem, 5vw, 2.8rem); margin-bottom: 12px;
-  }
+  .page-header .eyebrow { font-family: 'Gaegu', cursive; color: var(--dawn-deep); font-size: 1.3rem; margin-bottom: 8px; }
+  .page-header h1 { font-family: 'Gowun Batang', serif; font-weight: 700; font-size: clamp(2rem, 5vw, 2.8rem); margin-bottom: 12px; }
   .page-header p { color: var(--ink-soft); font-size: 1.05rem; }
 
   main { max-width: 680px; margin: 0 auto; padding: 0 20px 60px; }
@@ -91,76 +76,100 @@
   /* 안내 배너 */
   .qt-note {
     display: flex; align-items: flex-start; gap: 12px;
-    background: var(--mint-cream);
-    border: 1px solid rgba(91, 168, 160, 0.25);
+    background: var(--mint-cream); border: 1px solid rgba(91, 168, 160, 0.25);
     border-radius: 16px; padding: 16px 20px; margin-bottom: 26px;
     font-size: 0.95rem; color: var(--ink-soft); line-height: 1.6;
   }
   .qt-note .ic { font-size: 1.3rem; line-height: 1.2; }
   .qt-note strong { color: var(--mint-darker); }
 
-  /* 큐티 카드 */
-  .qt-list { display: flex; flex-direction: column; gap: 22px; }
+  /* 큐티 아코디언 카드 */
+  .qt-list { display: flex; flex-direction: column; gap: 20px; }
   .qt-card {
-    background: white; border-radius: 22px; padding: 28px 28px;
+    background: white; border-radius: 22px;
     box-shadow: 0 8px 28px rgba(44, 62, 58, 0.07);
     border: 1px solid rgba(236, 140, 107, 0.22);
     position: relative; overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-  .qt-card:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(236, 140, 107, 0.16); }
-  .qt-card::before {
+  .qt-head {
+    width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+    font-family: inherit; color: inherit; padding: 26px 26px;
+    display: flex; align-items: center; gap: 14px;
+    position: relative; transition: background 0.2s ease;
+  }
+  .qt-head:hover { background: rgba(246, 181, 107, 0.06); }
+  .qt-head::before {
     content: ''; position: absolute; top: -45%; right: -25%;
     width: 200px; height: 200px;
     background: radial-gradient(circle, rgba(246, 181, 107, 0.16), transparent 70%);
-    border-radius: 50%;
+    border-radius: 50%; pointer-events: none;
   }
-  .qt-card > * { position: relative; }
+  .qt-head-main { flex: 1; position: relative; }
   .qt-date {
-    display: inline-block; font-family: 'Gaegu', cursive;
-    font-size: 0.95rem; color: white;
+    display: inline-block; font-family: 'Gaegu', cursive; font-size: 0.95rem; color: white;
     background: linear-gradient(135deg, var(--dawn) 0%, var(--dawn-deep) 100%);
-    padding: 5px 16px; border-radius: 999px; margin-bottom: 14px;
+    padding: 5px 16px; border-radius: 999px; margin-bottom: 12px;
     box-shadow: 0 4px 12px rgba(236, 140, 107, 0.28);
   }
-  .qt-ref {
-    font-family: 'Gowun Batang', serif; font-weight: 700;
-    font-size: clamp(1.5rem, 5vw, 1.9rem); color: var(--ink);
-  }
+  .qt-ref { font-family: 'Gowun Batang', serif; font-weight: 700; font-size: clamp(1.45rem, 5vw, 1.85rem); color: var(--ink); }
   .qt-ref .book { color: var(--dawn-deep); }
-  .qt-theme { color: var(--ink-soft); margin-top: 8px; font-size: 1.02rem; line-height: 1.6; }
+  .qt-theme { color: var(--ink-soft); margin-top: 8px; font-size: 1.0rem; line-height: 1.6; }
   .qt-hymn {
-    margin-top: 18px; display: inline-flex; align-items: center; gap: 7px;
+    margin-top: 16px; display: inline-flex; align-items: center; gap: 7px;
     background: var(--mint-cream); color: var(--mint-darker);
-    font-weight: 600; font-size: 0.92rem; padding: 8px 16px; border-radius: 999px;
+    font-weight: 600; font-size: 0.9rem; padding: 7px 15px; border-radius: 999px;
+  }
+  .qt-chevron {
+    flex-shrink: 0; position: relative; color: var(--dawn-deep); font-size: 1.4rem;
+    transition: transform 0.3s ease; align-self: flex-start; margin-top: 4px;
+  }
+  .qt-head[aria-expanded="true"] .qt-chevron { transform: rotate(180deg); }
+
+  .qt-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+  .qt-body-inner {
+    padding: 4px 26px 28px; border-top: 1px dashed rgba(236, 140, 107, 0.3);
+    margin: 0 26px; padding-left: 0; padding-right: 0;
+  }
+  .passage-note { color: var(--ink-soft); font-size: 0.95rem; margin: 18px 0 14px; }
+  .passage-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--dawn) 0%, var(--dawn-deep) 100%);
+    color: white; font-weight: 600; font-size: 0.95rem;
+    text-decoration: none; padding: 11px 22px; border-radius: 999px;
+    box-shadow: 0 5px 14px rgba(236, 140, 107, 0.3); transition: transform 0.2s ease;
+  }
+  .passage-link:hover { transform: translateY(-2px); }
+
+  /* 본문을 직접 넣으실 때 사용하는 서식 */
+  .passage { margin-top: 6px; font-size: 1.0rem; line-height: 1.95; color: var(--ink); }
+  .passage p { margin-bottom: 2px; text-indent: -1.4em; padding-left: 1.4em; }
+  .passage .vn {
+    color: var(--dawn-deep); font-weight: 700; font-size: 0.78rem;
+    vertical-align: 0.15em; margin-right: 4px;
+  }
+  .passage h4 {
+    font-family: 'Gowun Batang', serif; color: var(--mint-darker);
+    font-size: 1.02rem; margin: 16px 0 6px;
   }
 
-  .read-link {
-    margin: 30px auto 0; text-align: center;
-  }
-  .read-link a {
+  .read-all { margin: 30px auto 0; text-align: center; }
+  .read-all a {
     display: inline-flex; align-items: center; gap: 8px;
     color: var(--mint-darker); font-weight: 600; font-size: 0.95rem;
-    text-decoration: none; border-bottom: 1.5px dashed var(--mint);
-    padding-bottom: 2px;
+    text-decoration: none; border-bottom: 1.5px dashed var(--mint); padding-bottom: 2px;
   }
-  .read-link a:hover { color: var(--dawn-deep); border-color: var(--dawn-deep); }
+  .read-all a:hover { color: var(--dawn-deep); border-color: var(--dawn-deep); }
 
-  /* 돌아가기 */
   .back-row { text-align: center; margin-top: 40px; }
   .back-btn {
     display: inline-flex; align-items: center; gap: 8px;
-    background: white; color: var(--mint-deep);
-    border: 2px solid var(--mint); padding: 12px 28px;
-    border-radius: 999px; text-decoration: none; font-weight: 700;
+    background: white; color: var(--mint-deep); border: 2px solid var(--mint);
+    padding: 12px 28px; border-radius: 999px; text-decoration: none; font-weight: 700;
     transition: all 0.2s ease;
   }
   .back-btn:hover { background: var(--mint-cream); transform: translateY(-2px); }
 
-  footer .footer-logo {
-    max-width: 200px; width: 60%; height: auto;
-    margin: 0 auto 14px; display: block; opacity: 0.9;
-  }
+  footer .footer-logo { max-width: 200px; width: 60%; height: auto; margin: 0 auto 14px; display: block; opacity: 0.9; }
   footer { text-align: center; padding: 30px 20px 40px; color: var(--ink-soft); font-size: 0.9rem; }
 </style>
 </head>
@@ -193,31 +202,73 @@
 
   <div class="qt-note">
     <span class="ic">⏰</span>
-    <div>큐티는 <strong>둘째 날(토)·셋째 날(주일) 아침</strong> 「기상·큐티」 시간(06:30~)에 함께 드립니다.<br>본문을 미리 읽고 묵상해 오시면 더욱 은혜로운 시간이 됩니다.</div>
+    <div>큐티는 <strong>둘째 날(토)·셋째 날(주일) 아침</strong> 「기상·큐티」 시간(06:30~)에 함께 드립니다.<br>카드를 누르면 본문 안내가 펼쳐집니다. 미리 읽고 묵상해 오시면 더욱 은혜로운 시간이 됩니다.</div>
   </div>
 
   <div class="qt-list">
 
-    <!-- 8월 1일 (토) -->
+    <!-- ============ 8월 1일 (토) · 이사야 13장 ============ -->
     <div class="qt-card">
-      <span class="qt-date">8월 1일 · 토요일</span>
-      <div class="qt-ref"><span class="book">이사야</span> 13:1-22</div>
-      <div class="qt-theme">바벨론을 향한 여호와의 날 — 심판 예고</div>
-      <div class="qt-hymn">🎵 찬송 585장 <span style="opacity:.7;">(구 384장)</span></div>
+      <button class="qt-head" aria-expanded="false">
+        <div class="qt-head-main">
+          <span class="qt-date">8월 1일 · 토요일</span>
+          <div class="qt-ref"><span class="book">이사야</span> 13:1-22</div>
+          <div class="qt-theme">바벨론을 향한 여호와의 날 — 심판 예고</div>
+          <div class="qt-hymn">🎵 찬송 585장 <span style="opacity:.7;">(구 384장)</span></div>
+        </div>
+        <span class="qt-chevron">▾</span>
+      </button>
+      <div class="qt-body">
+        <div class="qt-body-inner">
+          <p class="passage-note">본문 전체는 아래 공식 성경에서 읽으실 수 있어요.</p>
+          <a class="passage-link" href="https://www.bskorea.or.kr/bible/korbibReadpage.php" target="_blank" rel="noopener">📕 개역개정 이사야 13장 읽기 →</a>
+          <!--
+            ─────────────────────────────────────────────────────────────
+            ▼ 본문을 페이지에 직접 넣으시려면 (개역개정 사용 권한 확인 후)
+              · 위의 <p class="passage-note">…</p> 와 <a class="passage-link">…</a> 두 줄을 지우고
+              · 아래 형식 그대로 본문을 붙여넣으세요. 절 번호는 <span class="vn"> 안에 넣습니다.
+            ─────────────────────────────────────────────────────────────
+            <div class="passage">
+              <h4>경고</h4>
+              <p><span class="vn">1</span> (1절 본문)</p>
+              <p><span class="vn">2</span> (2절 본문)</p>
+              ...
+            </div>
+          -->
+        </div>
+      </div>
     </div>
 
-    <!-- 8월 2일 (주일) -->
+    <!-- ============ 8월 2일 (주일) · 이사야 14장 ============ -->
     <div class="qt-card">
-      <span class="qt-date">8월 2일 · 주일</span>
-      <div class="qt-ref"><span class="book">이사야</span> 14:1-23</div>
-      <div class="qt-theme">회복의 약속과 바벨론 왕의 애가</div>
-      <div class="qt-hymn">🎵 찬송 338장 <span style="opacity:.7;">(구 364장)</span></div>
+      <button class="qt-head" aria-expanded="false">
+        <div class="qt-head-main">
+          <span class="qt-date">8월 2일 · 주일</span>
+          <div class="qt-ref"><span class="book">이사야</span> 14:1-23</div>
+          <div class="qt-theme">회복의 약속과 바벨론 왕의 애가</div>
+          <div class="qt-hymn">🎵 찬송 338장 <span style="opacity:.7;">(구 364장)</span></div>
+        </div>
+        <span class="qt-chevron">▾</span>
+      </button>
+      <div class="qt-body">
+        <div class="qt-body-inner">
+          <p class="passage-note">본문 전체는 아래 공식 성경에서 읽으실 수 있어요.</p>
+          <a class="passage-link" href="https://www.bskorea.or.kr/bible/korbibReadpage.php" target="_blank" rel="noopener">📕 개역개정 이사야 14장 읽기 →</a>
+          <!--
+            ▼ 본문을 직접 넣으실 때 (개역개정 사용 권한 확인 후): 위 안내 2줄을 지우고 아래 형식으로 붙여넣으세요.
+            <div class="passage">
+              <p><span class="vn">1</span> (1절 본문)</p>
+              ...
+            </div>
+          -->
+        </div>
+      </div>
     </div>
 
   </div>
 
-  <div class="read-link">
-    <a href="https://www.bskorea.or.kr/bible/korbibReadpage.php" target="_blank" rel="noopener">📕 개역개정 본문 읽으러 가기 →</a>
+  <div class="read-all">
+    <a href="https://www.bskorea.or.kr/bible/korbibReadpage.php" target="_blank" rel="noopener">대한성서공회 개역개정 성경 바로가기 →</a>
   </div>
 
   <div class="back-row">
@@ -230,6 +281,17 @@
   <img src="images/logo-wide.jpg" alt="행복한교회" class="footer-logo">
   <div>대한예수교장로회 행복한교회 · 2026 전교인 여름 수련회</div>
 </footer>
+
+<script>
+  document.querySelectorAll('.qt-head').forEach(function (head) {
+    head.addEventListener('click', function () {
+      var expanded = head.getAttribute('aria-expanded') === 'true';
+      var body = head.nextElementSibling;
+      head.setAttribute('aria-expanded', String(!expanded));
+      body.style.maxHeight = expanded ? null : body.scrollHeight + 'px';
+    });
+  });
+</script>
 
 </body>
 </html>
