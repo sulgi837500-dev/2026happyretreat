@@ -91,20 +91,19 @@
     border: 1px solid rgba(236, 140, 107, 0.22);
     position: relative; overflow: hidden;
   }
+  
+  /* 카드 헤더 (항상 노출되는 영역) */
   .qt-head {
-    width: 100%; text-align: left; background: none; border: none; cursor: pointer;
-    font-family: inherit; color: inherit; padding: 26px 26px;
-    display: flex; align-items: center; gap: 14px;
-    position: relative; transition: background 0.2s ease;
+    padding: 26px 26px;
+    position: relative;
   }
-  .qt-head:hover { background: rgba(246, 181, 107, 0.06); }
   .qt-head::before {
     content: ''; position: absolute; top: -45%; right: -25%;
     width: 200px; height: 200px;
     background: radial-gradient(circle, rgba(246, 181, 107, 0.16), transparent 70%);
     border-radius: 50%; pointer-events: none;
   }
-  .qt-head-main { flex: 1; position: relative; }
+  
   .qt-date {
     display: inline-block; font-family: 'Gaegu', cursive; font-size: 0.95rem; color: white;
     background: linear-gradient(135deg, var(--dawn) 0%, var(--dawn-deep) 100%);
@@ -119,29 +118,27 @@
     background: var(--mint-cream); color: var(--mint-darker);
     font-weight: 600; font-size: 0.9rem; padding: 7px 15px; border-radius: 999px;
   }
-  .qt-chevron {
-    flex-shrink: 0; position: relative; color: var(--dawn-deep); font-size: 1.4rem;
-    transition: transform 0.3s ease; align-self: flex-start; margin-top: 4px;
-  }
-  .qt-head[aria-expanded="true"] .qt-chevron { transform: rotate(180deg); }
 
-  .qt-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
-  .qt-body-inner {
-    padding: 4px 26px 28px; border-top: 1px dashed rgba(236, 140, 107, 0.3);
-    margin: 0 26px; padding-left: 0; padding-right: 0;
-  }
+  /* 성경 읽기 버튼 */
   .passage-link {
     display: inline-flex; align-items: center; gap: 8px;
     background: linear-gradient(135deg, var(--dawn) 0%, var(--dawn-deep) 100%);
     color: white; font-weight: 600; font-size: 0.95rem;
     text-decoration: none; padding: 11px 22px; border-radius: 999px;
     box-shadow: 0 5px 14px rgba(236, 140, 107, 0.3); transition: transform 0.2s ease;
-    border: none; cursor: pointer; font-family: inherit; margin-top: 10px;
+    border: none; cursor: pointer; font-family: inherit;
   }
   .passage-link:hover { transform: translateY(-2px); }
 
+  /* 숨겨진 본문 영역 */
+  .qt-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+  .qt-body-inner {
+    padding: 4px 26px 28px; border-top: 1px dashed rgba(236, 140, 107, 0.3);
+    margin: 0 26px; padding-left: 0; padding-right: 0;
+  }
+
   /* 본문 서식 */
-  .passage { margin-top: 16px; font-size: 1.0rem; line-height: 1.95; color: var(--ink); }
+  .passage { font-size: 1.0rem; line-height: 1.95; color: var(--ink); }
   .passage p { margin-bottom: 2px; text-indent: -1.4em; padding-left: 1.4em; }
   .passage .vn {
     color: var(--dawn-deep); font-weight: 700; font-size: 0.78rem;
@@ -202,27 +199,26 @@
 
   <div class="qt-note">
     <span class="ic">⏰</span>
-    <div>큐티는 <strong>둘째 날(토)·셋째 날(주일) 아침</strong> 「기상·큐티」 시간(06:30~)에 함께 드립니다.<br>카드를 누르면 본문 안내가 펼쳐집니다. 미리 읽고 묵상해 오시면 더욱 은혜로운 시간이 됩니다.</div>
+    <div>큐티는 <strong>둘째 날(토)·셋째 날(주일) 아침</strong> 「기상·큐티」 시간(06:30~)에 함께 드립니다.<br>읽기 버튼을 누르면 본문이 펼쳐집니다. 미리 읽고 묵상해 오시면 더욱 은혜로운 시간이 됩니다.</div>
   </div>
 
   <div class="qt-list">
 
     <!-- ============ 8월 1일 (토) · 이사야 13장 ============ -->
     <div class="qt-card">
-      <button class="qt-head" aria-expanded="false">
-        <div class="qt-head-main">
-          <span class="qt-date">8월 1일 · 토요일</span>
-          <div class="qt-ref"><span class="book">이사야</span> 13:1-22</div>
-          <div class="qt-theme">바벨론을 향한 여호와의 날 — 심판 예고</div>
-          <div class="qt-hymn">🎵 찬송 585장 <span style="opacity:.7;">(구 384장)</span></div>
+      <div class="qt-head">
+        <span class="qt-date">8월 1일 · 토요일</span>
+        <div class="qt-ref"><span class="book">이사야</span> 13:1-22</div>
+        <div class="qt-theme">바벨론을 향한 여호와의 날 — 심판 예고</div>
+        <div class="qt-hymn">🎵 찬송 585장 <span style="opacity:.7;">(구 384장)</span></div>
+        <div style="margin-top: 18px;">
+          <button class="passage-link" aria-expanded="false" onclick="togglePassage(this)">📕 개역개정 이사야 13장 읽기</button>
         </div>
-        <span class="qt-chevron">▾</span>
-      </button>
+      </div>
+      
       <div class="qt-body">
         <div class="qt-body-inner">
-          <button class="passage-link" onclick="togglePassage(this)">📕 개역개정 이사야 13장 읽기</button>
-          
-          <div class="passage" style="display: none;">
+          <div class="passage">
             <h4>제 13 장<br>바벨론에 대한 경고</h4>
             <p><span class="vn">1</span> 아모스의 아들 이사야가 바벨론에 대하여 받은 경고라</p>
             <p><span class="vn">2</span> 너희는 민둥산 위에 기치를 세우고 소리를 높여 그들을 부르며 손을 흔들어 그들을 존귀한 자의 문에 들어가게 하라</p>
@@ -253,20 +249,19 @@
 
     <!-- ============ 8월 2일 (주일) · 이사야 14장 ============ -->
     <div class="qt-card">
-      <button class="qt-head" aria-expanded="false">
-        <div class="qt-head-main">
-          <span class="qt-date">8월 2일 · 주일</span>
-          <div class="qt-ref"><span class="book">이사야</span> 14:1-23</div>
-          <div class="qt-theme">회복의 약속과 바벨론 왕의 애가</div>
-          <div class="qt-hymn">🎵 찬송 338장 <span style="opacity:.7;">(구 364장)</span></div>
+      <div class="qt-head">
+        <span class="qt-date">8월 2일 · 주일</span>
+        <div class="qt-ref"><span class="book">이사야</span> 14:1-23</div>
+        <div class="qt-theme">회복의 약속과 바벨론 왕의 애가</div>
+        <div class="qt-hymn">🎵 찬송 338장 <span style="opacity:.7;">(구 364장)</span></div>
+        <div style="margin-top: 18px;">
+          <button class="passage-link" aria-expanded="false" onclick="togglePassage(this)">📕 개역개정 이사야 14장 읽기</button>
         </div>
-        <span class="qt-chevron">▾</span>
-      </button>
+      </div>
+      
       <div class="qt-body">
         <div class="qt-body-inner">
-          <button class="passage-link" onclick="togglePassage(this)">📕 개역개정 이사야 14장 읽기</button>
-          
-          <div class="passage" style="display: none;">
+          <div class="passage">
             <h4>제 14 장</h4>
             <p><span class="vn">1</span> 여호와께서 야곱을 긍휼히 여기시며 이스라엘을 다시 택하여 그들의 땅에 두시리니 나그네 된 자가 야곱 족속과 연합하여 그들에게 예속될 것이며</p>
             <p><span class="vn">2</span> 민족들이 그들을 데리고 그들의 본토에 돌아오리니 이스라엘 족속이 여호와의 땅에서 그들을 얻어 노비로 삼겠고 전에 자기를 사로잡던 자들을 사로잡고 자기를 압제하던 자들을 주관하리라</p>
@@ -314,34 +309,20 @@
 </footer>
 
 <script>
-  // 아코디언 토글 스크립트
-  document.querySelectorAll('.qt-head').forEach(function (head) {
-    head.addEventListener('click', function () {
-      var expanded = head.getAttribute('aria-expanded') === 'true';
-      var body = head.nextElementSibling;
-      head.setAttribute('aria-expanded', String(!expanded));
-      
-      if (!expanded) {
-        body.style.maxHeight = body.scrollHeight + 'px';
-      } else {
-        body.style.maxHeight = null;
-      }
-    });
-  });
-
-  // 본문 읽기 버튼 토글 스크립트
+  // 본문 읽기 버튼 하나로 간소화된 토글 스크립트
   function togglePassage(btn) {
-    var passage = btn.nextElementSibling;
-    var body = btn.closest('.qt-body');
+    var card = btn.closest('.qt-card');
+    var body = card.querySelector('.qt-body');
+    var isExpanded = btn.getAttribute('aria-expanded') === 'true';
 
-    if (passage.style.display === 'none' || passage.style.display === '') {
-      passage.style.display = 'block';
-      // 내용이 길어지므로 아코디언의 max-height를 다시 계산해서 늘려줍니다.
+    if (!isExpanded) {
+      // 본문 열기
       body.style.maxHeight = body.scrollHeight + 'px';
+      btn.setAttribute('aria-expanded', 'true');
     } else {
-      passage.style.display = 'none';
-      // 내용이 줄어들므로 아코디언의 max-height를 다시 줄여줍니다.
-      body.style.maxHeight = body.scrollHeight + 'px';
+      // 본문 닫기
+      body.style.maxHeight = null;
+      btn.setAttribute('aria-expanded', 'false');
     }
   }
 </script>
