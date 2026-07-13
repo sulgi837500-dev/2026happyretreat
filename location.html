@@ -435,10 +435,16 @@
       <a class="map-btn kakao" href="https://map.kakao.com/?q=평창리버힐" target="_blank" rel="noopener">
         🗺️ 카카오 지도
       </a>
-      <a class="map-btn web" href="http://www.riverhill.co.kr/" target="_blank" rel="noopener">
-        🌐 홈페이지
-      </a>
+      
+      <!-- 수정된 부분: 직접 링크 대신 주소 복사 기능 적용 -->
+      <button class="map-btn web" onclick="copyRiverhillUrl()" style="border:none; cursor:pointer; font-family:inherit;">
+        🌐 홈페이지 주소 복사
+      </button>
     </div>
+    <!-- 수정된 부분: 접속 안내 문구 추가 -->
+    <p style="font-size: 0.85rem; color: var(--ink-soft); margin-top: 15px; line-height: 1.4;">
+      ※ 위 홈페이지는 보안 연결(https)을 지원하지 않아 인터넷 브라우저가 자동 연결을 차단합니다. <strong>[주소 복사]</strong> 버튼을 눌러 인터넷 창에 직접 붙여넣기 해주세요.
+    </p>
   </div>
 
   <h2 class="section-title"><span class="dot"></span> 교통편 안내</h2>
@@ -514,6 +520,20 @@
   <img src="images/logo-wide.jpg" alt="행복한교회" class="footer-logo">
   <div>대한예수교장로회 행복한교회 · 2026 전교인 여름 수련회</div>
 </footer>
+
+<!-- 수정된 부분: 주소 복사 스크립트 추가 -->
+<script>
+  function copyRiverhillUrl() {
+    var copyText = "http://www.riverhill.co.kr/";
+    
+    // 클립보드 복사 기능
+    navigator.clipboard.writeText(copyText).then(function() {
+      alert("평창리버힐 홈페이지 주소( " + copyText + " )가 복사되었습니다.\n안전한 접속을 위해 새 인터넷 창을 열고 붙여넣기 해주세요.");
+    }).catch(function(err) {
+      alert("주소 복사에 실패했습니다. 수동으로 http://www.riverhill.co.kr/ 를 입력해주세요.");
+    });
+  }
+</script>
 
 </body>
 </html>
