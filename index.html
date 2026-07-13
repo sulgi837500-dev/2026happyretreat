@@ -329,51 +329,6 @@
   .notice .text { font-size: 0.95rem; color: var(--ink); }
   .notice .text strong { color: var(--mint-darker); }
 
-  /* ===== 신청 배너 ===== */
-  .apply-banner {
-    background: linear-gradient(135deg, var(--mint-deep) 0%, var(--mint) 60%, var(--gold) 100%);
-    border-radius: 24px;
-    padding: 44px 30px;
-    text-align: center;
-    color: white;
-    box-shadow: 0 15px 40px rgba(91, 168, 160, 0.35);
-    position: relative;
-    overflow: hidden;
-  }
-  .apply-banner::before {
-    content: '';
-    position: absolute;
-    top: -50%; right: -20%;
-    width: 300px; height: 300px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 70%);
-    border-radius: 50%;
-  }
-  .apply-banner h3 {
-    font-family: 'Gowun Batang', serif;
-    font-size: 1.6rem;
-    margin-bottom: 10px;
-    position: relative;
-  }
-  .apply-banner p {
-    font-size: 1.05rem;
-    margin-bottom: 24px;
-    opacity: 0.95;
-    position: relative;
-  }
-  .apply-banner .btn-apply {
-    display: inline-block;
-    background: white;
-    color: var(--mint-deep);
-    padding: 16px 36px;
-    border-radius: 999px;
-    font-weight: 700;
-    text-decoration: none;
-    font-size: 1.1rem;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    transition: transform 0.2s ease;
-    position: relative;
-  }
-  .apply-banner .btn-apply:hover { transform: translateY(-3px) scale(1.02); }
 
   /* ===== 옵션 ===== */
   .options-grid {
@@ -492,93 +447,7 @@
     animation: wobble 1.5s ease-in-out;
   }
 
-  /* ===== 계좌 ===== */
-  .account-box {
-    background: white;
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 6px 30px rgba(44, 62, 58, 0.07);
-    border: 1px solid rgba(127, 199, 190, 0.3);
-    text-align: center;
-  }
-  .account-box .bank {
-    font-family: 'Gaegu', cursive;
-    font-size: 1.2rem;
-    color: var(--ink-soft);
-    margin-bottom: 8px;
-  }
-  .account-box .number {
-    font-family: 'Gowun Batang', serif;
-    font-size: clamp(1.3rem, 4vw, 1.8rem);
-    font-weight: 700;
-    color: var(--mint-deep);
-    letter-spacing: 0.02em;
-    margin-bottom: 6px;
-    word-break: keep-all;
-  }
-  .account-box .holder {
-    color: var(--ink-soft);
-    font-size: 0.95rem;
-    margin-bottom: 18px;
-  }
-  .account-box .copy-btn {
-    background: var(--mint-cream);
-    color: var(--mint-deep);
-    border: none;
-    padding: 8px 18px;
-    border-radius: 999px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.2s ease;
-  }
-  .account-box .copy-btn:hover {
-    background: var(--mint-soft);
-  }
-  .account-box .copy-btn.copied {
-    background: var(--mint-deep);
-    color: white;
-  }
 
-  /* ===== 문의 ===== */
-  .contact-box {
-    background: white;
-    border-radius: 20px;
-    padding: 28px;
-    box-shadow: 0 6px 30px rgba(44, 62, 58, 0.07);
-    border: 1px solid rgba(127, 199, 190, 0.3);
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-    text-align: center;
-  }
-  .contact-box .person {
-    font-family: 'Gowun Batang', serif;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--ink);
-  }
-  .contact-box .role {
-    color: var(--ink-soft);
-    font-size: 0.9rem;
-    display: block;
-    margin-top: 2px;
-  }
-  .contact-box .phone-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%);
-    color: white;
-    padding: 12px 24px;
-    border-radius: 999px;
-    text-decoration: none;
-    font-weight: 700;
-    transition: transform 0.2s ease;
-  }
-  .contact-box .phone-btn:hover { transform: translateY(-2px); }
 
   /* ===== 푸터 ===== */
   footer .footer-logo {
@@ -662,19 +531,6 @@
   }
   .dday-badge.retreat {
     background: linear-gradient(135deg, var(--gold) 0%, var(--mint-deep) 100%);
-  }
-  .dday-badge.signup {
-    background: linear-gradient(135deg, var(--mint) 0%, var(--leaf) 100%);
-    box-shadow: 0 10px 30px rgba(139, 194, 138, 0.3);
-  }
-  .dday-badge.urgent {
-    background: linear-gradient(135deg, #e74c3c 0%, var(--gold) 100%);
-    box-shadow: 0 10px 30px rgba(231, 76, 60, 0.35);
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.03); }
   }
   .dday-badge::before {
     content: '';
@@ -1003,7 +859,6 @@
       <a class="link" href="info-hub.html">정보</a>
       <a class="link" href="notice.html">공지</a>
       <a class="link" href="location.html">오시는 길</a>
-      <a class="link" href="#apply">참가신청</a>
       <a class="link" href="organization.html">조직</a>
     </div>
   </div>
@@ -1026,23 +881,17 @@
     <span class="item"><span class="icon">📅</span> 7.31(금) ~ 8.2(주일)</span>
     <span class="item"><span class="icon">🏞️</span> 국립횡성숲체원(+현대수리조트엔제너두)</span>
     <span class="item"><span class="icon">🎤</span> 주강사: 화종부 목사님 <small style="color: var(--ink-soft);">(남서울교회 담임목사)</small></span>
-    <span class="item"><span class="icon">👥</span> 신청 성도 및 전도대상자</span>
+    <span class="item"><span class="icon">👥</span> 성도 및 전도대상자</span>
   </div>
 
   <div class="cta-row">
-    <a href="#apply" class="btn btn-primary">참가신청 하기 →</a>
-    <a href="schedule.html" class="btn btn-secondary">일정 보기</a>
+    <a href="schedule.html" class="btn btn-primary">일정 보기</a>
   </div>
 </header>
 
 <!-- D-Day 카운트다운 -->
 <div class="dday-section">
   <div class="dday-row">
-    <div class="dday-badge signup" id="signupBadge">
-      <span class="dday-emoji">📝</span>
-      <span class="dday-label">접수마감까지</span>
-      <span class="dday-count" id="signupCount">D-???</span>
-    </div>
     <div class="dday-badge retreat" id="ddayBadge">
       <span class="dday-emoji">⏰</span>
       <span class="dday-label">수련회까지</span>
@@ -1267,10 +1116,6 @@
       <div class="label">👥 참가대상</div>
       <div class="value">행복한교회 등록교인<br>전도 대상자</div>
     </div>
-    <div class="info-item">
-      <div class="label">📝 신청기간</div>
-      <div class="value"><strong>5. 17(주일)</strong> ~ <strong>6. 14(주일)</strong><br>선착순 233명 마감</div>
-    </div>
   </div>
 
   <h3 style="font-family: 'Gowun Batang', serif; font-size: 1.3rem; margin-top: 40px; margin-bottom: 12px; color: var(--ink);">💰 참가비</h3>
@@ -1289,12 +1134,6 @@
     </div>
   </div>
 
-  <div class="notice">
-    <span class="icon">💡</span>
-    <div class="text">
-      <strong>233명 조기 마감 시 신청이 종료</strong>됩니다. 가족, 이웃과 함께 서둘러 신청해 주세요!
-    </div>
-  </div>
 </section>
 
 <!-- 출발 · 준비 필수 안내 -->
@@ -1423,47 +1262,6 @@
   <span class="sub-text" id="toastSub"></span>
 </div>
 
-<!-- 참가 신청 -->
-<section id="apply" class="fade-in">
-  <p class="section-eyebrow">Apply</p>
-  <h2 class="section-title">참가 신청</h2>
-
-  <div class="apply-banner">
-    <h3>지금 바로 신청하세요! ✨</h3>
-    <p>
-      온라인으로 간편하게 참가 신청을 하실 수 있습니다.<br>
-      신청 후 참가비를 입금해 주시면 접수가 완료됩니다.
-    </p>
-    <a href="https://forms.gle/Vi7W9ty7LuTNV6EJ8" class="btn-apply" target="_blank" id="applyBtn">
-      📝 온라인 참가 신청서 작성하기
-    </a>
-  </div>
-
-  <h3 style="font-family: 'Gowun Batang', serif; font-size: 1.3rem; margin-top: 40px; margin-bottom: 16px; color: var(--ink); text-align: center;">💳 참가비 입금 계좌</h3>
-  <div class="account-box">
-    <div class="bank">농협</div>
-    <div class="number" id="account">351-1246-5847-53</div>
-    <div class="holder">예금주: 대한예수교장로회 행복한교회</div>
-    <button class="copy-btn" onclick="copyAccount()">계좌번호 복사</button>
-  </div>
-
-  <h3 style="font-family: 'Gowun Batang', serif; font-size: 1.3rem; margin-top: 40px; margin-bottom: 16px; color: var(--ink); text-align: center;">📞 신청 접수처</h3>
-  <div class="contact-box">
-    <div>
-      <div class="person">백승태 집사</div>
-      <span class="role">홍보동원부 · 신청 접수 담당</span>
-    </div>
-    <a href="tel:010-9057-7692" class="phone-btn">📞 010-9057-7692</a>
-  </div>
-
-  <div class="notice" style="margin-top: 28px;">
-    <span class="icon">📌</span>
-    <div class="text">
-      <strong>접수 완료 절차</strong> &nbsp;①&nbsp;온라인 신청서 작성 &nbsp;→&nbsp; ②&nbsp;참가비 입금 &nbsp;→&nbsp; ③&nbsp;접수 완료
-    </div>
-  </div>
-</section>
-
 <!-- 푸터 -->
 <footer>
   <img src="images/logo-wide.jpg" alt="행복한교회" class="footer-logo">
@@ -1479,12 +1277,12 @@
 </footer>
 
 <script>
-  // D-Day 카운트다운 (수련회 + 접수마감)
+  // D-Day 카운트다운 (수련회)
   function updateDday() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // 1) 수련회 카운트다운 (2026년 7월 31일)
+    // 수련회 카운트다운 (2026년 7월 31일)
     const retreatDate = new Date(2026, 6, 31);
     retreatDate.setHours(0, 0, 0, 0);
     const retreatDiff = Math.round((retreatDate - today) / (1000 * 60 * 60 * 24));
@@ -1507,45 +1305,6 @@
       retreatCount.innerHTML = '함께한 은혜 ✨';
       retreatBadge.classList.add('dday-past');
       retreatBadge.querySelector('.dday-label').textContent = '2026 수련회';
-    }
-
-    // 2) 접수마감 카운트다운 (2026년 6월 14일)
-    const signupDate = new Date(2026, 5, 14);
-    signupDate.setHours(0, 0, 0, 0);
-    const signupDiff = Math.round((signupDate - today) / (1000 * 60 * 60 * 24));
-
-    const signupBadge = document.getElementById('signupBadge');
-    const signupCount = document.getElementById('signupCount');
-    const signupStart = new Date(2026, 4, 17); // 5월 17일 신청 시작
-    signupStart.setHours(0, 0, 0, 0);
-    const startDiff = Math.round((signupStart - today) / (1000 * 60 * 60 * 24));
-
-    if (startDiff > 0) {
-      // 아직 신청 시작 전
-      signupCount.innerHTML = 'D<span class="num">-' + startDiff + '</span>';
-      signupBadge.querySelector('.dday-label').textContent = '신청시작까지';
-      signupBadge.classList.remove('urgent', 'dday-past');
-    } else if (signupDiff > 7) {
-      // 신청 진행 중 (마감 8일 이상 남음)
-      signupCount.innerHTML = 'D<span class="num">-' + signupDiff + '</span>';
-      signupBadge.querySelector('.dday-label').textContent = '접수마감까지';
-      signupBadge.classList.remove('urgent', 'dday-past');
-    } else if (signupDiff > 0) {
-      // 마감 임박 (7일 이내)
-      signupCount.innerHTML = 'D<span class="num">-' + signupDiff + '</span>';
-      signupBadge.querySelector('.dday-label').textContent = '⚡ 접수마감 임박!';
-      signupBadge.classList.add('urgent');
-    } else if (signupDiff === 0) {
-      // 마감 당일
-      signupCount.innerHTML = '<span class="num">오늘 마감!</span> ⚡';
-      signupBadge.querySelector('.dday-label').textContent = '접수';
-      signupBadge.classList.add('urgent');
-    } else {
-      // 신청 마감됨
-      signupCount.innerHTML = '마감되었습니다';
-      signupBadge.querySelector('.dday-label').textContent = '접수';
-      signupBadge.classList.add('dday-past');
-      signupBadge.classList.remove('urgent');
     }
   }
   updateDday();
@@ -1586,35 +1345,6 @@
     }, 3000);
   }
 
-  // 계좌번호 복사
-  function copyAccount() {
-    const text = '농협 351-1246-5847-53 (예금주: 대한예수교장로회 행복한교회)';
-    const btn = document.querySelector('.copy-btn');
-
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(() => {
-        btn.textContent = '✓ 복사 완료!';
-        btn.classList.add('copied');
-        setTimeout(() => {
-          btn.textContent = '계좌번호 복사';
-          btn.classList.remove('copied');
-        }, 2000);
-      });
-    } else {
-      const tmp = document.createElement('textarea');
-      tmp.value = text;
-      document.body.appendChild(tmp);
-      tmp.select();
-      document.execCommand('copy');
-      document.body.removeChild(tmp);
-      btn.textContent = '✓ 복사 완료!';
-      btn.classList.add('copied');
-      setTimeout(() => {
-        btn.textContent = '계좌번호 복사';
-        btn.classList.remove('copied');
-      }, 2000);
-    }
-  }
 
   // 라이트박스 (사진 크게 보기)
   function openLightbox(src) {
